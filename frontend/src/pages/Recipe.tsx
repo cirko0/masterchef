@@ -1,41 +1,39 @@
 import { FunctionComponent } from "react";
 import Nav from "../components/Nav";
+import { BiSolidTimeFive } from "react-icons/bi";
 
 const Recipe: FunctionComponent = () => {
   return (
-    <div className="bg-white w-full px-[20rem]">
+    <div className="bg-white w-full">
       <Nav />
 
-      <section className="absolute top-[19.6rem] left-[0rem] w-[192rem] h-[41.5rem] text-left text-[2rem] text-white font-inter">
-        <div className="absolute top-[0rem] left-[0rem] [background:linear-gradient(90deg,_#f88d1d,_#feca04_73.73%)] w-[192rem] h-[37.3rem]" />
-        <i className="absolute top-[19.3rem] left-[10.3rem] font-medium">
-          By John Doe
-        </i>
-        <h1 className="m-0 absolute top-[14.7rem] left-[10.3rem] text-[3.2rem] font-bold font-inherit">
-          Creamy Strawbery Milkshake
-        </h1>
-        <div className="absolute top-[34.4rem] left-[10.3rem] rounded-3xs bg-white shadow-[5px_4px_10px_2px_rgba(0,_0,_0,_0.25)] w-[10.5rem] h-[3.6rem] flex flex-row items-center justify-start py-[1rem] px-[0.9rem] box-border gap-[0.7rem] text-[1.6rem] text-black">
-          <img
-            className="relative w-[1.7rem] h-[1.7rem] overflow-hidden shrink-0 object-cover"
-            alt=""
-            src="/frame@2x.png"
-          />
-          <div className="relative font-medium inline-block w-[6.1rem] h-[1.5rem] shrink-0">
-            10 Mins
+      <section className="relative w-full text-[2rem] text-white font-inter px-[20rem] z-20 grid grid-cols-2 gap-10 items-center">
+        <div className="absolute w-full left-0 top-0 z-0 bg-gradient-to-r from-darkorange to-gold-100 h-[40rem]" />
+        <div className="flex flex-col h-full justify-end gap-[15rem] py-5">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-[3.2rem] font-bold relative ">
+              Creamy Strawbery Milkshake
+            </h1>
+            <i className="font-medium relative">By John Doe</i>
+          </div>
+          <div className="relative flex items-center justify-start gap-5">
+            <div className="rounded-3xs flex gap-2 items-center justify-center bg-white shadow-[5px_4px_10px_2px_rgba(0,_0,_0,_0.25)] p-[1rem]">
+              <BiSolidTimeFive className="text-black text-[2rem]" />
+              <p className="text-[1.8rem] font-medium text-black">10 Mins</p>
+            </div>
+            <div className=" rounded-3xs  flex items-center justify-center bg-white shadow-[5px_4px_10px_2px_rgba(0,_0,_0,_0.25)] p-[1rem]">
+              <p className="text-[1.8rem] font-medium text-black">Vegetarian</p>
+            </div>
           </div>
         </div>
-        <button className="cursor-pointer [border:none] py-[1rem] px-[0rem] bg-white absolute top-[34.4rem] left-[22.4rem] rounded-3xs shadow-[5px_4px_10px_2px_rgba(0,_0,_0,_0.25)] w-[10.5rem] h-[3.6rem] flex flex-col items-center justify-start box-border">
-          <div className="relative text-[1.6rem] font-medium font-inter text-black text-left inline-block w-[8.3rem] h-[1.5rem] shrink-0">
-            Vegetarian
-          </div>
-        </button>
+
         <img
-          className="absolute top-[6.7rem] left-[102.2rem] rounded-xl w-[73.2rem] h-[34.8rem] object-cover"
+          className="relative rounded-xl h-[35rem] object-cover mt-32"
           alt=""
-          src="/image@2x.png"
+          src="/thumb.png"
         />
       </section>
-      <section className="absolute top-[62.6rem] left-[10.3rem] w-[154.8rem] h-[10.6rem] flex flex-col items-start justify-start gap-[1.9rem] text-left text-[3.2rem] text-black font-inter">
+      {/* <section className="absolute top-[62.6rem] left-[10.3rem] w-[154.8rem] h-[10.6rem] flex flex-col items-start justify-start gap-[1.9rem] text-left text-[3.2rem] text-black font-inter">
         <h1 className="m-0 relative text-inherit font-bold font-inherit">
           Introduction
         </h1>
@@ -148,7 +146,7 @@ const Recipe: FunctionComponent = () => {
             2
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

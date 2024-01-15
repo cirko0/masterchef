@@ -5,9 +5,9 @@ import { BiSearch } from "react-icons/bi";
 
 const Home: FunctionComponent = () => {
   return (
-    <div className="bg-white w-full px-[20rem]">
+    <div className="bg-white w-full">
       <Nav />
-      <section className="grid grid-cols-5 my-20 gap-10">
+      <section className="grid grid-cols-5 my-20 gap-10 px-[20rem]">
         <div className="rounded-xl bg-darkorange p-10 flex flex-col gap-5 col-span-3">
           <h1 className="text-white font-bold text-[3rem]">Featured</h1>
           <p className="font-medium text-[1.8rem] text-white">
@@ -28,7 +28,7 @@ const Home: FunctionComponent = () => {
         </div>
       </section>
 
-      <div className="w-full flex items-start justify-center my-20 flex-col">
+      <div className="w-full flex items-start justify-center my-20 flex-col px-[20rem]">
         <h1 className="text-[3rem]">There’s more to explore</h1>
         <div className="md:w-[50rem] mt-10">
           <div className="flex w-full flex-wrap items-stretch gap-5">
@@ -49,7 +49,7 @@ const Home: FunctionComponent = () => {
         </div>
       </div>
 
-      <section className="grid grid-cols-5 w-full text-left text-[2rem] text-gold-100  gap-10">
+      <section className="grid grid-cols-5 w-full text-left text-[2rem] text-gold-100  gap-10 px-[20rem]">
         <RecipeCard />
         <RecipeCard />
         <RecipeCard />
@@ -57,37 +57,12 @@ const Home: FunctionComponent = () => {
         <RecipeCard />
       </section>
 
-      <div className="w-full flex items-center justify-center my-20">
+      <div className="w-full flex items-center justify-center my-20 px-[20rem]">
         <button className="px-12 py-4 border-none outline-none cursor-pointer text-[1.8rem] font-bold text-white rounded-[1.5rem] bg-gradient-to-r from-darkorange to-gold-100">
           Load More
         </button>
       </div>
     </div>
-    // <div className="relative bg-white w-full h-[174rem] overflow-hidden text-left text-[2rem] text-white ">
-    //   <h1 className=" absolute top-[58.9rem] left-[14.8rem] text-[4.8rem] font-bold font-inherit text-black">
-    //     There’s more to explore
-    //   </h1>
-    //
-
-    //
-    //   <div className="absolute top-[158.1rem] left-[79.3rem] rounded-xl [background:linear-gradient(90deg,_#f88d1d,_#feca04_72.5%)] w-[33.3rem] h-[7rem] flex flex-col items-center justify-start py-[1.5rem] px-[0rem] box-border text-[3.2rem]">
-    //     <h2 className=" relative text-inherit font-bold font-inherit">
-    //       Load More
-    //     </h2>
-    //   </div>
-    //   <Nav />
-    //   <div className="absolute top-[21.4rem] left-[14.7rem] rounded-[30px] bg-darkorange w-[78rem] h-[33.8rem] flex flex-col items-start justify-start py-[3.2rem] px-[4.8rem] box-border gap-[2.1rem] text-[4rem]">
-    //     <h1 className=" relative text-inherit font-bold font-inherit">
-    //       Featured
-    //     </h1>
-    //     <div className="relative text-[2.4rem] font-medium inline-block w-[53.3rem] h-[5.8rem] shrink-0">
-    //       <p className="">
-    //         A delectable garlic bread recipe with a perfect balance of flavors.
-    //       </p>
-    //       <p className="">&nbsp;</p>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 
