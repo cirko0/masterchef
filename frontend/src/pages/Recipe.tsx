@@ -1,13 +1,17 @@
 import { FunctionComponent } from "react";
 import Nav from "../components/Nav";
-import { BiSolidTimeFive } from "react-icons/bi";
+import {
+  BiPlusMedical,
+  BiSolidMagicWand,
+  BiSolidTimeFive,
+} from "react-icons/bi";
 
 const Recipe: FunctionComponent = () => {
   return (
     <div className="bg-white w-full">
       <Nav />
 
-      <section className="relative w-full text-[2rem] text-white font-inter px-[20rem] z-20 grid grid-cols-2 gap-10 items-center">
+      <section className="relative w-full text-[2rem] text-white font-inter px-[20rem] z-20 grid grid-cols-2 gap-10 items-center mb-16">
         <div className="absolute w-full left-0 top-0 z-0 bg-gradient-to-r from-darkorange to-gold-100 h-[40rem]" />
         <div className="flex flex-col h-full justify-end gap-[15rem] py-5">
           <div className="flex flex-col gap-2">
@@ -28,94 +32,109 @@ const Recipe: FunctionComponent = () => {
         </div>
 
         <img
-          className="relative rounded-xl h-[35rem] object-cover mt-32"
+          className="relative rounded-xl h-[35rem] justify-self-end object-cover mt-32"
           alt=""
           src="/thumb.png"
         />
       </section>
-      {/* <section className="absolute top-[62.6rem] left-[10.3rem] w-[154.8rem] h-[10.6rem] flex flex-col items-start justify-start gap-[1.9rem] text-left text-[3.2rem] text-black font-inter">
-        <h1 className="m-0 relative text-inherit font-bold font-inherit">
-          Introduction
-        </h1>
-        <div className="relative text-[2rem] font-medium inline-block w-[154.8rem]">
+      <section className="flex flex-col justify-start gap-8 mx-[20rem] mb-10">
+        <h1 className="font-bold text-[3rem] text-black">Introduction</h1>
+        <div className="text-[1.8rem] font-medium text-black">
           Indulge in a refreshing Energising Iced Coffee by Dhruv Malik. This
           invigorating beverage combines the bold flavors Of instant coffee with
           the creamy richness Of milk. resulting in a delightful pick—me—up.
         </div>
       </section>
-      <section className="absolute top-[76.9rem] left-[10.3rem] w-[165.1rem] h-[29.9rem] text-left text-[1.6rem] text-black font-inter">
-        <i className="absolute top-[28rem] left-[0rem] font-medium text-slategray">
+
+      <section className="mx-[20rem] flex flex-col gap-10 mb-10">
+        <h1 className="text-[3rem] font-bold text-black">Good to know</h1>
+
+        <div className="grid gap-[4rem] grid-cols-2 ">
+          <div className="rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] flex gap-[1.1rem] p-8">
+            <div className="rounded-8xs bg-gainsboro flex items-center py-[0.5rem] px-[1rem] gap-[1rem]">
+              <BiSolidMagicWand className="text-[2rem]" />
+              <p className="font-medium text-[1.6rem]">AI Insights</p>
+            </div>
+          </div>
+          <div className="rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] flex gap-[1.1rem] p-8">
+            <div className="rounded-8xs bg-gainsboro flex items-center py-[0.5rem] px-[1rem] gap-[1rem]">
+              <BiPlusMedical className="text-[2rem]" />
+              <p className="font-medium text-[1.6rem]">Health</p>
+            </div>
+          </div>
+        </div>
+        <i className=" text-[1.6rem] font-medium text-slategray">
           Disclaimer: AI Insights are experimental and may, at times, contain
           inaccurate or controversial information.
         </i>
-        <h1 className="m-0 absolute top-[0rem] left-[0rem] text-[3.2rem] font-bold font-inherit inline-block w-[21.6rem]">
-          Good to know
-        </h1>
-        <div className="absolute top-[6.3rem] left-[0rem] w-[165.1rem] h-[18rem] flex flex-row items-center justify-center py-[0rem] px-[0.1rem] box-border gap-[4rem] text-[1.4rem]">
-          <div className="rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[80.6rem] h-[18rem] flex flex-row items-start justify-start py-[1.6rem] px-[3.4rem] box-border gap-[1.1rem]">
-            <div className="rounded-8xs bg-gainsboro w-[11.2rem] h-[2.6rem] flex flex-row items-center justify-start py-[0rem] pr-[0.6rem] pl-[0.8rem] box-border gap-[1rem]">
-              <img
-                className="relative w-[1.7rem] h-[1.7rem] overflow-hidden shrink-0 object-cover"
-                alt=""
-                src="/frame@2x.png"
-              />
-              <div className="relative font-medium inline-block w-[7.1rem] h-[1.8rem] shrink-0">
-                AI Insights
-              </div>
-            </div>
-            <div className="rounded-8xs bg-gainsboro w-[11.2rem] h-[2.6rem] flex flex-row items-center justify-start py-[0rem] pr-[0.6rem] pl-[0.8rem] box-border gap-[1rem]">
-              <img
-                className="relative w-[1.7rem] h-[1.7rem] overflow-hidden shrink-0 object-cover"
-                alt=""
-                src="/frame@2x.png"
-              />
-              <div className="relative font-medium inline-block w-[7.1rem] h-[1.8rem] shrink-0">
-                AI Insights
-              </div>
-            </div>
+      </section>
+
+      <section className="mx-[20rem] flex flex-col gap-[2rem] mb-10">
+        <h1 className="text-[3rem] font-bold">What you’ll need</h1>
+        <div className="flex flex-col items-start gap-[2rem]">
+          <h3 className="font-medium text-[2rem]">Dairy</h3>
+          <p className="px-16 py-8 bg-white text-[1.6rem] rounded-3xs border-[1px] font-medium font-inter text-black text-left shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] border-slategray border-dashed">
+            cold milk
+          </p>
+        </div>
+        <div className="flex flex-col items-start gap-[2rem]">
+          <h3 className="font-medium text-[2rem]">
+            Spices, condiments, nuts & everything else
+          </h3>
+          <div className="flex items-start gap-[2rem]">
+            <p className="px-16 py-8 bg-white text-[1.6rem] rounded-3xs border-[1px] font-medium font-inter text-black text-left shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] border-slategray border-dashed">
+              instant coffe granules
+            </p>
+            <p className="px-16 py-8 bg-white text-[1.6rem] rounded-3xs border-[1px] font-medium font-inter text-black text-left shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] border-slategray border-dashed">
+              sugar
+            </p>
+            <p className="px-16 py-8 bg-white text-[1.6rem] rounded-3xs border-[1px] font-medium font-inter text-black text-left shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] border-slategray border-dashed">
+              ice
+            </p>
+            <p className="px-16 py-8 bg-white text-[1.6rem] rounded-3xs border-[1px] font-medium font-inter text-black text-left shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] border-slategray border-dashed">
+              cold milk
+            </p>
           </div>
-          <div className="relative rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[80.3rem] h-[18rem]" />
         </div>
       </section>
-      <div className="absolute top-[110.5rem] left-[10.3rem] w-[79.2rem] h-[33.3rem] flex flex-col items-start justify-start gap-[2.2rem]">
-        <h1 className="m-0 relative text-[3.2rem] font-bold font-inherit">
-          What you’ll need
+
+      <section className="mx-[20rem] flex flex-col items-start justify-start gap-[2.5rem] text-left text-[3rem] text-black font-inter">
+        <h1 className="m-0 relative text-inherit font-bold font-inherit">
+          Steps
         </h1>
-        <div className="w-[17.5rem] h-[12.5rem] flex flex-col items-start justify-start gap-[3.9rem]">
-          <h3 className="m-0 relative text-inherit font-medium font-inherit">
-            Dairy
-          </h3>
-          <button className="cursor-pointer py-[0rem] px-[5.1rem] bg-white rounded-3xs shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] box-border w-[17.1rem] h-[5.7rem] flex flex-col items-end justify-center border-[1px] border-dashed border-slategray">
-            <div className="relative text-[1.6rem] font-medium font-inter text-black text-left">
-              cold milk
+        <div className="w-[165.1rem] h-[16rem] flex flex-col items-center justify-start text-[1.4rem] text-darkorange">
+          <div className="rounded-t-xl rounded-b-none bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[165.1rem] h-[8rem] flex flex-col items-start justify-start py-[1.1rem] px-[3.3rem] box-border gap-[0.3rem]">
+            <div className="relative font-medium">
+              You’ll need to get hold of
             </div>
-          </button>
+            <div className="relative font-medium text-black">{`Instant Coffe Granules, Sugar & Warm Water`}</div>
+          </div>
+          <div className="relative rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[165.1rem] h-[10.1rem] mt-[-2.1rem] text-[1.6rem] text-black">
+            <div className=" top-[4.1rem] left-[11.3rem] font-medium">
+              Combine 3 tablespoons warm water, 2 teaspoons instant coffe
+              granules, and 1 teaspon sugar in a sealable jar
+            </div>
+            <div className=" top-[2.1rem] left-[3.3rem] rounded-[50%] bg-darkorange shadow-[0px_0px_5px_1px_rgba(0,_0,_0,_0.25)] w-[5.8rem] h-[5.8rem]" />
+            <div className=" top-[3.2rem] left-[5.4rem] text-[3.2rem] font-medium text-white inline-block w-[1.6rem] h-[3.5rem]">
+              1
+            </div>
+          </div>
         </div>
-        <div className="relative w-[79.1rem] h-[12.5rem]">
-          <h3 className="m-0 absolute top-[0rem] left-[0rem] text-inherit font-medium font-inherit">{`Spices, condiments, nuts & everything else`}</h3>
-          <button className="cursor-pointer py-[0rem] px-[1.2rem] bg-white absolute top-[6.8rem] left-[0.4rem] rounded-3xs shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] box-border w-[19.3rem] h-[5.7rem] flex flex-col items-end justify-center border-[1px] border-dashed border-slategray">
-            <div className="relative text-[1.6rem] font-medium font-inter text-black text-left inline-block w-[16.8rem]">
-              instant coffe granules
-            </div>
-          </button>
-          <button className="cursor-pointer py-[0rem] px-[6.3rem] bg-white absolute top-[6.8rem] left-[22.2rem] rounded-3xs shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] box-border w-[17.1rem] h-[5.7rem] flex flex-col items-end justify-center border-[1px] border-dashed border-slategray">
-            <div className="relative text-[1.6rem] font-medium font-inter text-black text-left">
-              sugar
-            </div>
-          </button>
-          <button className="cursor-pointer p-0 bg-white absolute top-[6.8rem] left-[42.1rem] rounded-3xs shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] box-border w-[17.1rem] h-[5.7rem] flex flex-col items-center justify-center border-[1px] border-dashed border-slategray">
-            <div className="relative text-[1.6rem] font-medium font-inter text-black text-left">
-              ice
-            </div>
-          </button>
-          <button className="cursor-pointer py-[0rem] px-[5.1rem] bg-white absolute top-[6.8rem] left-[62rem] rounded-3xs shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] box-border w-[17.1rem] h-[5.7rem] flex flex-col items-end justify-center border-[1px] border-dashed border-slategray">
-            <div className="relative text-[1.6rem] font-medium font-inter text-black text-left">
-              cold milk
-            </div>
-          </button>
+        <div className="relative rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[165.1rem] h-[10.1rem] text-[1.6rem]">
+          <div className=" top-[4rem] left-[11.3rem] font-medium">
+            Seal and shake until foamy.
+          </div>
+          <div className=" top-[2.1rem] left-[3.3rem] rounded-[50%] bg-darkorange shadow-[0px_0px_5px_1px_rgba(0,_0,_0,_0.25)] w-[5.8rem] h-[5.8rem]" />
+          <div className=" top-[3.1rem] left-[5.1rem] text-[3.2rem] font-medium text-white inline-block w-[2.1rem] h-[3.8rem]">
+            2
+          </div>
         </div>
-      </div>
-      <section className="absolute top-[147.5rem] left-[10.3rem] w-[165.1rem] h-[35rem] flex flex-col items-start justify-start gap-[2.5rem] text-left text-[3.2rem] text-black font-inter">
+      </section>
+
+      {/* 
+     
+      
+      <section className=" top-[147.5rem] left-[10.3rem] w-[165.1rem] h-[35rem] flex flex-col items-start justify-start gap-[2.5rem] text-left text-[3.2rem] text-black font-inter">
         <h1 className="m-0 relative text-inherit font-bold font-inherit">
           Steps
         </h1>
