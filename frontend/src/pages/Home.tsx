@@ -5,14 +5,21 @@ import { BiSearch } from "react-icons/bi";
 
 const Home: FunctionComponent = () => {
   return (
-    <section className="grid grid-cols-5 items-center justify-center w-full text-left text-[2rem] text-gold-100 font-inter px-[40rem] gap-20">
-      <RecipeCard />
-      <RecipeCard />
-      <RecipeCard />
-      <RecipeCard />
-
-      <RecipeCard />
-    </section>
+    <div className="bg-white w-full px-[40rem]">
+      <Nav />
+      <section className="grid grid-cols-5 w-full text-left text-[2rem] text-gold-100 font-inter gap-20">
+        <RecipeCard />
+        <RecipeCard />
+        <RecipeCard />
+        <RecipeCard />
+        <RecipeCard />
+      </section>
+      <div className="w-full flex items-center justify-center my-20">
+        <button className="px-24 py-6 border-none outline-none cursor-pointer text-[3rem] font-bold text-white rounded-[1.5rem] bg-gradient-to-r from-darkorange to-gold-100">
+          Load More
+        </button>
+      </div>
+    </div>
     // <div className="relative bg-white w-full h-[174rem] overflow-hidden text-left text-[2rem] text-white font-inter">
     //   <h1 className="m-0 absolute top-[58.9rem] left-[14.8rem] text-[4.8rem] font-bold font-inherit text-black">
     //     There’s more to explore
