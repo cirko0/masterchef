@@ -6,7 +6,7 @@ const Nav: FunctionComponent = () => {
       <img
         className="relative w-[16.3rem] h-[16.3rem] object-cover"
         alt=""
-        src="/logo@2x.png"
+        src="/logo.png"
       />
       <div className="relative w-[8.9rem] h-[8.9rem]">
         <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gold-100 w-[8.9rem] h-[8.9rem]" />
