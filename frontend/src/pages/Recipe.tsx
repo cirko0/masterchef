@@ -1,21 +1,11 @@
 import { FunctionComponent } from "react";
+import Nav from "../components/Nav";
 
 const Recipe: FunctionComponent = () => {
   return (
-    <div className="relative bg-white w-full h-[216.3rem] overflow-hidden text-left text-[2.4rem] text-black font-inter">
-      <header className="absolute top-[1.4rem] left-[6.6rem] w-[177.7rem] h-[16.3rem] flex flex-row items-center justify-start gap-[152.5rem] text-left text-[3.2rem] text-white font-inter">
-        <img
-          className="relative w-[16.3rem] h-[16.3rem] object-cover"
-          alt=""
-          src="/logo@2x.png"
-        />
-        <div className="relative w-[8.9rem] h-[8.9rem]">
-          <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gold-100 w-[8.9rem] h-[8.9rem]" />
-          <h1 className="m-0 absolute top-[2.8rem] left-[2.4rem] text-inherit font-bold font-inherit inline-block w-[4.2rem] h-[3.2rem]">
-            JD
-          </h1>
-        </div>
-      </header>
+    <div className="bg-white w-full px-[20rem]">
+      <Nav />
+
       <section className="absolute top-[19.6rem] left-[0rem] w-[192rem] h-[41.5rem] text-left text-[2rem] text-white font-inter">
         <div className="absolute top-[0rem] left-[0rem] [background:linear-gradient(90deg,_#f88d1d,_#feca04_73.73%)] w-[192rem] h-[37.3rem]" />
         <i className="absolute top-[19.3rem] left-[10.3rem] font-medium">
