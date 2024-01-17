@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import RecipeCard from "../components/RecipeCard";
-import Nav from "../components/Nav";
+import Nav from "../components/navigation/Nav";
 import { BiSearch } from "react-icons/bi";
 
 const Home: FunctionComponent = () => {
@@ -10,9 +10,14 @@ const Home: FunctionComponent = () => {
       <section className="grid grid-cols-5 my-20 gap-10 px-[20rem]">
         <div className="rounded-xl bg-darkorange p-10 flex flex-col gap-5 col-span-3">
           <h1 className="text-white font-bold text-[3rem]">Featured</h1>
-          <p className="font-medium text-[1.8rem] text-white">
-            A delectable garlic bread recipe with a perfect balance of flavors.
-          </p>
+          {null ? (
+            <p className="font-medium text-[1.8rem] text-white">
+              A delectable garlic bread recipe with a perfect balance of
+              flavors.
+            </p>
+          ) : (
+            <div className="mt-1 h-7 w-[96%] xl:w-[82%] rounded-lg bg-[#ebebeb] animate-pulse"></div>
+          )}
         </div>
         <RecipeCard />
         <div className="rounded-xl bg-gold-100 p-10 flex flex-col gap-6">

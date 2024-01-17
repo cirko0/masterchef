@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import Nav from "../components/Nav";
+import Nav from "../components/navigation/Nav";
 import {
   BiPlusMedical,
   BiSolidMagicWand,
@@ -98,35 +98,34 @@ const Recipe: FunctionComponent = () => {
         </div>
       </section>
 
-      <section className="mx-[20rem] flex flex-col items-start justify-start gap-[2.5rem] text-left text-[3rem] text-black font-inter">
-        <h1 className="m-0 relative text-inherit font-bold font-inherit">
-          Steps
-        </h1>
-        <div className="w-[165.1rem] h-[16rem] flex flex-col items-center justify-start text-[1.4rem] text-darkorange">
-          <div className="rounded-t-xl rounded-b-none bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[165.1rem] h-[8rem] flex flex-col items-start justify-start py-[1.1rem] px-[3.3rem] box-border gap-[0.3rem]">
-            <div className="relative font-medium">
+      <section className="mx-[20rem] flex flex-col gap-[2.5rem]">
+        <h1 className="text-[3rem] font-bold text-black">Steps</h1>
+        <div className="flex flex-col items-center justify-start">
+          <div className="rounded-t-xl rounded-b-none bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-full pb-10 p-5 flex flex-col -m-5">
+            <div className="text-[1.4rem] text-darkorange font-medium">
               You’ll need to get hold of
             </div>
-            <div className="relative font-medium text-black">{`Instant Coffe Granules, Sugar & Warm Water`}</div>
+            <div className="text-[1.4rem] font-medium text-black">
+              Instant Coffe Granules, Sugar & Warm Water
+            </div>
           </div>
-          <div className="relative rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[165.1rem] h-[10.1rem] mt-[-2.1rem] text-[1.6rem] text-black">
-            <div className=" top-[4.1rem] left-[11.3rem] font-medium">
+
+          <div className="rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-full p-5 flex gap-10 items-center">
+            <div className="rounded-[50%] bg-darkorange shadow-[0px_0px_5px_1px_rgba(0,_0,_0,_0.25)] w-[6rem] h-[6rem] flex items-center justify-center">
+              <p className="text-[3.2rem] font-medium text-white">1</p>
+            </div>
+            <div className="font-medium text-[1.6rem]">
               Combine 3 tablespoons warm water, 2 teaspoons instant coffe
               granules, and 1 teaspon sugar in a sealable jar
             </div>
-            <div className=" top-[2.1rem] left-[3.3rem] rounded-[50%] bg-darkorange shadow-[0px_0px_5px_1px_rgba(0,_0,_0,_0.25)] w-[5.8rem] h-[5.8rem]" />
-            <div className=" top-[3.2rem] left-[5.4rem] text-[3.2rem] font-medium text-white inline-block w-[1.6rem] h-[3.5rem]">
-              1
-            </div>
           </div>
         </div>
-        <div className="relative rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-[165.1rem] h-[10.1rem] text-[1.6rem]">
-          <div className=" top-[4rem] left-[11.3rem] font-medium">
-            Seal and shake until foamy.
+        <div className="rounded-xl bg-white shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] w-full p-5 flex gap-10 items-center">
+          <div className="rounded-[50%] bg-darkorange shadow-[0px_0px_5px_1px_rgba(0,_0,_0,_0.25)] w-[6rem] h-[6rem] flex items-center justify-center">
+            <p className="text-[3.2rem] font-medium text-white">2</p>
           </div>
-          <div className=" top-[2.1rem] left-[3.3rem] rounded-[50%] bg-darkorange shadow-[0px_0px_5px_1px_rgba(0,_0,_0,_0.25)] w-[5.8rem] h-[5.8rem]" />
-          <div className=" top-[3.1rem] left-[5.1rem] text-[3.2rem] font-medium text-white inline-block w-[2.1rem] h-[3.8rem]">
-            2
+          <div className="font-medium text-[1.6rem]">
+            Seal and shake until foamy.
           </div>
         </div>
       </section>
@@ -135,7 +134,7 @@ const Recipe: FunctionComponent = () => {
      
       
       <section className=" top-[147.5rem] left-[10.3rem] w-[165.1rem] h-[35rem] flex flex-col items-start justify-start gap-[2.5rem] text-left text-[3.2rem] text-black font-inter">
-        <h1 className="m-0 relative text-inherit font-bold font-inherit">
+        <h1 className="m-0 text-inherit font-bold font-inherit">
           Steps
         </h1>
         <div className="w-[165.1rem] h-[16rem] flex flex-col items-center justify-start text-[1.4rem] text-darkorange">
