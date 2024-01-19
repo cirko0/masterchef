@@ -19,7 +19,7 @@ const Home: FunctionComponent = () => {
   };
   return (
     <>
-      <section className="grid grid-cols-4 my-20 gap-8">
+      <section className="grid grid-cols-4 my-14 gap-10">
         {recipes.recent.list.length === 0 ? (
           <FeaturedBanner id={""} />
         ) : (
@@ -34,13 +34,13 @@ const Home: FunctionComponent = () => {
         <ControlBox />
       </section>
 
-      <div className="w-full flex items-start justify-center my-20 flex-col">
+      <div className="w-full flex items-start justify-center my-10 flex-col">
         <h1 className="text-[30px]">There’s more to explore</h1>
         <div className="md:w-[500px] mt-10">
           <div className="flex w-full flex-wrap items-stretch gap-5">
             <input
               type="search"
-              className="m-0 w-[100px] flex-auto rounded-[10px] border border-solid border-neutral-300 bg-transparent bg-clip-padding px-6 py-[2.5px] text-[18px] font-medium text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-darkorange focus:text-neutral-700  focus:outline-none dark:border-darkorange dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-darkorange"
+              className="m-0 w-[100px] flex-auto rounded-[10px] border border-solid border-neutral-300 bg-transparent bg-clip-padding px-4 py-[2.5px] text-[18px] font-medium text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-darkorange focus:text-neutral-700  focus:outline-none dark:border-darkorange dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-darkorange"
               placeholder="Search"
               aria-label="Search"
             />

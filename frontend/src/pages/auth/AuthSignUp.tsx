@@ -3,31 +3,34 @@ import { SignUp } from "@clerk/clerk-react";
 
 const AuthSignUp: React.FC = () => {
   return (
-    <main className="font-poppins min-h-[69vh]">
+    <main className="min-h-[69vh]">
       <div
-        className="bg-ninja-blue min-h-[287px] h-[35vh] w-full absolute right-0 z-0"
+        className="bg-gradient-to-r from-darkorange to-gold-100 min-h-[287px] h-[35vh] w-full absolute right-0 z-0"
         aria-hidden
       />
 
-      <section className="flex flex-col justify-center items-center min-h-[651px] h-[85vh]">
+      <section className="flex flex-col justify-center items-center pt-10">
         <SignUp
           appearance={{
+            layout: {
+              showOptionalFields: false,
+            },
             elements: {
               formButtonPrimary:
-                "font-poppins normal-case bg-[#0089e3] hover:bg-[#007dd3] text-md",
+                "normal-case text-md bg-darkorange hover:bg-[#fcaf5d]",
               formFieldInput: "rounded-md border-[#ebebeb]",
               footerActionLink: "text-[#007dd3] font-medium",
             },
           }}
         />
 
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <p className="text-xs text-center text-gray-500">
             Username-based signups are no longer available. <br />
             However, you can continue to use your existing username-based
             account.
           </p>
-        </div>
+        </div> */}
       </section>
     </main>
   );

@@ -31,7 +31,7 @@ const Dialog: React.FC<DialogProps> = () => {
         {dialogs.type === "loading" && (
           <div className="text-[20px] bg-white shadow-chef h-32 min-w-[275px] max-w-[80vw] rounded-xl flex justify-center items-center gap-3 px-6 py-3">
             <BiLoaderAlt className="animate-spin text-[#66bd94]" />
-            <p className="font-poppins font-semibold text-slate-600">
+            <p className="font-semibold text-slate-600">
               {dialogs.message.current}
             </p>
           </div>
@@ -45,7 +45,7 @@ const Dialog: React.FC<DialogProps> = () => {
                   elements: {
                     card: "font-inter",
                     formButtonPrimary:
-                      "normal-case bg-[#0089e3] hover:bg-[#007dd3]",
+                      "normal-case text-md bg-darkorange hover:bg-[#fcaf5d]",
                     formFieldInput: "rounded-md border-[#ebebeb]",
                     footerActionLink: "text-[#007dd3] font-medium",
                   },
@@ -68,7 +68,7 @@ const Dialog: React.FC<DialogProps> = () => {
 
             <button
               onClick={close}
-              className="font-poppins font-bold text-white text-[25px] bg-darkorange outline-none border-none p-2 flex items-center justify-center cursor-pointer rounded-full"
+              className="font-bold text-[20px] outline-none border-none p-2 flex items-center justify-center cursor-pointer rounded-full"
             >
               <BiX />
             </button>
@@ -77,12 +77,12 @@ const Dialog: React.FC<DialogProps> = () => {
 
         {dialogs.type === "confirm" && (
           <div className="bg-white min-w-[200px] max-w-[90vw] md:max-w-[50vw] lg:[30vw] rounded-xl flex flex-col justify-center items-center gap-3 px-6 py-3">
-            <div className="font-poppins font-semibold text-slate-600 flex flex-col gap-1 text-center">
+            <div className=" font-semibold text-slate-600 flex flex-col gap-1 text-center">
               <p className="font-bold">{dialogs.title.current}</p>
               <p className="font-medium">{dialogs.message.current}</p>
             </div>
 
-            <div className="flex gap-1 font-semibold font-poppins">
+            <div className="flex gap-1 font-semibold ">
               <button
                 type="button"
                 onClick={() => close(true)}
@@ -103,12 +103,12 @@ const Dialog: React.FC<DialogProps> = () => {
 
         {dialogs.type === "message" && (
           <div className="bg-white min-w-[200px] max-w-[90vw] md:max-w-[50vw] lg:[30vw] rounded-xl flex flex-col justify-center items-center gap-3 px-6 py-3">
-            <div className="font-poppins font-semibold text-slate-600 flex flex-col gap-1 text-center">
+            <div className="font-semibold text-slate-600 flex flex-col gap-1 text-center">
               <p className="font-bold">{dialogs.title.current}</p>
               <p className="font-medium">{dialogs.message.current}</p>
             </div>
 
-            <div className="flex gap-1 font-semibold font-poppins">
+            <div className="flex gap-1 font-semibold ">
               <button
                 type="button"
                 onClick={close}

@@ -8,7 +8,7 @@ interface DefaultLayoutProps {
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
-    <div className="bg-white w-full px-[250px] mt-20">
+    <div className="bg-white w-full px-[250px] mt-10">
       <Nav />
 
       {children}

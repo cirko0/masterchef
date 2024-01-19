@@ -11,12 +11,12 @@ const ControlBox: FC = () => {
   };
 
   return (
-    <div className="rounded-xl bg-gold-100 md:h-[275px] md:w-[300px] py-[20px] px-[30px] flex flex-col items-center">
+    <div className="rounded-xl bg-gold-100 py-[20px] px-[30px] flex flex-col items-center">
       <h1 className="text-white font-bold text-[30px]">Share with AI Assist</h1>
       <SignedIn>
         <Link to="/recipe/add" className="no-underline">
           <button
-            className="w-[250px] h-[50px] mt-[20px] text-gold-200 rounded-[10px] font-poppins font-bold text-[18px] text-center bg-white hover:opacity-90 cursor-pointer outline-none border-none"
+            className="w-[280px] h-[50px] mt-[20px] text-gold-200 rounded-[10px] font-bold text-[18px] text-center bg-white hover:opacity-90 cursor-pointer outline-none border-none"
             type="button"
           >
             Add Recipe
@@ -25,7 +25,7 @@ const ControlBox: FC = () => {
 
         <Link to="/account/myrecipes">
           <button
-            className="w-[250px] h-[50px] mt-[20px] text-gold-200 rounded-[10px] font-poppins font-bold text-[18px] text-center bg-white hover:opacity-90 cursor-pointer outline-none border-none"
+            className="w-[280px] h-[50px] mt-[20px] text-gold-200 rounded-[10px] font-bold text-[18px] text-center bg-white hover:opacity-90 cursor-pointer outline-none border-none"
             type="button"
           >
             My Recipes
@@ -35,7 +35,7 @@ const ControlBox: FC = () => {
 
       <SignedOut>
         <button
-          className="w-[250px] h-[50px] mt-[20px] text-gold-200 rounded-[10px] font-poppins font-bold text-[18px] text-center bg-white hover:opacity-90 cursor-pointer outline-none border-none"
+          className="w-[280px] h-[50px] mt-[20px] text-gold-200 rounded-[10px] font-bold text-[18px] text-center bg-white hover:opacity-90 cursor-pointer outline-none border-none"
           type="button"
           onClick={openSignInDialog}
         >
