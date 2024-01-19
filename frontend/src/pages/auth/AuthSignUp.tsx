@@ -3,13 +3,13 @@ import { SignUp } from "@clerk/clerk-react";
 
 const AuthSignUp: React.FC = () => {
   return (
-    <main className="min-h-[69vh]">
+    <main className="h-full">
       <div
         className="bg-gradient-to-r from-darkorange to-gold-100 min-h-[287px] h-[35vh] w-full absolute right-0 z-0"
         aria-hidden
       />
 
-      <section className="flex flex-col justify-center items-center pt-10">
+      <section className="flex flex-col justify-center items-center pt-5">
         <SignUp
           appearance={{
             layout: {

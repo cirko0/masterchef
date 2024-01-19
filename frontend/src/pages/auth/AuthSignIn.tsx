@@ -3,13 +3,13 @@ import { SignIn } from "@clerk/clerk-react";
 
 const AuthSignIn: React.FC = () => {
   return (
-    <main className="font-inter min-h-[69vh]">
+    <main className="font-inter h-full">
       <div
         className="bg-gradient-to-r from-darkorange to-gold-100 min-h-[287px] h-[35vh] w-full absolute right-0 z-0"
         aria-hidden
       />
 
-      <section className="flex justify-center items-center h-full pt-20">
+      <section className="flex justify-center items-center h-full pt-10">
         <SignIn
           appearance={{
             elements: {
