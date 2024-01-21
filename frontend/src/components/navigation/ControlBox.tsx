@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
-import { useDialogs, Dialog } from "../../providers/dialogContext";
+import { useDialogs } from "../../providers/dialogContext";
 
 const ControlBox: FC = () => {
   let dialogs = useDialogs();

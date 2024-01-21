@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import db from "./config/db.config";
 import morgan from "morgan";
+import { ai } from "./config/ai.config";
 
 dotenv.config();
 
@@ -28,6 +29,12 @@ app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
 
+  next();
+});
+
+app.get("/api/v1/dalle", async (next: any) => {
+  const res = await ai.gpt({ role: "user", content: "Hi ChatGPT" });
+  console.log(res);
   next();
 });
 

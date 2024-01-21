@@ -2,6 +2,8 @@
     Helpers for Async Handlers
 */
 
+import { GPTResponse } from "../interfaces/ai.interface";
+
 interface SchemaOption {
   prop: string;
   type: string;
@@ -11,17 +13,13 @@ interface SchemaOptions {
   [key: string]: SchemaOption[];
 }
 
-interface ValidationResult {
-  valid: boolean;
-}
-
 const helpers: {
-  isRecipeOutputValid: (output: any, targetSchema?: string) => boolean;
-  validateIngredients: (ingredients: any) => Promise<ValidationResult>;
-  sanitiseIngredients: (
+  isRecipeOutputValid: (output: GPTResponse, targetSchema?: string) => boolean;
+  validateIngredients: (ingredients: any) => Promise<{ valid: boolean }>;
+  sanitizeIngredients: (
     ingredients: any,
     steps: any
-  ) => Promise<ValidationResult>;
+  ) => Promise<{ valid: boolean }>;
   getRecipeDietType: (ingredients: any[]) => string;
 } = {
   isRecipeOutputValid: (
@@ -74,7 +72,9 @@ const helpers: {
     }
   },
 
-  validateIngredients: async (ingredients: any): Promise<ValidationResult> => {
+  validateIngredients: async (
+    ingredients: any
+  ): Promise<{ valid: boolean }> => {
     return new Promise((resolve) => {
       // Validation
       const schema = ["name", "steps", "category"];
@@ -100,10 +100,10 @@ const helpers: {
     });
   },
 
-  sanitiseIngredients: async (
+  sanitizeIngredients: async (
     ingredients: any,
     steps: any
-  ): Promise<ValidationResult> => {
+  ): Promise<{ valid: boolean }> => {
     return new Promise((resolve) => {
       // Sanitisation
       const unusedIngredients: number[] = [];
