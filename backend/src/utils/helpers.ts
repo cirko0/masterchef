@@ -19,7 +19,7 @@ const helpers: {
   sanitizeIngredients: (
     ingredients: any,
     steps: any
-  ) => Promise<{ valid: boolean }>;
+  ) => Promise<{ valid: boolean; list: any[] }>;
   getRecipeDietType: (ingredients: any[]) => string;
 } = {
   isRecipeOutputValid: (
@@ -103,7 +103,7 @@ const helpers: {
   sanitizeIngredients: async (
     ingredients: any,
     steps: any
-  ): Promise<{ valid: boolean }> => {
+  ): Promise<{ valid: boolean; list: any[] }> => {
     return new Promise((resolve) => {
       // Sanitisation
       const unusedIngredients: number[] = [];
@@ -130,7 +130,7 @@ const helpers: {
 
       for (const index of unusedIngredients) ingredients.splice(index, 1);
 
-      resolve({ valid: true });
+      resolve({ valid: true, list: ingredients });
     });
   },
 

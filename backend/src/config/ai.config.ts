@@ -1,4 +1,9 @@
-import { OpenAIApi, Configuration, ImagesResponseDataInner } from "openai";
+import {
+  OpenAIApi,
+  Configuration,
+  ImagesResponseDataInner,
+  ChatCompletionRequestMessage,
+} from "openai";
 import { AI, GPTResponse, Prompts } from "../interfaces/ai.interface";
 
 // API Config
@@ -17,7 +22,7 @@ const ai: AI = {
     return new Promise<GPTResponse>((resolve, reject) => {
       OpenAI.createChatCompletion({
         model: "gpt-3.5-turbo",
-        messages: [instruction],
+        messages: instruction as ChatCompletionRequestMessage[],
         temperature: 0,
       })
         .then((res: any) => {

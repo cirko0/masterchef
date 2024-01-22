@@ -1,32 +1,10 @@
-import { ImagesResponseDataInner } from "openai";
 import { prompts, ai } from "../config/ai.config";
 import db from "../config/db.config";
 import { GPTResponse } from "../interfaces/ai.interface";
 import helpers from "./helpers";
 import axios from "axios";
-
-interface RecipeInput {
-  _id: any;
-  name: string;
-  author: string;
-  steps: string[];
-  submission_id?: string;
-  cookingTime?: number;
-  userId?: string;
-  generateImage?: boolean;
-}
-
-interface RecipeOutput {
-  name: string;
-  author: string;
-  cooking_time: number;
-  steps: string[];
-  userId: string;
-  img_url?: string;
-  prompt?: any;
-  ingredients?: any[];
-  diet?: string;
-}
+import { uploadFile } from "@uploadcare/upload-client";
+import { RecipeInput } from "../interfaces/utils.interface";
 
 const asyncHandlers = {
   addRecipe: async (
@@ -42,7 +20,6 @@ const asyncHandlers = {
         prompts.recipeIngredients,
         prompts.recipeContext(unprocessedData),
       ];
-      //@ts-ignore
       let ingredients = await ai.gpt(instructions);
 
       await helpers.validateIngredients(ingredients);
@@ -59,7 +36,6 @@ const asyncHandlers = {
       );
 
       let ingredientString = "";
-      //@ts-ignore
       sanitizedIngredients.list.forEach(
         (ingredient: any, i: number) =>
           (ingredientString += `(${i + 1}) ${ingredient.name} `)
@@ -72,11 +48,9 @@ const asyncHandlers = {
         prompts.allRecipeMetadata,
         prompts.recipeContext(unprocessedData),
       ];
-      //@ts-ignore
 
-      let newRecipe = await ai.gpt<RecipeOutput>(instructions);
+      let newRecipe = await ai.gpt(instructions);
 
-      //@ts-ignore
       newRecipe.ingredients = sanitizedIngredients.list;
       newRecipe.diet = helpers.getRecipeDietType(newRecipe.ingredients);
 
@@ -93,7 +67,9 @@ const asyncHandlers = {
         const submissionData = await db.PendingSubmission.findOne({
           _id: input.submission_id,
         });
-        //@ts-ignore
+
+        if (!submissionData) return;
+
         newRecipe.img_url = submissionData.img_url;
 
         const submittedRecipe = await db.Recipe.create(newRecipe);
@@ -114,7 +90,6 @@ const asyncHandlers = {
         { _id: input.submission_id },
         { stage: "Visualizing recipe & generating image..." }
       );
-      //@ts-ignore
 
       asyncHandlers.generateRecipeImage(newRecipe, input);
     } catch (error) {
@@ -137,33 +112,32 @@ const asyncHandlers = {
     }
   },
 
-  generateRecipeImage: async (newRecipe: RecipeOutput, input: RecipeInput) => {
+  generateRecipeImage: async (
+    newRecipe: GPTResponse,
+    input: RecipeInput
+  ): Promise<void> => {
     try {
+      const response = await ai.dalle(newRecipe.prompt as string);
+
       //@ts-ignore
-      const response = await ai.dalle<ImagesResponseDataInner>(
-        newRecipe.prompt
-      );
-
-      const { data } = await axios.post(
-        `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ID}/images/v1`,
-        {
-          //@ts-ignore
-          url: response[0].url,
+      const uploadcareResponse = await uploadFile(response[0].url, {
+        publicKey: process.env.UPLOADCARE_PUBLIC_KEY as string,
+        store: "auto",
+        metadata: {
+          subsystem: "ts-client",
         },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${process.env.CLOUDFLARE_TOKEN}`,
-          },
-        }
-      );
+      });
 
-      if (!data.success) throw new Error("CLOUDFLARE IMAGE UPLOAD ERROR");
+      const fileId = uploadcareResponse.uuid;
+
+      const cdnUrl = `https://ucarecdn.com/${fileId}/`;
 
       delete newRecipe.prompt;
-      newRecipe.img_url = `https://imagedelivery.net/CwcWai9Vz5sYV9GCN-o2Vg/${data.result.id}/`;
+      newRecipe.img_url = cdnUrl;
 
+      // Assuming db.Recipe.create and db.PendingSubmission.findOneAndUpdate are asynchronous functions
       const submittedRecipe = await db.Recipe.create(newRecipe);
+
       await db.PendingSubmission.findOneAndUpdate(
         { _id: input.submission_id },
         {
@@ -200,8 +174,7 @@ const asyncHandlers = {
         prompts.recipeInsightsOnly,
         prompts.recipeContext(unprocessedData),
       ];
-      //@ts-ignore
-      let updatedInsights = await ai.gpt<GPTResponse>(instruction);
+      let updatedInsights = await ai.gpt(instruction);
 
       if (!helpers.isRecipeOutputValid(updatedInsights, "insights"))
         throw new Error("Validation Failed.");

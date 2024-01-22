@@ -1,7 +1,16 @@
-import { ChatCompletionRequestMessage, ImagesResponseDataInner } from "openai";
+import {
+  ChatCompletionRequestMessage,
+  ChatCompletionRequestMessageRoleEnum,
+  ImagesResponseDataInner,
+} from "openai";
 
 interface AI {
-  gpt(instruction: ChatCompletionRequestMessage): Promise<GPTResponse>;
+  gpt(
+    instruction: {
+      role: string;
+      content: string;
+    }[]
+  ): Promise<GPTResponse>;
   dalle(prompt: string): Promise<ImagesResponseDataInner>;
 }
 
@@ -17,7 +26,9 @@ interface GPTResponse {
   allergies: any;
   health_reason: any;
   health_score: any;
-  porompt: string;
+  prompt?: string;
+  spam_score: number;
+  score_reason: string;
 }
 
 interface Prompts {
