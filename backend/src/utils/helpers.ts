@@ -28,7 +28,7 @@ const helpers: {
   ): boolean => {
     const schemaOptions: SchemaOptions = {
       aiAssist: [
-        { prop: "ingredients", type: "object" },
+        { prop: "ingredients", type: "array" },
         { prop: "diet", type: "string" },
         { prop: "allergies", type: "array" },
         { prop: "intro", type: "string" },
@@ -57,9 +57,24 @@ const helpers: {
       const schema = schemaOptions[targetSchema];
 
       for (const schemaItem of schema) {
+        console.log(
+          "/////////////////////////////////////////////////////////////"
+        );
+        console.log(
+          "/////////////////////////////////////////////////////////////"
+        );
+        console.log(typeof output[schemaItem.prop] === schemaItem.type);
+        console.log(
+          output[schemaItem.prop],
+          typeof output[schemaItem.prop],
+          schemaItem.type
+        );
         if (
           !output.hasOwnProperty(schemaItem.prop) ||
-          !(typeof output[schemaItem.prop] === schemaItem.type)
+          (schemaItem.type === "array" &&
+            !Array.isArray(output[schemaItem.prop])) ||
+          (schemaItem.type !== "array" &&
+            typeof output[schemaItem.prop] !== schemaItem.type)
         ) {
           return false;
         }

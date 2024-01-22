@@ -26,9 +26,11 @@ const ai: AI = {
         temperature: 0,
       })
         .then((res: any) => {
-          const output = JSON.parse(
-            res.data.choices[0].message.content
-          ) as GPTResponse;
+          let output;
+          console.log(res.data.choices[0].message);
+
+          output = JSON.parse(res.data.choices[0].message.content);
+
           resolve(output);
         })
         .catch((err) => {

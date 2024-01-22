@@ -21,7 +21,6 @@ const asyncHandlers = {
         prompts.recipeContext(unprocessedData),
       ];
       let ingredients = await ai.gpt(instructions);
-
       await helpers.validateIngredients(ingredients);
       let sanitizedIngredients = await helpers.sanitizeIngredients(
         ingredients,
@@ -49,11 +48,20 @@ const asyncHandlers = {
         prompts.recipeContext(unprocessedData),
       ];
 
+      //ERROR
       let newRecipe = await ai.gpt(instructions);
 
       newRecipe.ingredients = sanitizedIngredients.list;
       newRecipe.diet = helpers.getRecipeDietType(newRecipe.ingredients);
 
+      console.log(
+        "/////////////////////////////////////////////////////////////"
+      );
+      console.log(newRecipe);
+
+      console.log(
+        "/////////////////////////////////////////////////////////////"
+      );
       if (!helpers.isRecipeOutputValid(newRecipe))
         throw new Error("Validation Failed.");
 

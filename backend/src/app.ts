@@ -20,8 +20,7 @@ const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 const host = process.env.HOST || "127.0.0.1";
 
 const app = express();
-
-const apiKey: string = process.env.CLERK_API_KEY || "";
+const apiKey: string = process.env.CLERK_SECRET_KEY as string;
 
 //@ts-ignore
 const clerk = new Clerk({ apiKey });
@@ -70,21 +69,25 @@ app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
   res.json(retrivedData.data);
 });
 
-app.put(
-  "/api/v1/recipes",
-  clerk.expressWithAuth({}),
-  async (req: AuthenticatedRequest, res: Response) => {
-    if (!req.auth?.sessionId) return unauthenticated(res);
+app.post("/api/v1/recipes", async (req, res) => {
+  req.body.author = `Ivan Cirkovic`;
+  req.body.userId = 12351;
 
-    const user = await clerk.users.getUser(req.auth?.userId);
-    req.body.author = `${user.firstName} ${user.lastName}`;
-    req.body.userId = user.id;
+  const response = await recipes.add(req.body);
+  res.statusCode = response.code;
+  res.json(response);
+});
 
-    const response = await recipes.update(req.body);
-    res.statusCode = response.code;
-    res.json(response);
-  }
-);
+app.put("/api/v1/recipes", async (req: any, res: Response) => {
+  req.body.author = `Ivan Cirkovic`;
+  req.body.userId = 12351;
+
+  //@ts-ignore
+  const response: Response = await recipes.update(req.body);
+  //@ts-ignore
+  res.statusCode = response.code;
+  res.json(response);
+});
 
 app.listen(port, host, async () => {
   console.log("\x1b[33m→ Connecting to Database...\x1b[0m");
