@@ -106,6 +106,18 @@ app.put("/api/v1/recipes", async (req: any, res: Response) => {
   res.json(response);
 });
 
+app.delete(
+  "/api/v1/recipes/:idx",
+  // clerk.expressWithAuth({}),
+  async (req, res) => {
+    // if (!req.auth.sessionId) return unauthenticated(res);
+
+    const response = await recipes.delete(req.params.idx);
+    res.statusCode = response.code;
+    res.json(response);
+  }
+);
+
 app.listen(port, host, async () => {
   console.log("\x1b[33m→ Connecting to Database...\x1b[0m");
   try {

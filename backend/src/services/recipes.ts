@@ -7,6 +7,10 @@ import { GPTResponse } from "../interfaces/ai.interface.js";
 import asyncHandlers from "../utils/asyncHandlers.js";
 import { RecipeInput } from "../interfaces/utils.interface.js";
 import { RecipeDocument } from "../interfaces/db.interface.js";
+import {
+  deleteFile,
+  UploadcareSimpleAuthSchema,
+} from "@uploadcare/rest-client";
 
 interface RecipesGetResponse {
   code: number;
@@ -19,6 +23,11 @@ interface AddRecipeResponse {
   spam?: boolean;
   msg: string;
   submission_id?: Types.ObjectId;
+}
+
+interface DeleteRecipeResponse {
+  code: number;
+  msg: string;
 }
 
 interface RecipeInputAIUser extends RecipeInput {
@@ -261,6 +270,47 @@ const recipes = {
         resolve({ code: 500, msg: "Could not update recipe" });
       }
     });
+  },
+
+  delete: async (idx: string): Promise<DeleteRecipeResponse> => {
+    try {
+      const recipeData = await db.Recipe.findOne({ _id: idx });
+      console.log(recipeData);
+      if (!recipeData) throw new Error("Recipe not found.");
+
+      try {
+        // Delete image from Uploadcare
+        if (recipeData.img_url) {
+          const result = await deleteFile(
+            {
+              uuid: recipeData.img_url.split("/")[3] || "",
+            },
+            {
+              authSchema: new UploadcareSimpleAuthSchema({
+                publicKey: process.env.UPLOADCARE_PUBLIC_KEY as string,
+                secretKey: process.env.UPLOADCARE_SECRET_KEY as string,
+              }),
+            }
+          );
+          console.log(result);
+        }
+      } catch (e) {
+        console.time("RECIPE IMAGE DELETE ERROR");
+        console.log(`[> RECIPE IMAGE DELETE ERROR DETAILS] ${e}`);
+      }
+
+      await db.Recipe.deleteOne({ _id: idx });
+
+      return { code: 200, msg: `Deleted item with _id ${idx}.` };
+    } catch (error) {
+      console.time("RECIPE DELETE ERROR");
+      console.log(`[> RECIPE DELETE ERROR DETAILS] ${error}`);
+
+      return {
+        code: 404,
+        msg: "Could not delete item, please try again later.",
+      };
+    }
   },
 };
 
