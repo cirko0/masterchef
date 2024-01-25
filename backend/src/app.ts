@@ -71,8 +71,8 @@ app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
 
 app.post("/api/v1/recipes", async (req, res) => {
   req.body.author = `Ivan Cirkovic`;
-  req.body.userId = 12351;
-
+  req.body.userId = "12351";
+  console.log("a");
   const response = await recipes.add(req.body);
   res.statusCode = response.code;
   res.json(response);
@@ -80,7 +80,7 @@ app.post("/api/v1/recipes", async (req, res) => {
 
 app.put("/api/v1/recipes", async (req: any, res: Response) => {
   req.body.author = `Ivan Cirkovic`;
-  req.body.userId = 12351;
+  req.body.userId = "12351";
 
   //@ts-ignore
   const response: Response = await recipes.update(req.body);

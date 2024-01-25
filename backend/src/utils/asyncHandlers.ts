@@ -54,14 +54,6 @@ const asyncHandlers = {
       newRecipe.ingredients = sanitizedIngredients.list;
       newRecipe.diet = helpers.getRecipeDietType(newRecipe.ingredients);
 
-      console.log(
-        "/////////////////////////////////////////////////////////////"
-      );
-      console.log(newRecipe);
-
-      console.log(
-        "/////////////////////////////////////////////////////////////"
-      );
       if (!helpers.isRecipeOutputValid(newRecipe))
         throw new Error("Validation Failed.");
 

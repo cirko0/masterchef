@@ -145,7 +145,6 @@ const recipes = {
 
         // check if recipe belongs to user
         if (oldRecipe.userId !== input.userId) throw new Error("401");
-
         // Preparing Prompt
         let stepsString = "";
         input.steps.forEach(
@@ -184,11 +183,11 @@ const recipes = {
         console.log(input.ingredients);
 
         // use helper to validate recipe output
-        if (!helpers.isRecipeOutputValid(input as any))
+        if (!helpers.isRecipeOutputValid(input as any, "userUpdate"))
           throw new Error("Validation Failed.");
 
         // update steps, ingredients, name, desc, intro, cooking_time
-        await db.Recipe.findOneAndUpdate(
+        const updatedRecipe = await db.Recipe.findOneAndUpdate(
           { _id: input._id },
           {
             steps: input.steps,
@@ -200,6 +199,7 @@ const recipes = {
             diet: input.diet,
           }
         );
+        console.log(updatedRecipe);
 
         // compare old recipe data with new recipe data
         let areStepsChanged =

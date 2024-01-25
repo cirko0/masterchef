@@ -43,7 +43,7 @@ const helpers: {
         { prop: "intro", type: "string" },
         { prop: "desc", type: "string" },
         { prop: "name", type: "string" },
-        { prop: "cooking_time", type: "number" },
+        { prop: "cookingTime", type: "number" },
         { prop: "steps", type: "array" },
       ],
       insights: [
@@ -57,18 +57,7 @@ const helpers: {
       const schema = schemaOptions[targetSchema];
 
       for (const schemaItem of schema) {
-        console.log(
-          "/////////////////////////////////////////////////////////////"
-        );
-        console.log(
-          "/////////////////////////////////////////////////////////////"
-        );
-        console.log(typeof output[schemaItem.prop] === schemaItem.type);
-        console.log(
-          output[schemaItem.prop],
-          typeof output[schemaItem.prop],
-          schemaItem.type
-        );
+        console.log(schemaItem.type, typeof output[schemaItem.prop]);
         if (
           !output.hasOwnProperty(schemaItem.prop) ||
           (schemaItem.type === "array" &&
