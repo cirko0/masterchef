@@ -69,6 +69,23 @@ app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
   res.json(retrivedData.data);
 });
 
+app.get(
+  "/api/v1/recipes/user/:skip/:limit",
+  // clerk.expressWithAuth({}),
+  async (req, res) => {
+    // if (!req.auth.sessionId) return unauthenticated(res);
+
+    const retrivedData = await recipes.getByUser({
+      userId: "12351",
+      skip: +req.params.skip,
+      limit: +req.params.limit,
+    });
+    res.statusCode = retrivedData.code;
+
+    res.json(retrivedData.data);
+  }
+);
+
 app.post("/api/v1/recipes", async (req, res) => {
   req.body.author = `Ivan Cirkovic`;
   req.body.userId = "12351";

@@ -65,6 +65,37 @@ const recipes = {
     }
   },
 
+  getByUser: async ({
+    userId,
+    limit,
+    skip,
+  }: {
+    userId: string;
+    limit: number;
+    skip: number;
+  }): Promise<RecipesGetResponse> => {
+    try {
+      let recipeData: any[] = [];
+      let count = 0;
+      let data: any = {};
+
+      console.log(userId);
+
+      recipeData = await db.Recipe.find({ userId: userId })
+        .select("_id name author diet img_url desc")
+        .sort({ _id: -1 })
+        .skip(skip)
+        .limit(limit);
+
+      count = await db.Recipe.find({ userId: userId }).count();
+      data = { count, recipes: recipeData };
+
+      return { code: 200, data };
+    } catch (error) {
+      return { code: 500, msg: "Could not retrieve data from data store" };
+    }
+  },
+
   add: async (input: RecipeInput): Promise<AddRecipeResponse> => {
     return new Promise(async (resolve) => {
       try {
