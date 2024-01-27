@@ -9,6 +9,7 @@ import multer from "multer";
 // @ts-ignore
 import uploadcareStorage from "multer-storage-uploadcare";
 import search from "./services/search";
+import submissions from "./services/submissions";
 
 dotenv.config();
 
@@ -235,6 +236,15 @@ app.get("/api/v1/search/:skip/:limit", async (req, res) => {
       status: 404,
       message: retrivedData.msg,
     });
+
+  res.json(retrivedData.data);
+});
+
+app.get("/api/v1/submissions/:id", async (req, res) => {
+  //if (!req.auth.sessionId) return unauthenticated(res);
+
+  const retrivedData = await submissions.status(req.params.id);
+  res.statusCode = retrivedData.code;
 
   res.json(retrivedData.data);
 });
