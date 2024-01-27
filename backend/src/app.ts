@@ -2,13 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import db from "./config/db.config";
 import morgan from "morgan";
-import { ai } from "./config/ai.config";
 import recipes from "./services/recipes";
 import { Response } from "express-serve-static-core";
 import { Clerk } from "@clerk/clerk-sdk-node";
 import multer from "multer";
 // @ts-ignore
 import uploadcareStorage from "multer-storage-uploadcare";
+import search from "./services/search";
 
 dotenv.config();
 
@@ -218,6 +218,26 @@ app.delete(
     res.json(response);
   }
 );
+
+app.get("/api/v1/search/:skip/:limit", async (req, res) => {
+  const filters = req.query.diet ? { diet: req.query.diet } : {};
+  const retrivedData = await search.query(
+    req.query.q as string,
+    filters,
+    +req.params.skip,
+    +req.params.limit
+  );
+  console.log(req.query.q);
+  res.statusCode = retrivedData.code;
+
+  if (!retrivedData.data)
+    return res.json({
+      status: 404,
+      message: retrivedData.msg,
+    });
+
+  res.json(retrivedData.data);
+});
 
 app.listen(port, host, async () => {
   console.log("\x1b[33m→ Connecting to Database...\x1b[0m");
