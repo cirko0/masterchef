@@ -296,6 +296,67 @@ const recipes = {
     });
   },
 
+  // TODO: FIX UPDATE IMAGE
+  updateImage: async (
+    input: any,
+    idx: string,
+    userId: string
+  ): Promise<any> => {
+    return new Promise(async (resolve) => {
+      try {
+        const recipe = await db.Recipe.findOne({ _id: idx });
+
+        if (!recipe) throw new Error("Recipe not found.");
+
+        if (recipe.userId !== userId) {
+          throw new Error("401");
+        }
+
+        await db.Recipe.findOneAndUpdate(
+          { _id: idx },
+          {
+            img_url: `https://ucarecdn.com/${input.uploadcare_file_id}/${input.originalname}`,
+          }
+        );
+
+        // Delete old image from Uploadcare
+
+        if (!recipe.img_url) {
+          resolve({ code: 200 });
+          return;
+        }
+
+        const imgInfo = recipe.img_url.split("/")[3];
+
+        await deleteFile(
+          {
+            uuid: imgInfo,
+          },
+          {
+            authSchema: new UploadcareSimpleAuthSchema({
+              publicKey: process.env.UPLOADCARE_PUBLIC_KEY as string,
+              secretKey: process.env.UPLOADCARE_SECRET_KEY as string,
+            }),
+          }
+        );
+
+        resolve({ code: 200 });
+      } catch (error: any) {
+        console.log(error);
+
+        if (error.message === "401") {
+          resolve({
+            code: 401,
+            msg: "You are not authorized to edit this recipe.",
+          });
+          return;
+        }
+
+        resolve({ code: 500, msg: "Could not create submission." });
+      }
+    });
+  },
+
   delete: async (idx: string): Promise<DeleteRecipeResponse> => {
     try {
       const recipeData = await db.Recipe.findOne({ _id: idx });

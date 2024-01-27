@@ -170,9 +170,9 @@ app.post(
   }
 );
 
-app.put(
+app.patch(
   "/api/v1/recipes/images/upload/:idx",
-  clerk.expressWithAuth({}),
+  // clerk.expressWithAuth({}),
   async (req, res) => {
     // if (!req.auth.sessionId) return unauthenticated(res);
     //fix
