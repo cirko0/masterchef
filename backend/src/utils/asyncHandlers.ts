@@ -2,7 +2,6 @@ import { prompts, ai } from "../config/ai.config";
 import db from "../config/db.config";
 import { GPTResponse } from "../interfaces/ai.interface";
 import helpers from "./helpers";
-import axios from "axios";
 import { uploadFile } from "@uploadcare/upload-client";
 import { RecipeInput } from "../interfaces/utils.interface";
 
@@ -123,9 +122,6 @@ const asyncHandlers = {
       const uploadcareResponse = await uploadFile(response[0].url, {
         publicKey: process.env.UPLOADCARE_PUBLIC_KEY as string,
         store: "auto",
-        metadata: {
-          subsystem: "ts-client",
-        },
       });
 
       const fileId = uploadcareResponse.uuid;
@@ -135,7 +131,6 @@ const asyncHandlers = {
       delete newRecipe.prompt;
       newRecipe.img_url = cdnUrl;
 
-      // Assuming db.Recipe.create and db.PendingSubmission.findOneAndUpdate are asynchronous functions
       const submittedRecipe = await db.Recipe.create(newRecipe);
 
       await db.PendingSubmission.findOneAndUpdate(

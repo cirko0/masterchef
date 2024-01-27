@@ -175,6 +175,30 @@ const recipes = {
     });
   },
 
+  addImage: async (input: any) => {
+    return new Promise(async (resolve) => {
+      try {
+        console.log(input);
+
+        let newPendingSubmission = {
+          img_url: `https://ucarecdn.com/${input.uploadcare_file_id}/${input.originalname}`,
+          is_pending: true,
+          success: true,
+          stage: "Image Uploaded by User",
+        };
+
+        const submission = await db.PendingSubmission.create(
+          newPendingSubmission
+        );
+
+        resolve({ code: 201, submission_id: submission._id });
+      } catch (error) {
+        console.log(error);
+        resolve({ code: 500, msg: "Could not create the submission." });
+      }
+    });
+  },
+
   update: async (input: RecipeInputAIUser) => {
     return new Promise(async (resolve) => {
       try {

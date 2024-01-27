@@ -6,6 +6,9 @@ import { ai } from "./config/ai.config";
 import recipes from "./services/recipes";
 import { Response } from "express-serve-static-core";
 import { Clerk } from "@clerk/clerk-sdk-node";
+import multer from "multer";
+// @ts-ignore
+import uploadcareStorage from "multer-storage-uploadcare";
 
 dotenv.config();
 
@@ -48,15 +51,36 @@ app.use(function (req, res, next) {
 
 // Utilities
 
+const upload = multer({
+  storage: uploadcareStorage({
+    public_key: process.env.UPLOADCARE_PUBLIC_KEY,
+    private_key: process.env.UPLOADCARE_SECRET_KEY,
+  }),
+}).single("image");
+
 const unauthenticated = (res: Response) => {
   res.statusCode = 401;
   res.json({ code: 401, msg: "session expired or invalid" });
 };
 
-app.get("/api/v1/dalle", async (next: any) => {
-  const res = await ai.gpt([{ role: "user", content: "Hi ChatGPT" }]);
-  console.log(res);
-  next();
+let startTime: Date | null = new Date(Date.now());
+
+app.get("/status", async (req, res) => {
+  if (startTime) {
+    res.json({
+      code: 200,
+      name: "NinjaChefs + AI (API)",
+      status: `Operational`,
+      startTime: `${startTime.toLocaleString("en-CA")} (Server Time - UTC)`,
+    });
+  } else {
+    res.statusCode = 500;
+    res.json({
+      code: 500,
+      name: "NinjaChefs + AI (API)",
+      status: `Requires Attention`,
+    });
+  }
 });
 
 app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
@@ -64,6 +88,13 @@ app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
     skip: +req.params.skip,
     limit: +req.params.limit,
   });
+  res.statusCode = retrivedData.code;
+
+  res.json(retrivedData.data);
+});
+
+app.get("/api/v1/recipes/:idx", async (req, res) => {
+  const retrivedData = await recipes.get({ idx: req.params.idx });
   res.statusCode = retrivedData.code;
 
   res.json(retrivedData.data);
@@ -89,7 +120,7 @@ app.get(
 app.post("/api/v1/recipes", async (req, res) => {
   req.body.author = `Ivan Cirkovic`;
   req.body.userId = "12351";
-  console.log("a");
+
   const response = await recipes.add(req.body);
   res.statusCode = response.code;
   res.json(response);
@@ -105,6 +136,76 @@ app.put("/api/v1/recipes", async (req: any, res: Response) => {
   res.statusCode = response.code;
   res.json(response);
 });
+
+app.post(
+  "/api/v1/recipes/images/upload",
+  // clerk.expressWithAuth({}),
+  async (req, res: any) => {
+    // if (!req.auth.sessionId) return unauthenticated(res);
+
+    upload(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        res.statusCode = 406;
+        console.log(err);
+        res.json({
+          code: 406,
+          msg: "UNEXPECTED FILE: Please ensure the file is an image file & less than 10MB.",
+        });
+        return;
+      } else if (err) {
+        console.log(err);
+        res.statusCode = 500;
+        res.json({
+          code: 500,
+          msg: "Internal Server Error, Please try again later.",
+        });
+        return;
+      }
+
+      const response: any = await recipes.addImage(req.file);
+
+      res.statusCode = response.code;
+      res.json(response);
+    });
+  }
+);
+
+app.put(
+  "/api/v1/recipes/images/upload/:idx",
+  clerk.expressWithAuth({}),
+  async (req, res) => {
+    // if (!req.auth.sessionId) return unauthenticated(res);
+    //fix
+    upload(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        res.statusCode = 406;
+        res.json({
+          code: 406,
+          msg: "UNEXPECTED FILE: Please ensure the file is an image file & less than 10MB.",
+        });
+        return;
+      } else if (err) {
+        console.log(err);
+        res.statusCode = 500;
+        res.json({
+          code: 500,
+          msg: "Internal Server Error, Please try again later.",
+        });
+        return;
+      }
+
+      const response = await recipes.updateImage(
+        req.file,
+        req.params.idx,
+        "12351"
+        // req.auth.userId
+      );
+
+      res.statusCode = response.code;
+      res.json(response);
+    });
+  }
+);
 
 app.delete(
   "/api/v1/recipes/:idx",
