@@ -10,7 +10,7 @@ const Nav: FunctionComponent = () => {
         <img className="object-contain h-[80px]" alt="" src={logo} />
       </a>
       <div className="cursor-pointer text-[4s0px]">
-        <UserButton />
+        <UserButton></UserButton>
       </div>
     </header>
   );

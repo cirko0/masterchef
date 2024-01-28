@@ -3,6 +3,7 @@ import RecipeCard from "../components/RecipeCard";
 import { BiSearch } from "react-icons/bi";
 import FeaturedBanner from "../components/navigation/FeaturedBanner";
 import ControlBox from "../components/navigation/ControlBox";
+import Library from "../components/recipe_discovery/Library";
 
 const Home: FunctionComponent = () => {
   const recipes = {
@@ -36,32 +37,9 @@ const Home: FunctionComponent = () => {
 
       <div className="w-full flex items-start justify-center my-10 flex-col">
         <h1 className="text-[30px]">There’s more to explore</h1>
-        <div className="md:w-[500px] mt-10">
-          <div className="flex w-full flex-wrap items-stretch gap-5">
-            <input
-              type="search"
-              className="m-0 w-[100px] flex-auto rounded-[10px] border border-solid border-neutral-300 bg-transparent bg-clip-padding px-4 py-[2.5px] text-[18px] font-medium text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-darkorange focus:text-neutral-700  focus:outline-none dark:border-darkorange dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-darkorange"
-              placeholder="Search"
-              aria-label="Search"
-            />
-
-            <button
-              className="flex bg-darkorange items-center justify-center text-white p-3 text-[20px] rounded-[10px] outline-none border-none cursor-pointer"
-              type="button"
-            >
-              <BiSearch />
-            </button>
-          </div>
-        </div>
       </div>
 
-      <section className="grid grid-cols-4 w-full text-left text-[20px] text-gold-100  gap-10">
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-        <RecipeCard />
-      </section>
+      <Library></Library>
 
       <div className="w-full flex items-center justify-center my-20">
         <button className="px-6 py-3 border-none outline-none cursor-pointer text-[18px] font-bold text-white rounded-[15px] bg-gradient-to-r from-darkorange to-gold-100">

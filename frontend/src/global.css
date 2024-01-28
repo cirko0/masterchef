@@ -20,6 +20,16 @@ body {
   box-sizing: border-box;
 }
 
+.cl-userButtonPopoverActionButton__manageAccount {
+  display: none !important;
+}
+.cl-userProfile-root {
+  display: none !important;
+}
+.cl-profileSectionPrimaryButton,
+.cl-profileSectionSecondaryButton {
+  display: none !important;
+}
 .cl-avatarBox {
   width: 3rem;
   height: 3rem;
