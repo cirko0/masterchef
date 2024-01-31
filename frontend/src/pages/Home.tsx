@@ -13,7 +13,7 @@ const Home: FunctionComponent = () => {
           author: "Ivan",
           _id: "",
           name: "Garlic Bread",
-          desc: " A delectable garlic bread recipe with a perfect balance of flavors.",
+          desc: "A delectable garlic bread recipe with a perfect balance of flavors.",
         },
       ],
     },
@@ -35,7 +35,7 @@ const Home: FunctionComponent = () => {
         <ControlBox />
       </section>
 
-      <div className="w-full flex items-start justify-center my-10 flex-col">
+      <div className="w-full flex items-start justify-center mt-10 mb-5 flex-col">
         <h1 className="text-[30px]">There’s more to explore</h1>
       </div>
 

@@ -71,7 +71,7 @@ export default function Library() {
 
   return (
     <div>
-      <div className="md:w-[500px] mt-10">
+      <div className="md:w-[500px] mb-10">
         <div className="flex w-full flex-wrap items-stretch gap-5">
           <input
             type="search"
@@ -93,10 +93,7 @@ export default function Library() {
         </div>
       </div>
 
-      <div
-        className="flex flex-col md:flex-row flex-wrap gap-4 list-none ml-0 pl-0 items-center md:items-start"
-        ref={container}
-      >
+      <div className="grid grid-cols-4 my-10 gap-10" ref={container}>
         {recipes.search.isActive
           ? recipes.search.results.length > 0
             ? recipes.search.results.map((recipe: Recipe) => (
@@ -122,7 +119,7 @@ export default function Library() {
           ? recipes.recent.list.map((recipe: Recipe) => (
               <div
                 key={`library-recent-card-${recipe._id}`}
-                className="w-full h-32 md:w-[300px] md:h-[275px]"
+                className="w-full h-full"
               >
                 <Card
                   width="300px"

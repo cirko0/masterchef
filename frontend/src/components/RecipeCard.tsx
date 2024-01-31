@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 
 const RecipeCard: FunctionComponent = () => {
   return (
-    <div className="rounded-xl bg-white shadow-[5px_5px_20px_2px_rgba(0,_0,_0,_0.25)] w-full text-left p-6 cursor-pointer flex gap-6 flex-col">
+    <div className="rounded-xl bg-white shadow-[0px_0px_15px_0px_rgba(0,_0,_0,_0.15)] w-full text-left p-6 cursor-pointer flex gap-6 flex-col">
       <img
         className="rounded-xl w-full h-[150px] object-cover"
         alt=""
