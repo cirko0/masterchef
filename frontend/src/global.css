@@ -34,3 +34,11 @@ body {
   width: 3rem;
   height: 3rem;
 }
+
+.cl-footerActionLink {
+  color: darkorange;
+}
+
+.cl-footerActionLink:hover {
+  color: darkorange;
+}

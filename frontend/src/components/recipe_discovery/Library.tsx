@@ -99,7 +99,7 @@ export default function Library() {
             ? recipes.search.results.map((recipe: Recipe) => (
                 <div
                   key={`library-search-card-${recipe._id}`}
-                  className="w-full h-32 md:w-[300px] md:h-[275px]"
+                  className="w-full h-full"
                 >
                   <Card
                     width={`${cardWidth}px`}

@@ -18,10 +18,10 @@ const Card: React.FC<CardProps> = (props) => {
     return (
       <Link to={`/recipe/view/${props.obj?._id}`} className="no-underline">
         <div
-          className={`rounded-xl bg-white shadow-[0px_0px_15px_0px_rgba(0,_0,_0,_0.15)] w-full text-left p-5 cursor-pointer flex gap-5 flex-col h-full`}
+          className={`rounded-xl bg-white shadow-master w-full text-left p-5 cursor-pointer flex gap-5 flex-col h-full`}
         >
           <img
-            className="bg-gray-500 rounded-xl w-full h-[150px] object-cover"
+            className="bg-[#ebebeb] rounded-xl w-full h-[150px] object-cover"
             alt=""
             src={`${props.img}`}
           />
@@ -58,15 +58,16 @@ const Card: React.FC<CardProps> = (props) => {
   return (
     <Link to="#">
       <div
-        className={`font-poppins rounded-lg bg-white shadow-[0px_0px_15px_0px_rgba(0,_0,_0,_0.15)] card`}
-        style={{ width: props.width, height: props.height }}
+        className={`rounded-xl bg-white shadow-master w-full p-5 flex gap-5 flex-col h-full`}
       >
-        <div className="bg-[#ebebeb] animate-pulse bg-cover h-[150px] w-[90%] relative left-[5%] top-[5%] rounded-[5px]"></div>
-        <div className="font-poppins font-semibold text-lg h-[60px] w-[90%] ml-[5%] mt-[20px] text-ellipsis overflow-hidden text-ninja-blue">
-          <div className="mt-1 h-7 w-52 rounded-lg bg-[#ebebeb] animate-pulse"></div>
+        <div className="bg-[#ebebeb] animate-pulse rounded-xl w-full h-[150px] object-cover"></div>
+        <div className="flex flex-col justify-between gap-4">
+          <div className="h-6 w-52 rounded-md bg-[#ebebeb] animate-pulse"></div>
+          <div className="flex justify-between font-medium">
+            <div className="bg-[#ebebeb] animate-pulse float-left h-5 w-28 rounded-md"></div>
+            <div className="bg-[#ebebeb] animate-pulse float-right h-5 w-20 rounded-md"></div>
+          </div>
         </div>
-        <div className="bg-[#ebebeb] animate-pulse float-left relative top-2 left-[5%] h-5 w-28 rounded-md"></div>
-        <div className="bg-[#ebebeb] animate-pulse float-right relative right-[5%] top-2 h-5 w-20 rounded-md"></div>
       </div>
     </Link>
   );

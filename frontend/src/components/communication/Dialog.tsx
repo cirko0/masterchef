@@ -29,7 +29,7 @@ const Dialog: React.FC<DialogProps> = () => {
     >
       <div className="flex flex-col justify-center items-center h-full gap-3 overflow-auto">
         {dialogs.type === "loading" && (
-          <div className="text-[20px] bg-white shadow-chef h-32 min-w-[275px] max-w-[80vw] rounded-xl flex justify-center items-center gap-3 px-6 py-3">
+          <div className="text-[20px] bg-white shadow-master h-32 min-w-[275px] max-w-[80vw] rounded-xl flex justify-center items-center gap-3 px-6 py-3">
             <BiLoaderAlt className="animate-spin text-[#66bd94]" />
             <p className="font-semibold text-slate-600">
               {dialogs.message.current}

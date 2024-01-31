@@ -12,6 +12,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       <Nav />
 
       {children}
+
       <Dialog />
     </div>
   );

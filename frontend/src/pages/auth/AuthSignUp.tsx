@@ -19,7 +19,8 @@ const AuthSignUp: React.FC = () => {
               formButtonPrimary:
                 "normal-case text-md bg-darkorange hover:bg-[#fcaf5d]",
               formFieldInput: "rounded-md border-[#ebebeb]",
-              footerActionLink: "text-[#007dd3] font-medium",
+              footerActionLink:
+                "text-darkorange font-medium hover:text-darkorange",
             },
           }}
         />
