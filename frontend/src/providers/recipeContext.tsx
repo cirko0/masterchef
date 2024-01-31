@@ -1,425 +1,521 @@
-//@ts-nocheck
 /*
     * Centeralised Data and State Managment for Recipes using Context API
     TODO: Improve error handling.
 */
 
-import React, { useContext, useRef, useState } from "react";
+import React, { FC, useContext, useRef, useState } from "react";
 import { useSession } from "@clerk/clerk-react";
+import { ProviderProps } from "../interfaces/provider.interfaces";
 
-const RecipeContext = React.createContext();
+interface RecipeContextType {
+  recent: {
+    list: Recipe[];
+    count: number;
+    userList: Recipe[];
+    userCount: number;
+    get: (
+      skip?: number,
+      limit?: number,
+      updateState?: boolean
+    ) => Promise<Recipe[]>;
+    loadMore: () => Promise<void>;
+    getForUser: (
+      skip?: number,
+      limit?: number,
+      updateState?: boolean
+    ) => Promise<Recipe[]>;
+    loadMoreForUser: () => Promise<void>;
+  };
+  search: {
+    results: Recipe[];
+    isActive: boolean;
+    isPending: boolean;
+    count: number;
+    keywords: React.MutableRefObject<string>;
+    query: (
+      query: string,
+      skip?: number,
+      limit?: number,
+      updateState?: boolean
+    ) => Promise<Recipe[]>;
+    loadMore: () => Promise<void>;
+  };
+  specific: {
+    state: Recipe | {};
+    get: (idx: string) => Promise<Recipe>;
+  };
+  config: {
+    pageLength: React.MutableRefObject<number>;
+    setPageLength: (length: number) => Promise<void>;
+  };
+  io: {
+    add: (data: Recipe) => Promise<any>;
+    delete: (data: { idx: string }) => Promise<string>;
+    attachImage: (image: File) => Promise<any>;
+    getSubmissionStatus: (idx: string) => Promise<any>;
+    update: (data: Recipe) => Promise<any>;
+    updateImage: (image: File, idx: string) => Promise<any>;
+  };
+}
+
+export interface Recipe {
+  id: string;
+  title: string;
+  description: string;
+  ingredients: string[];
+  instructions: string;
+  imageUrl: string;
+}
+
+const RecipeContext = React.createContext<RecipeContextType | undefined>(
+  undefined
+);
+
 const BACKEND_URI = process.env.REACT_APP_BACKEND_URI;
 
-export const useRecipes = () => {
-  return useContext(RecipeContext);
+export const useRecipes = (): RecipeContextType => {
+  const context = useContext(RecipeContext);
+
+  if (!context) {
+    throw new Error("useRecipes must be used within a RecipeProvider");
+  }
+
+  return context;
 };
 
-export const RecipeProvider = ({ children }) => {
-  const recipes = {};
+export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
   const { session } = useSession();
 
-  /*! Defining Provider Services */
+  const recipes: RecipeContextType = {
+    recent: {
+      list: [],
+      count: 0,
+      userList: [],
+      userCount: 0,
 
-  recipes.recent = {}; // Provides recipe list by recency
-  recipes.search = {}; // Provides search results
-  recipes.specific = {}; // Provides detailed object of a specific recipe
-  recipes.config = {}; // Provides editable config paramenters for the provider
-  recipes.io = {}; // Provides addition, deletion & edit methods for recipes
+      get: async (
+        skip = 0,
+        limit = config.pageLength.current,
+        updateState = true
+      ) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const result = await fetch(
+              `${BACKEND_URI}/api/v1/recipes/${skip}/${limit}`
+            ).then((raw) => raw.json());
 
-  /* Defining states & references of appliable services */
+            if (updateState) setRecentList(result.recipes);
+            setRecentCount(result.count);
 
-  //* Recent
+            resolve(result.recipes);
+          } catch (e) {
+            alert(
+              "Could not load recipes, please check your internet connection and refresh the page"
+            );
+          }
+        });
+      },
 
-  let setRecentList, setRecentCount, setRecentUserList, setRecentUserCount;
+      loadMore: async () => {
+        return new Promise(async (resolve) => {
+          try {
+            const results = await recipes.recent.get(
+              recent.list.length,
+              config.pageLength.current,
+              false
+            );
 
-  [recipes.recent.list, setRecentList] = useState([]);
-  [recipes.recent.count, setRecentCount] = useState(0);
+            console.log(recipes.recent.list.concat(results));
 
-  [recipes.recent.userList, setRecentUserList] = useState([]);
-  [recipes.recent.userCount, setRecentUserCount] = useState(0);
+            setRecentList(recipes.recent.list.concat(results));
+
+            resolve();
+          } catch (error) {
+            resolve();
+          }
+        });
+      },
+
+      getForUser: async (
+        skip = 0,
+        limit = config.pageLength.current,
+        updateState = true
+      ) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+            const result = await fetch(
+              `${BACKEND_URI}/api/v1/recipes/user/${skip}/${limit}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            ).then((raw) => raw.json());
+
+            if (updateState) setRecentUserList(result.recipes);
+            setRecentUserCount(result.count);
+
+            resolve(result.recipes);
+          } catch (e) {
+            console.log(e);
+            alert(
+              "Could not load recipes, please check your internet connection and refresh the page"
+            );
+          }
+        });
+      },
+
+      loadMoreForUser: async () => {
+        return new Promise(async (resolve) => {
+          try {
+            const results = await recipes.recent.getForUser(
+              recent.userList.length,
+              config.pageLength.current,
+              false
+            );
+
+            setRecentUserList(recent.userList.concat(results));
+
+            resolve();
+          } catch (error) {
+            resolve();
+          }
+        });
+      },
+    },
+    search: {
+      results: [],
+      isActive: false,
+      isPending: false,
+      count: 1,
+      keywords: useRef(""),
+
+      query: async (
+        query,
+        skip = 0,
+        limit = config.pageLength.current,
+        updateState = true
+      ) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (query.length < 3) {
+              setSearchResults([]);
+              setSearchIsPending(false);
+              setSearchIsActive(false);
+
+              search.keywords.current = "";
+
+              resolve(search.results);
+              return;
+            }
+
+            if (updateState) {
+              setSearchIsActive(true);
+              setSearchIsPending(true);
+            }
+
+            const result = await fetch(
+              `${BACKEND_URI}/api/v1/search/${skip}/${limit}?q=${query}`
+            ).then((rawData) => rawData.json());
+            console.log(result);
+            if (updateState) {
+              setSearchIsPending(false);
+              setSearchResults(result);
+
+              search.keywords.current = query;
+            }
+
+            if (result.length > 0) setSearchCount(result[0].meta.count.total);
+            else setSearchCount(0);
+
+            resolve(result);
+          } catch (e) {
+            console.log(e);
+            alert(
+              "Could not load search results, please check your internet connection and refresh the page"
+            );
+            resolve(search.results);
+          }
+        });
+      },
+
+      loadMore: async () => {
+        return new Promise(async (resolve) => {
+          try {
+            const results = await recipes.search.query(
+              search.keywords.current,
+              search.results.length,
+              config.pageLength.current
+            );
+
+            setSearchResults(recipes.search.results.concat(results));
+
+            resolve();
+          } catch (error) {
+            resolve();
+          }
+        });
+      },
+    },
+    specific: {
+      state: {},
+
+      get: async (idx) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const result = await fetch(
+              `${BACKEND_URI}/api/v1/recipes/${idx}`
+            ).then((rawData) => rawData.json());
+
+            setSpecific(result);
+            resolve(result);
+          } catch (e) {
+            alert(
+              "Could not load recipes, please check your internet connection and refresh the page"
+            );
+          }
+        });
+      },
+    },
+    config: {
+      pageLength: useRef(10),
+
+      setPageLength: (length) => {
+        return new Promise((resolve) => {
+          config.pageLength.current = length;
+          resolve();
+        });
+      },
+    },
+    io: {
+      add: async (data) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+
+            let res = await fetch(`${BACKEND_URI}/api/v1/recipes`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(data),
+            });
+
+            res = await res.json();
+
+            recipes.recent.get();
+
+            resolve(res);
+          } catch (error) {
+            alert(
+              "Something went wrong while submitting the recipe, please try again!"
+            );
+          }
+        });
+      },
+
+      delete: async (data) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+            await fetch(`${BACKEND_URI}/api/v1/recipes/${data.idx}`, {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${token}` },
+            }).then((res) => res.json());
+
+            recent.get();
+            recent.getForUser();
+
+            resolve(data.idx);
+          } catch (error) {
+            alert("Couldn't delete recipe - please check your connection");
+            reject();
+          }
+        });
+      },
+
+      attachImage: async (image) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+
+            const formData = new FormData();
+            formData.append("image", image);
+
+            let res = await fetch(
+              `${BACKEND_URI}/api/v1/recipes/images/upload`,
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+
+                body: formData,
+              }
+            );
+
+            res = await res.json();
+
+            //recipes.recent.get();
+
+            resolve(res);
+          } catch (error) {
+            console.log(error);
+            alert(
+              "Something went wrong while uploading the image, please try again!"
+            );
+            reject();
+          }
+        });
+      },
+
+      getSubmissionStatus: async (idx) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+
+            let res = await fetch(`${BACKEND_URI}/api/v1/submissions/${idx}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            });
+
+            res = await res.json();
+
+            resolve(res);
+          } catch (error) {
+            console.log(error);
+            alert(
+              "Something went wrong while getting the status, please try again!"
+            );
+          }
+        });
+      },
+
+      update: async (data) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+
+            let res = await fetch(`${BACKEND_URI}/api/v1/recipes`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(data),
+            });
+
+            res = await res.json();
+
+            recipes.recent.get();
+
+            resolve(res);
+          } catch (error) {
+            alert(
+              "Something went wrong while updatting the recipe, please try again!"
+            );
+          }
+        });
+      },
+
+      updateImage: async (image, idx) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            if (!session)
+              throw new Error("You are not authenticated. Please login!");
+
+            const token = await session.getToken();
+
+            const formData = new FormData();
+
+            formData.append("image", image);
+
+            let res = await fetch(
+              `${BACKEND_URI}/api/v1/recipes/images/upload/${idx}`,
+              {
+                method: "PUT",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+
+                body: formData,
+              }
+            );
+
+            res = await res.json();
+
+            //recipes.recent.get();
+
+            resolve(res);
+          } catch (error) {
+            console.log(error);
+            alert(
+              "Something went wrong while updating the image, please try again!"
+            );
+            reject();
+          }
+        });
+      },
+    },
+  };
+
+  let setRecentList: React.Dispatch<React.SetStateAction<Recipe[] | []>>,
+    setRecentCount: React.Dispatch<React.SetStateAction<number>>,
+    setRecentUserList: React.Dispatch<React.SetStateAction<Recipe[] | []>>,
+    setRecentUserCount: React.Dispatch<React.SetStateAction<number>>;
+
+  [recipes.recent.list, setRecentList] = useState<Recipe[]>([]);
+  [recipes.recent.count, setRecentCount] = useState<number>(1);
+
+  [recipes.recent.userList, setRecentUserList] = useState<Recipe[]>([]);
+  [recipes.recent.userCount, setRecentUserCount] = useState<number>(0);
 
   const recent = recipes.recent;
 
   //* Search
 
-  let setSearchResults, setSearchIsActive, setSearchIsPending, setSearchCount;
+  let setSearchResults: React.Dispatch<React.SetStateAction<Recipe[] | []>>,
+    setSearchIsActive: React.Dispatch<React.SetStateAction<boolean>>,
+    setSearchIsPending: React.Dispatch<React.SetStateAction<boolean>>,
+    setSearchCount: React.Dispatch<React.SetStateAction<number>>;
 
-  [recipes.search.results, setSearchResults] = useState([]);
-  [recipes.search.isActive, setSearchIsActive] = useState(false);
-  [recipes.search.isPending, setSearchIsPending] = useState(false);
-  [recipes.search.count, setSearchCount] = useState(false);
-
-  recipes.search.keywords = useRef("");
+  [recipes.search.results, setSearchResults] = useState<Recipe[]>([]);
+  [recipes.search.isActive, setSearchIsActive] = useState<boolean>(false);
+  [recipes.search.isPending, setSearchIsPending] = useState<boolean>(false);
+  [recipes.search.count, setSearchCount] = useState<number>(0);
 
   const search = recipes.search;
 
   //* Specific
 
-  let setSpecific;
+  let setSpecific: React.Dispatch<React.SetStateAction<Recipe | {}>>;
 
-  [recipes.specific.state, setSpecific] = useState({});
+  [recipes.specific.state, setSpecific] = useState<Recipe | {}>({});
 
   const specific = recipes.specific;
 
   //* Config
 
-  recipes.config.pageLength = useRef(10);
-
   const config = recipes.config;
-
-  /* Defining mehtods of applicable services */
-
-  //* IO Service
-
-  recipes.io.add = async (data) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-
-        let res = await fetch(`${BACKEND_URI}/api/v1/recipes`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        });
-
-        res = await res.json();
-
-        recipes.recent.get();
-
-        resolve(res);
-      } catch (error) {
-        alert(
-          "Something went wrong while submitting the recipe, please try again!"
-        );
-      }
-    });
-  };
-
-  recipes.io.delete = async (data) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-        await fetch(`${BACKEND_URI}/api/v1/recipes/${data.idx}`, {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }).then((res) => res.json());
-
-        recent.get();
-        recent.getForUser();
-
-        resolve(data.idx);
-      } catch (error) {
-        alert("Couldn't delete recipe - please check your connection");
-        reject();
-      }
-    });
-  };
-
-  recipes.io.attachImage = async (image) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-
-        const formData = new FormData();
-        formData.append("image", image);
-
-        let res = await fetch(`${BACKEND_URI}/api/v1/recipes/images/upload`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-
-          body: formData,
-        });
-
-        res = await res.json();
-
-        //recipes.recent.get();
-
-        resolve(res);
-      } catch (error) {
-        console.log(error);
-        alert(
-          "Something went wrong while uploading the image, please try again!"
-        );
-        reject();
-      }
-    });
-  };
-
-  recipes.io.getSubmissionStatus = async (idx) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-
-        let res = await fetch(`${BACKEND_URI}/api/v1/submissions/${idx}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        res = await res.json();
-
-        resolve(res);
-      } catch (error) {
-        console.log(error);
-        alert(
-          "Something went wrong while getting the status, please try again!"
-        );
-      }
-    });
-  };
-
-  recipes.io.update = async (data) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-
-        let res = await fetch(`${BACKEND_URI}/api/v1/recipes`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        });
-
-        res = await res.json();
-
-        recipes.recent.get();
-
-        resolve(res);
-      } catch (error) {
-        alert(
-          "Something went wrong while updatting the recipe, please try again!"
-        );
-      }
-    });
-  };
-
-  recipes.io.updateImage = async (image, idx) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-
-        const formData = new FormData();
-
-        formData.append("image", image);
-
-        let res = await fetch(
-          `${BACKEND_URI}/api/v1/recipes/images/upload/${idx}`,
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-
-            body: formData,
-          }
-        );
-
-        res = await res.json();
-
-        //recipes.recent.get();
-
-        resolve(res);
-      } catch (error) {
-        console.log(error);
-        alert(
-          "Something went wrong while updating the image, please try again!"
-        );
-        reject();
-      }
-    });
-  };
-
-  //* Recent
-
-  recipes.recent.get = async (
-    skip = 0,
-    limit = config.pageLength.current,
-    updateState = true
-  ) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await fetch(
-          `${BACKEND_URI}/api/v1/recipes/${skip}/${limit}`
-        ).then((raw) => raw.json());
-
-        if (updateState) setRecentList(result.recipes);
-        setRecentCount(result.count);
-
-        resolve(result.recipes);
-      } catch (e) {
-        alert(
-          "Could not load recipes, please check your internet connection and refresh the page"
-        );
-      }
-    });
-  };
-
-  recipes.recent.loadMore = async () => {
-    return new Promise(async (resolve) => {
-      try {
-        const results = await recipes.recent.get(
-          recent.list.length,
-          config.pageLength.current,
-          false
-        );
-
-        console.log(recipes.recent.list.concat(results));
-
-        setRecentList(recipes.recent.list.concat(results));
-
-        resolve();
-      } catch (error) {
-        resolve();
-      }
-    });
-  };
-
-  recipes.recent.getForUser = async (
-    skip = 0,
-    limit = config.pageLength.current,
-    updateState = true
-  ) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const token = await session.getToken();
-        const result = await fetch(
-          `${BACKEND_URI}/api/v1/recipes/user/${skip}/${limit}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        ).then((raw) => raw.json());
-
-        if (updateState) setRecentUserList(result.recipes);
-        setRecentUserCount(result.count);
-
-        resolve(result.recipes);
-      } catch (e) {
-        console.log(e);
-        alert(
-          "Could not load recipes, please check your internet connection and refresh the page"
-        );
-      }
-    });
-  };
-
-  recipes.recent.loadMoreForUser = async () => {
-    return new Promise(async (resolve) => {
-      try {
-        const results = await recipes.recent.getForUser(
-          recent.userList.length,
-          config.pageLength.current,
-          false
-        );
-
-        setRecentUserList(recent.userList.concat(results));
-
-        resolve();
-      } catch (error) {
-        resolve();
-      }
-    });
-  };
-
-  //* Search
-  recipes.search.query = async (
-    query,
-    skip = 0,
-    limit = config.pageLength.current,
-    updateState = true
-  ) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (query.length < 3) {
-          setSearchResults([]);
-          setSearchIsPending(false);
-          setSearchIsActive(false);
-
-          search.keywords.current = "";
-
-          resolve(search.results);
-          return;
-        }
-
-        if (updateState) {
-          setSearchIsActive(true);
-          setSearchIsPending(true);
-        }
-
-        const result = await fetch(
-          `${BACKEND_URI}/api/v1/search/${skip}/${limit}?q=${query}`
-        ).then((rawData) => rawData.json());
-
-        if (updateState) {
-          setSearchIsPending(false);
-          setSearchResults(result);
-
-          search.keywords.current = query;
-        }
-
-        if (result.length > 0) setSearchCount(result[0].meta.count.total);
-        else setSearchCount(0);
-
-        resolve(result);
-      } catch (e) {
-        console.log(e);
-        alert(
-          "Could not load search results, please check your internet connection and refresh the page"
-        );
-        resolve(search.results);
-      }
-    });
-  };
-
-  recipes.search.loadMore = async () => {
-    return new Promise(async (resolve) => {
-      try {
-        const results = await recipes.search.query(
-          search.keywords.current,
-          search.results.length,
-          config.pageLength.current
-        );
-
-        setSearchResults(recipes.search.results.concat(results));
-
-        resolve();
-      } catch (error) {
-        resolve();
-      }
-    });
-  };
-
-  //* Config
-  recipes.config.setPageLength = (length) => {
-    return new Promise((resolve) => {
-      config.pageLength.current = length;
-      resolve();
-    });
-  };
-
-  //* Specific
-  recipes.specific.get = async (idx) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await fetch(`${BACKEND_URI}/api/v1/recipes/${idx}`).then(
-          (rawData) => rawData.json()
-        );
-
-        setSpecific(result);
-        resolve(result);
-      } catch (e) {
-        alert(
-          "Could not load recipes, please check your internet connection and refresh the page"
-        );
-      }
-    });
-  };
 
   return (
     <RecipeContext.Provider value={recipes}>{children}</RecipeContext.Provider>

@@ -18,7 +18,29 @@ const search = {
     limit: number
   ): Promise<SearchQueryResult> => {
     try {
+      const aggregationPipeline = [
+        {
+          $searchMeta: {
+            index: "searchRecipes",
+            text: {
+              query: keywords,
+              path: ["name", "author", "diet"],
+              fuzzy: {},
+            },
+            count: {
+              type: "total",
+            },
+          },
+        },
+      ];
+
+      // TODO: Fix search
+
       // Use MongoDB's full-text search on the Recipe collection
+      const searchMetadata = await db.Recipe.aggregate(
+        aggregationPipeline as any
+      );
+
       const recipeData: any[] = await db.Recipe.find(
         { $text: { $search: keywords } },
         { score: { $meta: "textScore" } }
@@ -36,6 +58,9 @@ const search = {
         .lean();
 
       console.log(recipeData);
+      console.log(recipeData.length);
+
+      console.log(searchMetadata);
 
       if (recipeData.length === 0) {
         return { code: 404, msg: "No matching recipes found" };
