@@ -1,70 +1,65 @@
+import { Types } from "mongoose";
 import db from "../config/db.config";
 
-interface SearchFilters {
-  // Define your filter properties here if needed
+interface RecipeSearch {
+  _id: Types.ObjectId;
+  name: string;
+  author: string;
+  diet: string;
+  img_url: string;
+  meta: { count: { total: number } };
 }
 
 interface SearchQueryResult {
   code: number;
-  data?: any[]; // Replace 'any[]' with the actual data type of your search results
+  data?: RecipeSearch[]; // Replace 'any[]' with the actual data type of your search results
   msg?: string;
 }
 
 const search = {
   query: async (
     keywords: string,
-    filters: SearchFilters = {},
+    filters: any = {},
     skip: number,
     limit: number
   ): Promise<SearchQueryResult> => {
     try {
-      const aggregationPipeline = [
+      let querySpec = [
         {
-          $searchMeta: {
+          $search: {
             index: "searchRecipes",
+            count: {
+              type: "total",
+            },
             text: {
               query: keywords,
               path: ["name", "author", "diet"],
               fuzzy: {},
             },
-            count: {
-              type: "total",
-            },
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: limit,
+        },
+        {
+          $project: {
+            name: true,
+            author: true,
+            diet: true,
+            img_url: true,
+            meta: "$$SEARCH_META",
           },
         },
       ];
 
-      // TODO: Fix search
+      let recipeData: RecipeSearch[] = [];
 
-      // Use MongoDB's full-text search on the Recipe collection
-      const searchMetadata = await db.Recipe.aggregate(
-        aggregationPipeline as any
-      );
-
-      const recipeData: any[] = await db.Recipe.find(
-        { $text: { $search: keywords } },
-        { score: { $meta: "textScore" } }
-      )
-        .sort({ score: { $meta: "textScore" } })
-        .skip(skip)
-        .limit(limit)
-        .select({
-          name: true,
-          author: true,
-          diet: true,
-          img_url: true,
-          score: { $meta: "textScore" },
-        })
-        .lean();
+      recipeData = await db.Recipe.aggregate(querySpec);
 
       console.log(recipeData);
-      console.log(recipeData.length);
-
-      console.log(searchMetadata);
-
-      if (recipeData.length === 0) {
-        return { code: 404, msg: "No matching recipes found" };
-      }
 
       return { code: 200, data: recipeData };
     } catch (error) {
