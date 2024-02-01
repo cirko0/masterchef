@@ -18,7 +18,7 @@ export default function Library() {
 
   let query = "";
   const cardHeight = 275;
-  const cardWidth = 300;
+  const cardWidth = 320;
   const container = useRef<HTMLDivElement>(null);
 
   const [loadingMore, setLoadingMore] = useState(false);
@@ -29,10 +29,13 @@ export default function Library() {
         (container.current?.offsetWidth || 0) / (cardWidth + 16)
       );
       if (cardsPerRow === 1) cardsPerRow = 3;
+
       recipes.config.setPageLength(cardsPerRow * 2);
+
       if (searchInput.current) {
         searchInput.current.value = recipes.search.keywords.current;
       }
+
       await recipes.recent.get();
     };
 
@@ -63,19 +66,19 @@ export default function Library() {
 
   const defaultState = (
     <>
-      <Card width="300px" height="275px"></Card>
-      <Card width="300px" height="275px"></Card>
-      <Card width="300px" height="275px"></Card>
+      <Card width="320px" height="275px"></Card>
+      <Card width="320px" height="275px"></Card>
+      <Card width="320px" height="275px"></Card>
     </>
   );
 
   return (
     <div>
       <div className="md:w-[500px] mb-10">
-        <div className="flex w-full flex-wrap items-stretch gap-5">
+        <div className="flex w-full">
           <input
             type="search"
-            className="m-0 w-[100px] flex-auto rounded-[10px] border border-solid border-neutral-300 bg-transparent bg-clip-padding px-4 py-[2.5px] text-[18px] font-medium text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-darkorange focus:text-neutral-700  focus:outline-none dark:border-darkorange dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-darkorange"
+            className="m-0 w-[100px] h-10 flex-auto rounded-[10px] border border-solid border-neutral-300 bg-transparent bg-clip-padding pl-4 pr-2 text-[16px] font-medium text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-darkorange focus:text-neutral-700  focus:outline-none dark:border-darkorange dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-darkorange rounded-tr-none rounded-br-none"
             placeholder="Search"
             aria-label="Search"
             ref={searchInput}
@@ -83,13 +86,9 @@ export default function Library() {
               search(e.target.value)
             }
           />
-
-          <button
-            className="flex bg-darkorange items-center justify-center text-white p-3 text-[20px] rounded-[10px] outline-none border-none cursor-pointer"
-            type="button"
-          >
-            <BiSearch />
-          </button>
+          <div className="h-full bg-darkorange flex items-center justify-center p-[10px] text-white rounded-tr-[10px] rounded-br-[10px] text-[20px]">
+            <BiSearch className="" />
+          </div>
         </div>
       </div>
 
@@ -99,7 +98,7 @@ export default function Library() {
             ? recipes.search.results.map((recipe: Recipe) => (
                 <div
                   key={`library-search-card-${recipe._id}`}
-                  className="w-full h-full"
+                  className="w-[320px] h-[275px]"
                 >
                   <Card
                     width={`${cardWidth}px`}
@@ -119,10 +118,10 @@ export default function Library() {
           ? recipes.recent.list.map((recipe: Recipe) => (
               <div
                 key={`library-recent-card-${recipe._id}`}
-                className="w-full h-full"
+                className="w-[320px] h-[275px]"
               >
                 <Card
-                  width="300px"
+                  width="320px"
                   height="275px"
                   name={recipe.name}
                   chef={recipe.author}

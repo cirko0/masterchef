@@ -27,6 +27,17 @@ function App() {
                   </DefaultLayout>
                 }
               />
+
+              {/* TODO: Create view */}
+              {/* <Route
+                path="/recipe/view/:idx"
+                element={
+                  <DefaultLayout>
+                    <RecipeView />
+                  </DefaultLayout>
+                }
+              /> */}
+
               <Route
                 path="/auth/signin"
                 element={

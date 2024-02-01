@@ -11,9 +11,9 @@ interface FeaturedBannerProps {
 
 const FeaturedBanner: React.FC<FeaturedBannerProps> = (props) => {
   return (
-    <div className="rounded-xl bg-darkorange p-10 col-span-2 ">
+    <div className="rounded-xl bg-darkorange p-6 col-span-2 h-[275px]">
       <Link to={`/recipe/view/${props.id}`} className="no-underline">
-        <div className="flex flex-col gap-5 ">
+        <div className="flex flex-col gap-2 ">
           <h1 className="font-bold text-[30px] text-white">Featured</h1>
 
           {props.name && (

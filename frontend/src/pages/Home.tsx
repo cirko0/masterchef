@@ -22,7 +22,7 @@ const Home: FunctionComponent = () => {
           />
         )}
         <div className="hidden lg:flex">
-          <div className="w-full h-full">
+          <div className="w-[320px] h-[275px]">
             {recipes.recent.list.length === 0 && <Card />}
             {recipes.recent.list.length > 0 && (
               <Card
