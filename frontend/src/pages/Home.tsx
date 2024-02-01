@@ -1,23 +1,13 @@
 import { FunctionComponent, useEffect } from "react";
-import RecipeCard from "../components/RecipeCard";
-import { BiSearch } from "react-icons/bi";
 import FeaturedBanner from "../components/navigation/FeaturedBanner";
 import ControlBox from "../components/navigation/ControlBox";
 import Library from "../components/recipe_discovery/Library";
+import { useRecipes } from "../providers/recipeContext";
+import Card from "../components/recipe_discovery/Card";
 
 const Home: FunctionComponent = () => {
-  const recipes = {
-    recent: {
-      list: [
-        {
-          author: "Ivan",
-          _id: "",
-          name: "Garlic Bread",
-          desc: "A delectable garlic bread recipe with a perfect balance of flavors.",
-        },
-      ],
-    },
-  };
+  const recipes = useRecipes();
+
   return (
     <>
       <section className="grid grid-cols-4 my-14 gap-10">
@@ -31,7 +21,20 @@ const Home: FunctionComponent = () => {
             text={recipes.recent.list[0].desc}
           />
         )}
-        <RecipeCard />
+        <div className="hidden lg:flex">
+          <div className="w-full h-full">
+            {recipes.recent.list.length === 0 && <Card />}
+            {recipes.recent.list.length > 0 && (
+              <Card
+                name={recipes.recent.list[0].name}
+                type={recipes.recent.list[0].diet}
+                chef={recipes.recent.list[0].author}
+                img={`${recipes.recent.list[0].img_url}/ncThumbnail`}
+                obj={recipes.recent.list[0]}
+              />
+            )}
+          </div>
+        </div>
         <ControlBox />
       </section>
 

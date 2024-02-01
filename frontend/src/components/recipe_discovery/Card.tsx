@@ -7,8 +7,6 @@ interface CardProps {
     _id: string;
   };
   img?: string;
-  width: string;
-  height: string;
   chef?: string;
   type?: string;
 }

@@ -59,12 +59,20 @@ interface RecipeContextType {
 }
 
 export interface Recipe {
-  id: string;
-  title: string;
-  description: string;
-  ingredients: string[];
-  instructions: string;
-  imageUrl: string;
+  _id: string;
+  name: string;
+  author: string;
+  cooking_time: number;
+  diet: string;
+  img_url: string;
+  ingredients: Record<string, unknown>;
+  steps: string[];
+  allergies: string[];
+  intro: string;
+  desc: string;
+  health_score: number;
+  health_reason: string;
+  userId: string;
 }
 
 const RecipeContext = React.createContext<RecipeContextType | undefined>(
@@ -477,6 +485,8 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
       },
     },
   };
+
+  //* Recent
 
   let setRecentList: React.Dispatch<React.SetStateAction<Recipe[] | []>>,
     setRecentCount: React.Dispatch<React.SetStateAction<number>>,
