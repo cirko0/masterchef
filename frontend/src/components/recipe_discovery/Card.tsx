@@ -26,11 +26,11 @@ const Card: React.FC<CardProps> = (props) => {
           ></div>
 
           <div className="w-[70%] md:w-full flex flex-col p-3 md:px-4 md:pt-0 md:mt-5 grow">
-            <div
-              className="h-12 md:h-[54px] w-full
-                    overflow-hidden"
-            >
-              <span className="font-semibold text-xl text-black md:text-lg line-clamp-2 capitalize">
+            <div>
+              <span
+                className="h-12 md:h-[54px] w-full
+                    font-semibold text-lg text-black md:text-xl line-clamp-2 capitalize"
+              >
                 {props.name}
               </span>
             </div>
@@ -38,24 +38,24 @@ const Card: React.FC<CardProps> = (props) => {
             <div className="grow hidden md:block"></div>
 
             <div className="flex flex-col md:flex-row">
-              <span className="mt-4 md:mt-0 font-normal text-darkorange text-base truncate grow">
+              <span className="mt-4 md:mt-0 font-normal text-darkorange md:text-base text-sm truncate grow">
                 {props.chef}
               </span>
 
               {props.type?.toLowerCase() === "vegetarian" && (
-                <span className="text-base capitalize truncate text-[#119C72]">
+                <span className="md:text-base text-sm capitalize truncate font-light text-[#119C72]">
                   Vegetarian
                 </span>
               )}
 
               {props.type?.toLowerCase() === "non-vegetarian" && (
-                <span className="text-base capitalize truncate text-[#9c1a11]">
+                <span className="md:text-base text-sm capitalize truncate font-light text-[#9c1a11]">
                   Non-Vegetarian
                 </span>
               )}
 
               {props.type?.toLowerCase() === "vegan" && (
-                <span className="text-base capitalize truncate text-[#2f9c11]">
+                <span className="md:text-base text-sm capitalize truncate font-light text-[#2f9c11]">
                   Vegan
                 </span>
               )}

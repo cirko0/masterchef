@@ -14,23 +14,23 @@ const FeaturedBanner: React.FC<FeaturedBannerProps> = (props) => {
     <div className="rounded-3xl bg-darkorange py-5 px-7 grow">
       <Link to={`/recipe/view/${props.id}`} className="no-underline">
         <div className="flex flex-col grow gap-y-2">
-          <h1 className="font-semibold text-[30px] md:text-2xl text-white">
+          <h1 className="font-semibold text-2xl md:text-3xl text-white">
             Featured
           </h1>
 
           {props.name && (
-            <h2 className="lg:hidden font-medium md:text-xl capitalize text-white">
+            <h2 className="lg:hidden font-semibold text-lg md:text-xl capitalize text-white">
               {props.author}'s {props.name}
             </h2>
           )}
           {props.text && (
-            <h2 className="italic font-medium text-sm md:text-base lg:text-lg text-white">
+            <h2 className="italic font-semibold text-sm md:text-base lg:text-lg text-white">
               {props.text}
             </h2>
           )}
 
           {props.text && (
-            <h3 className="text-sm md:text-base lg:hidden text-white">
+            <h3 className="text-sm md:text-base lg:hidden text-white flex items-center">
               Take a look &nbsp;
               <BiRightArrowAlt className="text-[20px]" />
             </h3>
@@ -43,7 +43,7 @@ const FeaturedBanner: React.FC<FeaturedBannerProps> = (props) => {
             <div className="mt-1 h-7 w-[64%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
           )}
           {!props.text && (
-            <div className="md:hidden mt-1 h-7 w-[64%] rounded-lg bg-[#ebebeb] animate-pulse"></div>
+            <div className="md:hidden mt-1 h-7 w-[64%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
           )}
         </div>
       </Link>

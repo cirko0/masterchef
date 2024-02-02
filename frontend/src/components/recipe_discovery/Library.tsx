@@ -26,9 +26,10 @@ export default function Library() {
   useEffect(() => {
     const loadRecipes = async () => {
       let cardsPerRow = Math.floor(
-        (container.current?.offsetWidth || 0) / (cardWidth + 16)
+        (container.current?.offsetWidth || 0) / (cardWidth + 24)
       );
-      if (cardsPerRow === 1) cardsPerRow = 3;
+
+      if (cardsPerRow === 1) cardsPerRow = 4;
 
       recipes.config.setPageLength(cardsPerRow * 2);
 
@@ -77,11 +78,11 @@ export default function Library() {
       <section className="mb-5 flex gap-8">
         <div
           className="flex items-center h-10 grow bg-slate-100 
-                text-black font-semibold rounded-lg py-1 px-3"
+                text-black rounded-lg py-1 px-3"
         >
           <input
             type="search"
-            className="h-full text-base grow bg-white/0 focus:outline-none focus:ring-0 border-0"
+            className="h-full text-base font-semibold grow bg-white/0 focus:outline-none focus:ring-0 border-0"
             placeholder="Search"
             ref={searchInput}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -93,7 +94,7 @@ export default function Library() {
           </div>
         </div>
 
-        <div className="w-[300px] lg:w-[600px] hidden md:block"></div>
+        <div className="w-[320px] lg:w-[600px] hidden md:block"></div>
       </section>
 
       <div

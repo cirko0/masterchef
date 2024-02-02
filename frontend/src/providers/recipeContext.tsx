@@ -224,10 +224,11 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
       },
     },
     config: {
-      pageLength: useRef<number>(10),
+      pageLength: useRef<number>(8),
 
       setPageLength: (length) => {
         return new Promise((resolve) => {
+          console.log(length);
           config.pageLength.current = length;
           resolve();
         });
