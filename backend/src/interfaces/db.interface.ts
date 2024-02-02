@@ -1,22 +1,22 @@
 import { Model } from "mongoose";
 
-interface Recipe {
-  name: string;
-  author: string;
-  cooking_time: number;
-  diet: string;
-  img_url?: string;
-  ingredients?: Record<string, unknown>;
-  steps: string[];
-  allergies: string[];
-  intro: string;
-  desc: string;
-  health_score: number;
-  health_reason: string;
-  userId?: string;
+// DB
+
+export interface Database {
+  connect: () => Promise<void>;
+  Recipe: Model<RecipeDocument>;
+  PendingSubmission: Model<PendingSubmissionDocument>;
 }
 
-interface RecipeDocument extends Recipe, Document {}
+// Documents
+
+export interface RecipeDocument extends Recipe, Document {}
+
+export interface PendingSubmissionDocument
+  extends PendingSubmission,
+    Document {}
+
+// Models
 
 interface PendingSubmission {
   recipeId?: string;
@@ -27,12 +27,24 @@ interface PendingSubmission {
   log?: string;
 }
 
-interface PendingSubmissionDocument extends PendingSubmission, Document {}
-
-interface Database {
-  connect: () => Promise<void>;
-  Recipe: Model<RecipeDocument>;
-  PendingSubmission: Model<PendingSubmissionDocument>;
+export interface Recipe {
+  name: string;
+  author: string;
+  cooking_time: number | undefined;
+  diet: string;
+  img_url: string | undefined;
+  ingredients: Ingredient[];
+  steps: string[];
+  allergies: [];
+  intro: string;
+  desc: string;
+  health_score: number;
+  health_reason: string;
+  userId: string;
 }
 
-export { Database, RecipeDocument, PendingSubmissionDocument };
+export interface Ingredient {
+  name: string;
+  steps: number[];
+  category: string;
+}

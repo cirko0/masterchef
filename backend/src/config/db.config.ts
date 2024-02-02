@@ -31,7 +31,7 @@ const db: Database = {
       cooking_time: { type: Number, required: true },
       diet: { type: String, required: true },
       img_url: { type: String },
-      ingredients: { type: Object },
+      ingredients: { type: [Object] },
       steps: { type: [String], required: true },
       allergies: { type: [String], required: true },
       intro: { type: String, required: true },

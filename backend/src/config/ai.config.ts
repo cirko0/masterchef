@@ -7,6 +7,7 @@ import {
 import { AI, GPTResponse, Prompts } from "../interfaces/ai.interface";
 
 // API Config
+
 const OpenAI = new OpenAIApi(
   new Configuration({
     apiKey: process.env.OPENAI_KEY,

@@ -1,66 +1,35 @@
-import {
-  ChatCompletionRequestMessage,
-  ChatCompletionRequestMessageRoleEnum,
-  ImagesResponseDataInner,
-} from "openai";
+import { ImagesResponseDataInner } from "openai";
+import { Recipe } from "./db.interface";
+
+// AI
 
 interface AI {
-  gpt(
-    instruction: {
-      role: string;
-      content: string;
-    }[]
-  ): Promise<GPTResponse>;
+  gpt(instruction: Prompt[]): Promise<any>;
   dalle(prompt: string): Promise<ImagesResponseDataInner>;
 }
 
-interface GPTResponse {
-  ingredients: any;
-  diet: string;
-  name: string;
-  author: string;
-  cooking_time: number | undefined;
-  steps: string[];
-  userId: string | undefined;
-  img_url: string | undefined;
-  allergies: any;
-  health_reason: any;
-  health_score: any;
+interface GPTResponse extends Recipe {
   prompt?: string;
   spam_score: number;
   score_reason: string;
 }
 
+// Prompts
+
+interface Prompt {
+  role: string;
+  content: string;
+}
+
 interface Prompts {
-  base: {
-    role: string;
-    content: string;
-  };
-  recipeContext(recipeData: string): { role: string; content: string };
-  recipeObject: {
-    role: string;
-    content: string;
-  };
-  recipeIngredientsArray: {
-    role: string;
-    content: string;
-  };
-  allRecipeMetadata: {
-    role: string;
-    content: string;
-  };
-  recipeIngredients: {
-    role: string;
-    content: string;
-  };
-  recipeInsightsOnly: {
-    role: string;
-    content: string;
-  };
-  recipeSpamCheck: {
-    role: string;
-    content: string;
-  };
+  base: Prompt;
+  recipeContext(recipeData: string): Prompt;
+  recipeObject: Prompt;
+  recipeIngredientsArray: Prompt;
+  allRecipeMetadata: Prompt;
+  recipeIngredients: Prompt;
+  recipeInsightsOnly: Prompt;
+  recipeSpamCheck: Prompt;
 }
 
 export { Prompts, AI, GPTResponse };

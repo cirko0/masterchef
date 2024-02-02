@@ -3,6 +3,7 @@
 */
 
 import { GPTResponse } from "../interfaces/ai.interface";
+import { Ingredient } from "../interfaces/db.interface";
 
 interface SchemaOption {
   prop: string;
@@ -13,15 +14,31 @@ interface SchemaOptions {
   [key: string]: SchemaOption[];
 }
 
-const helpers: {
-  isRecipeOutputValid: (output: GPTResponse, targetSchema?: string) => boolean;
-  validateIngredients: (ingredients: any) => Promise<{ valid: boolean }>;
+interface Helpers {
+  isRecipeOutputValid: (
+    output: {
+      health_score: number;
+      health_reason: string;
+      allergies: [];
+      intro: string;
+      desc: string;
+      prompt: string;
+      ingredients: Ingredient[];
+      diet: string;
+    },
+    targetSchema?: string
+  ) => boolean;
+  validateIngredients: (
+    ingredients: Ingredient[]
+  ) => Promise<{ valid: boolean }>;
   sanitizeIngredients: (
-    ingredients: any,
+    ingredients: Ingredient[],
     steps: any
-  ) => Promise<{ valid: boolean; list: any[] }>;
-  getRecipeDietType: (ingredients: any[]) => string;
-} = {
+  ) => Promise<{ valid: boolean; list: Ingredient[] }>;
+  getRecipeDietType: (ingredients: Ingredient[]) => string;
+}
+
+const helpers: Helpers = {
   isRecipeOutputValid: (
     output: any,
     targetSchema: string = "aiAssist"
@@ -77,7 +94,7 @@ const helpers: {
   },
 
   validateIngredients: async (
-    ingredients: any
+    ingredients: Ingredient[]
   ): Promise<{ valid: boolean }> => {
     return new Promise((resolve) => {
       // Validation
@@ -105,7 +122,7 @@ const helpers: {
   },
 
   sanitizeIngredients: async (
-    ingredients: any,
+    ingredients: Ingredient[],
     steps: any
   ): Promise<{ valid: boolean; list: any[] }> => {
     return new Promise((resolve) => {
@@ -138,7 +155,7 @@ const helpers: {
     });
   },
 
-  getRecipeDietType: (ingredients: any[]): string => {
+  getRecipeDietType: (ingredients: Ingredient[]): string => {
     const meat = ingredients.filter(
       (ingredient) => ingredient.category.toLowerCase() === "meat"
     );

@@ -4,7 +4,9 @@ import { GPTResponse } from "../interfaces/ai.interface";
 import helpers from "./helpers";
 import { uploadFile } from "@uploadcare/upload-client";
 import { RecipeInput } from "../interfaces/utils.interface";
+import { Ingredient } from "../interfaces/db.interface";
 
+// TODO: Fix interface for GPTResponse
 const asyncHandlers = {
   addRecipe: async (
     stepsString: string,
@@ -19,8 +21,13 @@ const asyncHandlers = {
         prompts.recipeIngredients,
         prompts.recipeContext(unprocessedData),
       ];
-      let ingredients = await ai.gpt(instructions);
+
+      let ingredients: Ingredient[] = (await ai.gpt(
+        instructions
+      )) as unknown as Ingredient[];
+
       await helpers.validateIngredients(ingredients);
+
       let sanitizedIngredients = await helpers.sanitizeIngredients(
         ingredients,
         input.steps
@@ -47,12 +54,11 @@ const asyncHandlers = {
         prompts.recipeContext(unprocessedData),
       ];
 
-      //ERROR
       let newRecipe = await ai.gpt(instructions);
 
       newRecipe.ingredients = sanitizedIngredients.list;
       newRecipe.diet = helpers.getRecipeDietType(newRecipe.ingredients);
-
+      console.log(newRecipe);
       if (!helpers.isRecipeOutputValid(newRecipe))
         throw new Error("Validation Failed.");
 
