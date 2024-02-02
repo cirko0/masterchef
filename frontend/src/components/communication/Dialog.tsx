@@ -4,6 +4,7 @@ import { useDialogs } from "../../providers/dialogContext";
 import { BiLoaderAlt, BiX } from "react-icons/bi";
 interface DialogProps {}
 
+// TODO: Fix
 const Dialog: React.FC<DialogProps> = () => {
   const dialogs = useDialogs();
   const element = useRef<HTMLDialogElement>(null);
