@@ -78,7 +78,7 @@ export default function Library() {
       <section className="mb-5 flex gap-8">
         <div
           className="flex items-center h-10 grow bg-slate-100 
-                text-black rounded-lg py-1 px-3"
+                text-black rounded-lg py-1 pl-6 pr-4"
         >
           <input
             type="search"
@@ -90,7 +90,7 @@ export default function Library() {
             }
           />
           <div className="flex items-center h-10 bg-slate-100 text-black font-medium rounded-lg py-1 px-3">
-            <BiSearch className="rotate-90 text-2xl" />
+            <BiSearch className="rotate-90 text-xl" />
           </div>
         </div>
 
