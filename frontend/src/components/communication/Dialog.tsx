@@ -18,7 +18,7 @@ const Dialog: React.FC<DialogProps> = () => {
     // window.scrollTo(0, 0);
   }, [dialogs, element]);
 
-  const close = (result: any = undefined) => {
+  const close = (result: boolean | undefined = undefined) => {
     dialogs.close(result);
   };
 
@@ -67,7 +67,9 @@ const Dialog: React.FC<DialogProps> = () => {
             </SignedIn>
 
             <button
-              onClick={close}
+              onClick={() => {
+                close();
+              }}
               className="font-bold text-[20px] outline-none border-none p-2 flex items-center justify-center cursor-pointer rounded-full"
             >
               <BiX />
@@ -111,7 +113,9 @@ const Dialog: React.FC<DialogProps> = () => {
             <div className="flex gap-1 font-semibold ">
               <button
                 type="button"
-                onClick={close}
+                onClick={() => {
+                  close();
+                }}
                 className="bg-[#0F7556] text-white font-bold rounded-lg hover:opacity-90 cursor-pointer px-7 py-2"
               >
                 OK

@@ -50,7 +50,7 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
       });
     },
 
-    close: (result: any = undefined) => {
+    close: (result: boolean | undefined = undefined) => {
       setType("none");
       setDisplay(false);
 
@@ -60,6 +60,8 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
       }
     },
   };
+
+  // Dialog
 
   let setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
   let setType: React.Dispatch<React.SetStateAction<string>>;

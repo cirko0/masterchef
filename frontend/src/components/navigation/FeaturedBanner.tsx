@@ -11,32 +11,36 @@ interface FeaturedBannerProps {
 
 const FeaturedBanner: React.FC<FeaturedBannerProps> = (props) => {
   return (
-    <div className="rounded-xl bg-darkorange p-6 col-span-2 h-[275px]">
+    <div className="rounded-3xl bg-darkorange py-5 px-7 grow">
       <Link to={`/recipe/view/${props.id}`} className="no-underline">
-        <div className="flex flex-col gap-2 ">
-          <h1 className="font-bold text-[30px] text-white">Featured</h1>
+        <div className="flex flex-col grow gap-y-2">
+          <h1 className="font-semibold text-[30px] md:text-2xl text-white">
+            Featured
+          </h1>
 
           {props.name && (
-            <h2 className="lg:hidden font-medium text-[18px] text-white md:text-xl capitalize">
+            <h2 className="lg:hidden font-medium md:text-xl capitalize text-white">
               {props.author}'s {props.name}
             </h2>
           )}
           {props.text && (
-            <h2 className="font-medium text-[18px] text-white">{props.text}</h2>
+            <h2 className="italic font-medium text-sm md:text-base lg:text-lg text-white">
+              {props.text}
+            </h2>
           )}
 
           {props.text && (
-            <h3 className="text-sm md:text-base text-white lg:hidden flex items-center">
+            <h3 className="text-sm md:text-base lg:hidden text-white">
               Take a look &nbsp;
               <BiRightArrowAlt className="text-[20px]" />
             </h3>
           )}
 
           {!props.text && (
-            <div className="mt-1 h-7 w-[96%] xl:w-[82%] rounded-lg bg-[#ebebeb] animate-pulse"></div>
+            <div className="mt-1 h-7 w-[96%] xl:w-[82%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
           )}
           {!props.text && (
-            <div className="mt-1 h-7 w-[64%] rounded-lg bg-[#ebebeb] animate-pulse"></div>
+            <div className="mt-1 h-7 w-[64%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
           )}
           {!props.text && (
             <div className="md:hidden mt-1 h-7 w-[64%] rounded-lg bg-[#ebebeb] animate-pulse"></div>

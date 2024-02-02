@@ -9,13 +9,12 @@ const AuthSignIn: React.FC = () => {
         aria-hidden
       />
 
-      <section className="flex justify-center items-center h-full pt-10">
+      <section className="flex justify-center items-center min-h-[651px] h-[85vh]">
         <SignIn
           appearance={{
             elements: {
-              formButtonPrimary:
-                "normal-case text-md bg-darkorange hover:bg-[#fcaf5d]",
-              formFieldInput: "rounded-md border-[#ebebeb]",
+              formButtonPrimary: "normal-case bg-darkorange hover:bg-[#fcaf5d]",
+              formFieldInput: "rounded-md border-whitesmoke",
               footerActionLink:
                 "text-darkorange font-medium hover:text-darkorange",
             },

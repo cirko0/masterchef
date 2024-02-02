@@ -2,7 +2,7 @@
 import Card from "./Card";
 import { useRecipes } from "../../providers/recipeContext";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
-import { BiSearch } from "react-icons/bi";
+import { BiChevronsDown, BiSearch } from "react-icons/bi";
 
 interface Recipe {
   _id: string;
@@ -74,31 +74,38 @@ export default function Library() {
 
   return (
     <div>
-      <div className="md:w-[500px] mb-10">
-        <div className="flex w-full">
+      <section className="mb-5 flex gap-8">
+        <div
+          className="flex items-center h-10 grow bg-slate-100 
+                text-black font-semibold rounded-lg py-1 px-3"
+        >
           <input
             type="search"
-            className="m-0 w-[100px] h-10 flex-auto rounded-[10px] border border-solid border-neutral-300 bg-transparent bg-clip-padding pl-4 pr-2 text-[16px] font-medium text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-darkorange focus:text-neutral-700  focus:outline-none dark:border-darkorange dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-darkorange rounded-tr-none rounded-br-none"
+            className="h-full text-base grow bg-white/0 focus:outline-none focus:ring-0 border-0"
             placeholder="Search"
-            aria-label="Search"
             ref={searchInput}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               search(e.target.value)
             }
           />
-          <div className="h-full bg-darkorange flex items-center justify-center p-[10px] text-white rounded-tr-[10px] rounded-br-[10px] text-[20px]">
-            <BiSearch className="" />
+          <div className="flex items-center h-10 bg-slate-100 text-black font-medium rounded-lg py-1 px-3">
+            <BiSearch className="rotate-90 text-2xl" />
           </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-4 my-10 gap-10" ref={container}>
+        <div className="w-[300px] lg:w-[600px] hidden md:block"></div>
+      </section>
+
+      <div
+        className="flex flex-col md:flex-row flex-wrap gap-6 list-none ml-0 pl-0 items-center md:items-start"
+        ref={container}
+      >
         {recipes.search.isActive
           ? recipes.search.results.length > 0
             ? recipes.search.results.map((recipe: Recipe) => (
                 <div
                   key={`library-search-card-${recipe._id}`}
-                  className="w-[320px] h-[275px]"
+                  className="w-full h-32 md:w-[320px] md:h-[275px]"
                 >
                   <Card
                     width={`${cardWidth}px`}
@@ -118,7 +125,7 @@ export default function Library() {
           ? recipes.recent.list.map((recipe: Recipe) => (
               <div
                 key={`library-recent-card-${recipe._id}`}
-                className="w-[320px] h-[275px]"
+                className="w-full h-32 md:w-[320px] md:h-[275px]"
               >
                 <Card
                   width="320px"
@@ -141,7 +148,7 @@ export default function Library() {
             <button
               type="button"
               onClick={loadMoreRecent}
-              className="bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+              className="bg-slate-100 text-black rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
             >
               Load More
             </button>
@@ -153,7 +160,7 @@ export default function Library() {
             <button
               type="button"
               onClick={loadMoreSearchResults}
-              className="bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+              className="bg-slate-100 text-black rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
             >
               Load More
             </button>
@@ -162,9 +169,9 @@ export default function Library() {
           <button
             type="button"
             disabled
-            className="animate-bounce bg-slate-300 text-ninja-blue rounded-xl hover:opacity-90 cursor-pointer px-4 py-2"
+            className="animate-bounce bg-slate-100 text-black rounded-xl hover:opacity-90 cursor-pointer px-4 py-2"
           >
-            <i className="fa-solid fa-angles-down"></i>
+            <BiChevronsDown />
           </button>
         )}
       </section>

@@ -6,63 +6,12 @@
 import React, { FC, useContext, useRef, useState } from "react";
 import { useSession } from "@clerk/clerk-react";
 import {
+  AddRecipeResponse,
   ProviderProps,
-  RecipeGet,
-  RecipeInput,
-  RecipeSpecific,
-  RecipeUpdate,
+  RecipeContextType,
+  GetRecipe,
+  SpecificRecipe,
 } from "../interfaces/provider.interfaces";
-
-interface RecipeContextType {
-  recent: {
-    list: RecipeGet[];
-    count: number;
-    userList: RecipeGet[];
-    userCount: number;
-    get: (
-      skip?: number,
-      limit?: number,
-      updateState?: boolean
-    ) => Promise<RecipeGet[]>;
-    loadMore: () => Promise<void>;
-    getForUser: (
-      skip?: number,
-      limit?: number,
-      updateState?: boolean
-    ) => Promise<RecipeGet[]>;
-    loadMoreForUser: () => Promise<void>;
-  };
-  search: {
-    results: RecipeGet[];
-    isActive: boolean;
-    isPending: boolean;
-    count: number;
-    keywords: React.MutableRefObject<string>;
-    query: (
-      query: string,
-      skip?: number,
-      limit?: number,
-      updateState?: boolean
-    ) => Promise<RecipeGet[]>;
-    loadMore: () => Promise<void>;
-  };
-  specific: {
-    state: RecipeSpecific | {};
-    get: (idx: string) => Promise<RecipeSpecific>;
-  };
-  config: {
-    pageLength: React.MutableRefObject<number>;
-    setPageLength: (length: number) => Promise<void>;
-  };
-  io: {
-    add: (data: RecipeInput) => Promise<any>;
-    delete: (data: { idx: string }) => Promise<string>;
-    attachImage: (image: File) => Promise<any>;
-    getSubmissionStatus: (idx: string) => Promise<any>;
-    update: (data: RecipeUpdate) => Promise<any>;
-    updateImage: (image: File, idx: string) => Promise<any>;
-  };
-}
 
 const RecipeContext = React.createContext<RecipeContextType | undefined>(
   undefined
@@ -185,7 +134,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
       isActive: false,
       isPending: false,
       count: 0,
-      keywords: useRef(""),
+      keywords: useRef<string>(""),
 
       query: async (
         query,
@@ -275,7 +224,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
       },
     },
     config: {
-      pageLength: useRef(10),
+      pageLength: useRef<number>(10),
 
       setPageLength: (length) => {
         return new Promise((resolve) => {
@@ -284,6 +233,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
         });
       },
     },
+    // TODO: Fix interfaces
     io: {
       add: async (data) => {
         return new Promise(async (resolve, reject) => {
@@ -306,7 +256,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
 
             recipes.recent.get();
 
-            resolve(res);
+            resolve(res as unknown as AddRecipeResponse);
           } catch (error) {
             alert(
               "Something went wrong while submitting the recipe, please try again!"
@@ -477,27 +427,27 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
 
   //* Recent
 
-  let setRecentList: React.Dispatch<React.SetStateAction<RecipeGet[] | []>>,
+  let setRecentList: React.Dispatch<React.SetStateAction<GetRecipe[] | []>>,
     setRecentCount: React.Dispatch<React.SetStateAction<number>>,
-    setRecentUserList: React.Dispatch<React.SetStateAction<RecipeGet[] | []>>,
+    setRecentUserList: React.Dispatch<React.SetStateAction<GetRecipe[] | []>>,
     setRecentUserCount: React.Dispatch<React.SetStateAction<number>>;
 
-  [recipes.recent.list, setRecentList] = useState<RecipeGet[]>([]);
+  [recipes.recent.list, setRecentList] = useState<GetRecipe[]>([]);
   [recipes.recent.count, setRecentCount] = useState<number>(1);
 
-  [recipes.recent.userList, setRecentUserList] = useState<RecipeGet[]>([]);
+  [recipes.recent.userList, setRecentUserList] = useState<GetRecipe[]>([]);
   [recipes.recent.userCount, setRecentUserCount] = useState<number>(0);
 
   const recent = recipes.recent;
 
   //* Search
 
-  let setSearchResults: React.Dispatch<React.SetStateAction<RecipeGet[] | []>>,
+  let setSearchResults: React.Dispatch<React.SetStateAction<GetRecipe[] | []>>,
     setSearchIsActive: React.Dispatch<React.SetStateAction<boolean>>,
     setSearchIsPending: React.Dispatch<React.SetStateAction<boolean>>,
     setSearchCount: React.Dispatch<React.SetStateAction<number>>;
 
-  [recipes.search.results, setSearchResults] = useState<RecipeGet[]>([]);
+  [recipes.search.results, setSearchResults] = useState<GetRecipe[]>([]);
   [recipes.search.isActive, setSearchIsActive] = useState<boolean>(false);
   [recipes.search.isPending, setSearchIsPending] = useState<boolean>(false);
   [recipes.search.count, setSearchCount] = useState<number>(0);
@@ -506,9 +456,9 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
 
   //* Specific
 
-  let setSpecific: React.Dispatch<React.SetStateAction<RecipeSpecific | {}>>;
+  let setSpecific: React.Dispatch<React.SetStateAction<SpecificRecipe | {}>>;
 
-  [recipes.specific.state, setSpecific] = useState<RecipeSpecific | {}>({});
+  [recipes.specific.state, setSpecific] = useState<SpecificRecipe | {}>({});
 
   const specific = recipes.specific;
 

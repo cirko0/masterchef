@@ -1,6 +1,10 @@
+// Universal
+
 export interface ProviderProps {
   children: React.ReactNode;
 }
+
+// Dialog
 
 export interface Dialog {
   display: boolean;
@@ -11,12 +15,65 @@ export interface Dialog {
   showMessage: (title: string, message: string) => void;
   showLoading: (message: string) => void;
   awaitConfirmation: (title: string, message: string) => Promise<any>;
-  close: (result?: any) => void;
+  close: (result: boolean | undefined) => void;
 }
 
 // Recipe
 
-export interface RecipeGet {
+export interface RecipeContextType {
+  recent: {
+    list: GetRecipe[];
+    count: number;
+    userList: GetRecipe[];
+    userCount: number;
+    get: (
+      skip?: number,
+      limit?: number,
+      updateState?: boolean
+    ) => Promise<GetRecipe[]>;
+    loadMore: () => Promise<void>;
+    getForUser: (
+      skip?: number,
+      limit?: number,
+      updateState?: boolean
+    ) => Promise<GetRecipe[]>;
+    loadMoreForUser: () => Promise<void>;
+  };
+  search: {
+    results: GetRecipe[];
+    isActive: boolean;
+    isPending: boolean;
+    count: number;
+    keywords: React.MutableRefObject<string>;
+    query: (
+      query: string,
+      skip?: number,
+      limit?: number,
+      updateState?: boolean
+    ) => Promise<GetRecipe[]>;
+    loadMore: () => Promise<void>;
+  };
+  specific: {
+    state: SpecificRecipe | {};
+    get: (idx: string) => Promise<SpecificRecipe>;
+  };
+  config: {
+    pageLength: React.MutableRefObject<number>;
+    setPageLength: (length: number) => Promise<void>;
+  };
+  io: {
+    add: (data: AddRecipe) => Promise<AddRecipeResponse>;
+    delete: (data: { idx: string }) => Promise<string>;
+    attachImage: (image: File) => Promise<any>;
+    getSubmissionStatus: (idx: string) => Promise<any>;
+    update: (data: UpdateRecipe) => Promise<any>;
+    updateImage: (image: File, idx: string) => Promise<any>;
+  };
+}
+
+// Request Values
+
+export interface GetRecipe {
   _id: string;
   name: string;
   author: string;
@@ -25,7 +82,7 @@ export interface RecipeGet {
   desc?: string;
 }
 
-export interface RecipeInput {
+export interface AddRecipe {
   name: string;
   steps: string[];
   cookingTime: number;
@@ -37,7 +94,7 @@ interface Ingredient {
   category: string;
 }
 
-export interface RecipeUpdate {
+export interface UpdateRecipe {
   _id: string;
   name: string;
   cookingTime: number;
@@ -47,7 +104,7 @@ export interface RecipeUpdate {
   ingredients: Ingredient[];
 }
 
-export interface RecipeSpecific {
+export interface SpecificRecipe {
   _id: string;
   name: string;
   author: string;
@@ -62,4 +119,13 @@ export interface RecipeSpecific {
   health_score: number;
   health_reason: string;
   userId: string;
+}
+
+// Response
+
+export interface AddRecipeResponse {
+  code: number;
+  spam?: boolean;
+  msg: string;
+  submission_id?: string;
 }
