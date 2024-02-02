@@ -5,7 +5,7 @@ const AuthSignIn: React.FC = () => {
   return (
     <main className="font-inter h-full">
       <div
-        className="bg-gradient-to-r from-darkorange to-gold-100 min-h-[287px] h-[35vh] w-full absolute right-0 z-0 "
+        className="bg-gradient-to-r from-darkorange to-gold min-h-[287px] h-[35vh] w-full absolute right-0 z-0 "
         aria-hidden
       />
 
