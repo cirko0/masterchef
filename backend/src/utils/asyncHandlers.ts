@@ -1,18 +1,24 @@
 import { prompts, ai } from "../config/ai.config";
 import db from "../config/db.config";
-import { GPTResponse } from "../interfaces/ai.interface";
+import {
+  GPTInsightsPrompt,
+  GPTMetaDataPrompt,
+} from "../interfaces/ai.interface";
 import helpers from "./helpers";
 import { uploadFile } from "@uploadcare/upload-client";
-import { RecipeInput } from "../interfaces/utils.interface";
+import {
+  RecipeInput,
+  RecipeUpdateInput,
+} from "../interfaces/asyncHandler.interface";
 import { Ingredient } from "../interfaces/db.interface";
+import { CombinedRecipeInformation } from "../interfaces/asyncHandler.interface";
 
-// TODO: Fix interface for GPTResponse
 const asyncHandlers = {
   addRecipe: async (
     stepsString: string,
     input: RecipeInput,
     retriesCount: number = 0
-  ) => {
+  ): Promise<void> => {
     try {
       let unprocessedData = `Recipe Name: ${input.name}, Author: ${input.author}, Steps: ${stepsString}`;
 
@@ -24,7 +30,7 @@ const asyncHandlers = {
 
       let ingredients: Ingredient[] = (await ai.gpt(
         instructions
-      )) as unknown as Ingredient[];
+      )) as Ingredient[];
 
       await helpers.validateIngredients(ingredients);
 
@@ -54,12 +60,23 @@ const asyncHandlers = {
         prompts.recipeContext(unprocessedData),
       ];
 
-      let newRecipe = await ai.gpt(instructions);
+      let newRecipe: GPTMetaDataPrompt = (await ai.gpt(
+        instructions
+      )) as GPTMetaDataPrompt;
 
       newRecipe.ingredients = sanitizedIngredients.list;
       newRecipe.diet = helpers.getRecipeDietType(newRecipe.ingredients);
+
       console.log(newRecipe);
-      if (!helpers.isRecipeOutputValid(newRecipe))
+
+      if (
+        !helpers.isRecipeOutputValid(
+          newRecipe as GPTMetaDataPrompt & {
+            ingredients: Ingredient[];
+            diet: string;
+          }
+        )
+      )
         throw new Error("Validation Failed.");
 
       newRecipe.name = input.name;
@@ -73,11 +90,14 @@ const asyncHandlers = {
           _id: input.submission_id,
         });
 
-        if (!submissionData) return;
+        if (!submissionData || !submissionData.img_url) return;
 
         newRecipe.img_url = submissionData.img_url;
 
-        const submittedRecipe = await db.Recipe.create(newRecipe);
+        const submittedRecipe = await db.Recipe.create(
+          newRecipe as CombinedRecipeInformation
+        );
+
         await db.PendingSubmission.findOneAndUpdate(
           { _id: input.submission_id },
           {
@@ -96,7 +116,10 @@ const asyncHandlers = {
         { stage: "Visualizing recipe & generating image..." }
       );
 
-      asyncHandlers.generateRecipeImage(newRecipe, input);
+      asyncHandlers.generateRecipeImage(
+        newRecipe as CombinedRecipeInformation,
+        input
+      );
     } catch (error) {
       console.log(error);
 
@@ -118,14 +141,13 @@ const asyncHandlers = {
   },
 
   generateRecipeImage: async (
-    newRecipe: GPTResponse,
+    newRecipe: CombinedRecipeInformation,
     input: RecipeInput
   ): Promise<void> => {
     try {
       const response = await ai.dalle(newRecipe.prompt as string);
 
-      //@ts-ignore
-      const uploadcareResponse = await uploadFile(response[0].url, {
+      const uploadcareResponse = await uploadFile(response[0].url as string, {
         publicKey: process.env.UPLOADCARE_PUBLIC_KEY as string,
         store: "auto",
       });
@@ -164,7 +186,7 @@ const asyncHandlers = {
 
   updateRecipeInsights: async (
     stepsString: string,
-    input: RecipeInput,
+    input: RecipeInput | RecipeUpdateInput,
     retries: number = 0
   ) => {
     try {
@@ -175,13 +197,17 @@ const asyncHandlers = {
         prompts.recipeInsightsOnly,
         prompts.recipeContext(unprocessedData),
       ];
-      let updatedInsights = await ai.gpt(instruction);
+
+      let updatedInsights: GPTInsightsPrompt = (await ai.gpt(
+        instruction
+      )) as GPTInsightsPrompt;
 
       if (!helpers.isRecipeOutputValid(updatedInsights, "insights"))
         throw new Error("Validation Failed.");
 
       console.log(updatedInsights);
       console.log(input._id);
+
       await db.Recipe.findOneAndUpdate(
         { _id: input._id },
         {

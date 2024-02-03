@@ -18,7 +18,7 @@ export interface PendingSubmissionDocument
 
 // Models
 
-interface PendingSubmission {
+export interface PendingSubmission {
   recipeId?: string;
   img_url?: string;
   is_pending: boolean;
@@ -30,9 +30,9 @@ interface PendingSubmission {
 export interface Recipe {
   name: string;
   author: string;
-  cooking_time: number | undefined;
+  cooking_time: number;
   diet: string;
-  img_url: string | undefined;
+  img_url: string;
   ingredients: Ingredient[];
   steps: string[];
   allergies: [];

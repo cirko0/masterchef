@@ -27,7 +27,8 @@ const ai: AI = {
         temperature: 0,
       })
         .then((res: any) => {
-          let output;
+          let output: GPTResponse;
+
           console.log(res.data.choices[0].message);
 
           output = JSON.parse(res.data.choices[0].message.content);
@@ -41,8 +42,9 @@ const ai: AI = {
         });
     });
   },
+
   dalle: (prompt) => {
-    return new Promise<ImagesResponseDataInner>((resolve, reject) => {
+    return new Promise<ImagesResponseDataInner[]>((resolve, reject) => {
       OpenAI.createImage({
         prompt: prompt,
         n: 1,
@@ -50,7 +52,7 @@ const ai: AI = {
       })
         .then((res) => {
           const output = res.data.data;
-          resolve(output as ImagesResponseDataInner);
+          resolve(output as ImagesResponseDataInner[]);
         })
         .catch((err) => {
           console.log("Failed to generate or parse output from DALL-E.");
@@ -108,5 +110,3 @@ const prompts: Prompts = {
 };
 
 export { ai, prompts };
-
-export default { ai, prompts };

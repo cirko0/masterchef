@@ -1,17 +1,38 @@
 import { ImagesResponseDataInner } from "openai";
-import { Recipe } from "./db.interface";
+import { Ingredient } from "./db.interface";
 
 // AI
 
-interface AI {
-  gpt(instruction: Prompt[]): Promise<any>;
-  dalle(prompt: string): Promise<ImagesResponseDataInner>;
+export interface AI {
+  gpt(instruction: Prompt[]): Promise<GPTResponse>;
+  dalle(prompt: string): Promise<ImagesResponseDataInner[]>;
 }
 
-interface GPTResponse extends Recipe {
-  prompt?: string;
+export type GPTResponse =
+  | GPTMetaDataPrompt
+  | Ingredient[]
+  | GPTInsightsPrompt
+  | GPTSpamAnalysisPrompt;
+
+export interface GPTSpamAnalysisPrompt {
   spam_score: number;
   score_reason: string;
+}
+
+export interface GPTMetaDataPrompt {
+  health_score: number;
+  health_reason: string;
+  allergies: [];
+  intro: string;
+  desc: string;
+  prompt?: string;
+  [key: string]: any;
+}
+
+export interface GPTInsightsPrompt {
+  health_score: number;
+  health_reason: string;
+  allergies: [];
 }
 
 // Prompts
@@ -21,7 +42,7 @@ interface Prompt {
   content: string;
 }
 
-interface Prompts {
+export interface Prompts {
   base: Prompt;
   recipeContext(recipeData: string): Prompt;
   recipeObject: Prompt;
@@ -31,5 +52,3 @@ interface Prompts {
   recipeInsightsOnly: Prompt;
   recipeSpamCheck: Prompt;
 }
-
-export { Prompts, AI, GPTResponse };

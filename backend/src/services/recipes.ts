@@ -1,67 +1,55 @@
 import db from "../config/db.config.js";
-import axios from "axios";
 import helpers from "../utils/helpers.js";
 import { ai, prompts } from "../config/ai.config.js";
-import { Types } from "mongoose";
-import { GPTResponse } from "../interfaces/ai.interface.js";
 import asyncHandlers from "../utils/asyncHandlers.js";
-import { RecipeInput } from "../interfaces/utils.interface.js";
-import { RecipeDocument } from "../interfaces/db.interface.js";
+import {
+  RecipeInput,
+  RecipeUpdateInput,
+} from "../interfaces/asyncHandler.interface.js";
+import { Recipe, RecipeDocument } from "../interfaces/db.interface.js";
 import {
   deleteFile,
   UploadcareSimpleAuthSchema,
 } from "@uploadcare/rest-client";
-
-interface RecipesGetResponse {
-  code: number;
-  data?: any;
-  msg?: string;
-}
-
-interface AddRecipeResponse {
-  code: number;
-  spam?: boolean;
-  msg: string;
-  submission_id?: Types.ObjectId;
-}
-
-interface DeleteRecipeResponse {
-  code: number;
-  msg: string;
-}
-
-interface RecipeInputAIUser extends RecipeInput {
-  intro: any;
-  ingredients: any;
-  diet: any;
-  desc: string;
-}
+import {
+  AddRecipeResponse,
+  Image,
+  ImageResponse,
+  GetRecipesResponse,
+  UpdateRecipeResponse,
+  DeleteRecipeResponse,
+} from "../interfaces/recipes.interface.js";
+import { GPTSpamAnalysisPrompt } from "../interfaces/ai.interface.js";
 
 const recipes = {
   get: async (
     args: { idx?: string; skip?: number; limit?: number } = {}
-  ): Promise<RecipesGetResponse> => {
+  ): Promise<GetRecipesResponse> => {
     try {
-      let recipeData: any;
+      let recipeData: RecipeDocument | RecipeDocument[];
       let count = 0;
-      let data: {
-        count?: number;
-        recipes?: any;
-      } = {};
+      let data:
+        | {
+            count?: number;
+            recipes?: RecipeDocument[];
+          }
+        | RecipeDocument = {};
 
       if (args.idx) {
-        recipeData = await db.Recipe.findOne({
+        recipeData = (await db.Recipe.findOne({
           _id: args.idx,
-        }).select("_id name author diet img_url desc");
+        }).select("_id name author diet img_url desc")) as RecipeDocument;
+
         data = recipeData;
       } else {
-        recipeData = await db.Recipe.find()
+        recipeData = (await db.Recipe.find()
           .select("_id name author diet img_url desc")
           .sort({ _id: -1 })
           .skip(args.skip!)
-          .limit(args.limit!);
+          .limit(args.limit!)) as RecipeDocument[];
 
         count = await db.Recipe.count();
+
         data = { count, recipes: recipeData };
       }
 
@@ -82,11 +70,11 @@ const recipes = {
     userId: string;
     limit: number;
     skip: number;
-  }): Promise<RecipesGetResponse> => {
+  }): Promise<GetRecipesResponse> => {
     try {
-      let recipeData: any[] = [];
+      let recipeData: RecipeDocument[];
       let count = 0;
-      let data: any = {};
+      let data: { count: number; recipes: RecipeDocument[] };
 
       console.log(userId);
 
@@ -97,6 +85,7 @@ const recipes = {
         .limit(limit);
 
       count = await db.Recipe.find({ userId: userId }).count();
+
       data = { count, recipes: recipeData };
 
       return { code: 200, data };
@@ -123,7 +112,9 @@ const recipes = {
         ];
 
         // Spam Analysis
-        const spamAnalysis: GPTResponse = await ai.gpt(prompt);
+        const spamAnalysis: GPTSpamAnalysisPrompt = (await ai.gpt(
+          prompt
+        )) as GPTSpamAnalysisPrompt;
 
         console.log(spamAnalysis);
 
@@ -143,6 +134,7 @@ const recipes = {
             { _id: input.submission_id },
             { stage: "Identifying & sorting ingredients..." }
           );
+
           input.generateImage = false;
         } else {
           // No Submission ID; cover image also needs to be generated
@@ -175,10 +167,12 @@ const recipes = {
     });
   },
 
-  addImage: async (input: any) => {
+  addImage: async (input: Image): Promise<ImageResponse> => {
     return new Promise(async (resolve) => {
       try {
         console.log(input);
+
+        if (!input) return;
 
         let newPendingSubmission = {
           img_url: `https://ucarecdn.com/${input.uploadcare_file_id}/${input.originalname}`,
@@ -199,22 +193,28 @@ const recipes = {
     });
   },
 
-  update: async (input: RecipeInputAIUser) => {
+  update: async (input: RecipeUpdateInput): Promise<UpdateRecipeResponse> => {
     return new Promise(async (resolve) => {
       try {
         // fetch old recipe data
-        const oldRecipe: RecipeDocument = (await db.Recipe.findOne({
+        const oldRecipe: Recipe = (await db.Recipe.findOne({
           _id: input._id,
-        })) as RecipeDocument;
+        })) as Recipe;
+
+        if (!oldRecipe) throw new Error("Recipe with that _id not found!");
 
         // check if recipe belongs to user
         if (oldRecipe.userId !== input.userId) throw new Error("401");
         // Preparing Prompt
         let stepsString = "";
+
         input.steps.forEach(
-          (step, i) => (stepsString += `[STEP ${i + 1}] ${step} `)
+          (step: string, i: number) =>
+            (stepsString += `[STEP ${i + 1}] ${step} `)
         );
+
         const unprocessedData = `Recipe Name: ${input.name}, Author: ${input.author}, Steps: ${stepsString}`;
+
         const instruction = [
           prompts.recipeObject,
           prompts.recipeSpamCheck,
@@ -222,7 +222,10 @@ const recipes = {
         ];
 
         // Spam Analysis
-        const spamAnalysis = await ai.gpt(instruction);
+        const spamAnalysis: GPTSpamAnalysisPrompt = (await ai.gpt(
+          instruction
+        )) as GPTSpamAnalysisPrompt;
+
         console.log(spamAnalysis);
 
         if (spamAnalysis.spam_score >= 5) {
@@ -243,15 +246,18 @@ const recipes = {
 
         // use helper to get diet type
         input.diet = helpers.getRecipeDietType(input.ingredients);
+
         console.log(input.diet);
         console.log(input.ingredients);
 
         // use helper to validate recipe output
-        if (!helpers.isRecipeOutputValid(input as any, "userUpdate"))
+        if (
+          !helpers.isRecipeOutputValid(input as RecipeUpdateInput, "userUpdate")
+        )
           throw new Error("Validation Failed.");
 
         // update steps, ingredients, name, desc, intro, cooking_time
-        const updatedRecipe = await db.Recipe.findOneAndUpdate(
+        const updatedRecipe: Recipe = (await db.Recipe.findOneAndUpdate(
           { _id: input._id },
           {
             steps: input.steps,
@@ -262,7 +268,8 @@ const recipes = {
             cooking_time: input.cookingTime,
             diet: input.diet,
           }
-        );
+        )) as Recipe;
+
         console.log(updatedRecipe);
 
         // compare old recipe data with new recipe data
@@ -296,15 +303,16 @@ const recipes = {
     });
   },
 
-  // TODO: FIX UPDATE IMAGE
   updateImage: async (
-    input: any,
+    input: Image,
     idx: string,
     userId: string
-  ): Promise<any> => {
+  ): Promise<ImageResponse> => {
     return new Promise(async (resolve) => {
       try {
-        const recipe = await db.Recipe.findOne({ _id: idx });
+        const recipe: Recipe = (await db.Recipe.findOne({
+          _id: idx,
+        })) as Recipe;
 
         if (!recipe) throw new Error("Recipe not found.");
 
@@ -359,8 +367,12 @@ const recipes = {
 
   delete: async (idx: string): Promise<DeleteRecipeResponse> => {
     try {
-      const recipeData = await db.Recipe.findOne({ _id: idx });
+      const recipeData: Recipe = (await db.Recipe.findOne({
+        _id: idx,
+      })) as Recipe;
+
       console.log(recipeData);
+
       if (!recipeData) throw new Error("Recipe not found.");
 
       try {

@@ -1,29 +1,18 @@
-import { Types } from "mongoose";
 import db from "../config/db.config";
-
-interface RecipeSearch {
-  _id: Types.ObjectId;
-  name: string;
-  author: string;
-  diet: string;
-  img_url: string;
-  meta: { count: { total: number } };
-}
-
-interface SearchQueryResult {
-  code: number;
-  data?: RecipeSearch[]; // Replace 'any[]' with the actual data type of your search results
-  msg?: string;
-}
+import {
+  RecipeSearch,
+  SearchQueryResponse,
+} from "../interfaces/search.interface";
 
 const search = {
   query: async (
     keywords: string,
-    filters: any = {},
+    // filters: { diet?: string } = {},
     skip: number,
     limit: number
-  ): Promise<SearchQueryResult> => {
+  ): Promise<SearchQueryResponse> => {
     try {
+      console.log(keywords);
       let querySpec = [
         {
           $search: {

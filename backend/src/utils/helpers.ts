@@ -2,45 +2,23 @@
     Helpers for Async Handlers
 */
 
-import { GPTResponse } from "../interfaces/ai.interface";
-import { Ingredient } from "../interfaces/db.interface";
-
-interface SchemaOption {
-  prop: string;
-  type: string;
-}
-
-interface SchemaOptions {
-  [key: string]: SchemaOption[];
-}
-
-interface Helpers {
-  isRecipeOutputValid: (
-    output: {
-      health_score: number;
-      health_reason: string;
-      allergies: [];
-      intro: string;
-      desc: string;
-      prompt: string;
-      ingredients: Ingredient[];
-      diet: string;
-    },
-    targetSchema?: string
-  ) => boolean;
-  validateIngredients: (
-    ingredients: Ingredient[]
-  ) => Promise<{ valid: boolean }>;
-  sanitizeIngredients: (
-    ingredients: Ingredient[],
-    steps: any
-  ) => Promise<{ valid: boolean; list: Ingredient[] }>;
-  getRecipeDietType: (ingredients: Ingredient[]) => string;
-}
+import {
+  GPTInsightsPrompt,
+  GPTMetaDataPrompt,
+} from "../interfaces/ai.interface";
+import { RecipeUpdateInput } from "../interfaces/asyncHandler.interface";
+import { Ingredient, Recipe } from "../interfaces/db.interface";
+import { Helpers, SchemaOptions } from "../interfaces/helpers.interface";
 
 const helpers: Helpers = {
   isRecipeOutputValid: (
-    output: any,
+    output:
+      | (GPTMetaDataPrompt & {
+          ingredients: Ingredient[];
+          diet: string;
+        })
+      | GPTInsightsPrompt
+      | RecipeUpdateInput,
     targetSchema: string = "aiAssist"
   ): boolean => {
     const schemaOptions: SchemaOptions = {
@@ -74,13 +52,19 @@ const helpers: Helpers = {
       const schema = schemaOptions[targetSchema];
 
       for (const schemaItem of schema) {
-        console.log(schemaItem.type, typeof output[schemaItem.prop]);
+        console.log(
+          schemaItem.type,
+          typeof (output as { [key: string]: any })[schemaItem.prop]
+        );
         if (
           !output.hasOwnProperty(schemaItem.prop) ||
           (schemaItem.type === "array" &&
-            !Array.isArray(output[schemaItem.prop])) ||
+            !Array.isArray(
+              (output as { [key: string]: any })[schemaItem.prop]
+            )) ||
           (schemaItem.type !== "array" &&
-            typeof output[schemaItem.prop] !== schemaItem.type)
+            typeof (output as { [key: string]: any })[schemaItem.prop] !==
+              schemaItem.type)
         ) {
           return false;
         }
@@ -123,7 +107,7 @@ const helpers: Helpers = {
 
   sanitizeIngredients: async (
     ingredients: Ingredient[],
-    steps: any
+    steps: string[]
   ): Promise<{ valid: boolean; list: any[] }> => {
     return new Promise((resolve) => {
       // Sanitisation
@@ -169,4 +153,5 @@ const helpers: Helpers = {
     return "Non-Vegetarian";
   },
 };
+
 export default helpers;

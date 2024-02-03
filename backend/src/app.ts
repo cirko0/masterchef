@@ -1,15 +1,16 @@
-import express from "express";
+import express, { RequestParamHandler } from "express";
 import dotenv from "dotenv";
 import db from "./config/db.config";
 import morgan from "morgan";
 import recipes from "./services/recipes";
 import { Response } from "express-serve-static-core";
 import { Clerk } from "@clerk/clerk-sdk-node";
-import multer from "multer";
+import multer, { Multer } from "multer";
 // @ts-ignore
 import uploadcareStorage from "multer-storage-uploadcare";
 import search from "./services/search";
 import submissions from "./services/submissions";
+import { Image } from "./interfaces/recipes.interface";
 
 dotenv.config();
 
@@ -112,6 +113,7 @@ app.get(
       skip: +req.params.skip,
       limit: +req.params.limit,
     });
+
     res.statusCode = retrivedData.code;
 
     res.json(retrivedData.data);
@@ -123,6 +125,7 @@ app.post("/api/v1/recipes", async (req, res) => {
   req.body.userId = "12351";
 
   const response = await recipes.add(req.body);
+
   res.statusCode = response.code;
   res.json(response);
 });
@@ -131,9 +134,10 @@ app.put("/api/v1/recipes", async (req: any, res: Response) => {
   req.body.author = `Ivan Cirkovic`;
   req.body.userId = "12351";
 
-  //@ts-ignore
-  const response: Response = await recipes.update(req.body);
-  //@ts-ignore
+  console.log(req.body);
+
+  const response = await recipes.update(req.body);
+
   res.statusCode = response.code;
   res.json(response);
 });
@@ -141,7 +145,7 @@ app.put("/api/v1/recipes", async (req: any, res: Response) => {
 app.post(
   "/api/v1/recipes/images/upload",
   // clerk.expressWithAuth({}),
-  async (req, res: any) => {
+  async (req, res) => {
     // if (!req.auth.sessionId) return unauthenticated(res);
 
     upload(req, res, async (err) => {
@@ -163,7 +167,7 @@ app.post(
         return;
       }
 
-      const response: any = await recipes.addImage(req.file);
+      const response = await recipes.addImage(req.file as Image);
 
       res.statusCode = response.code;
       res.json(response);
@@ -196,7 +200,7 @@ app.patch(
       }
 
       const response = await recipes.updateImage(
-        req.file,
+        req.file as Image,
         req.params.idx,
         "12351"
         // req.auth.userId
@@ -221,14 +225,17 @@ app.delete(
 );
 
 app.get("/api/v1/search/:skip/:limit", async (req, res) => {
-  const filters = req.query.diet ? { diet: req.query.diet } : {};
+  // const filters = req.query.diet ? { diet: req.query.diet } : {};
+
   const retrivedData = await search.query(
     req.query.q as string,
-    filters,
+    // filters,
     +req.params.skip,
     +req.params.limit
   );
+
   console.log(req.query.q);
+
   res.statusCode = retrivedData.code;
 
   if (!retrivedData.data)
