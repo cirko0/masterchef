@@ -8,12 +8,12 @@ interface Ingredient {
 
 interface RecipeStepsInputProps {
   register: any;
-  errors: { steps?: boolean };
+  errors: any;
   fields: any[];
   append: (value: any) => void;
   remove: (index: number) => void;
   identifier?: string;
-  watch: { ingredients?: Ingredient[] } | null;
+  watch?: { ingredients?: Ingredient[] } | null;
 }
 
 const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
@@ -23,7 +23,7 @@ const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
   append,
   remove,
   identifier = "",
-  watch,
+  watch = null,
 }) => {
   const dialogs = useDialogs();
 

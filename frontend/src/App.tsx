@@ -7,6 +7,8 @@ import AuthSignIn from "./pages/auth/AuthSignIn";
 import AuthSignUp from "./pages/auth/AuthSignUp";
 import { RecipeProvider } from "./providers/recipeContext";
 import RecipeView from "./pages/recipe/view/RecipeView";
+import DefaultSecuredLayout from "./layouts/DefaultSecuredLayout";
+import RecipeAdd from "./pages/recipe/add/RecipeAdd";
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
@@ -35,6 +37,15 @@ function App() {
                   <DefaultLayout>
                     <RecipeView />
                   </DefaultLayout>
+                }
+              />
+
+              <Route
+                path="/recipe/add"
+                element={
+                  <DefaultSecuredLayout>
+                    <RecipeAdd />
+                  </DefaultSecuredLayout>
                 }
               />
 
