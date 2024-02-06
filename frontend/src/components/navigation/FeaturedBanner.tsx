@@ -37,13 +37,13 @@ const FeaturedBanner: React.FC<FeaturedBannerProps> = (props) => {
           )}
 
           {!props.text && (
-            <div className="mt-1 h-7 w-[96%] xl:w-[82%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
+            <div className="mt-1 h-7 w-[96%] xl:w-[82%] rounded-lg bg-whitesmoke animate-pulse"></div>
           )}
           {!props.text && (
-            <div className="mt-1 h-7 w-[64%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
+            <div className="mt-1 h-7 w-[64%] rounded-lg bg-whitesmoke animate-pulse"></div>
           )}
           {!props.text && (
-            <div className="md:hidden mt-1 h-7 w-[64%] rounded-lg bg-[#ffbf73] animate-pulse"></div>
+            <div className="md:hidden mt-1 h-7 w-[64%] rounded-lg bg-whitesmoke animate-pulse"></div>
           )}
         </div>
       </Link>

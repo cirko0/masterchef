@@ -35,10 +35,10 @@ const recipes = {
           }
         | RecipeDocument = {};
 
-      if (args.idx) {
+      if (args["idx"]) {
         recipeData = (await db.Recipe.findOne({
           _id: args.idx,
-        }).select("_id name author diet img_url desc")) as RecipeDocument;
+        })) as RecipeDocument;
 
         data = recipeData;
       } else {

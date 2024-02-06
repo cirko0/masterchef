@@ -1,5 +1,7 @@
 // Universal
 
+import { Recipe } from "./recipe_display.interface";
+
 export interface ProviderProps {
   children: React.ReactNode;
 }
@@ -54,8 +56,8 @@ export interface RecipeContextType {
     loadMore: () => Promise<void>;
   };
   specific: {
-    state: SpecificRecipe | {};
-    get: (idx: string) => Promise<SpecificRecipe>;
+    state: Recipe | {};
+    get: (idx: string) => Promise<Recipe>;
   };
   config: {
     pageLength: React.MutableRefObject<number>;
@@ -105,6 +107,7 @@ export interface UpdateRecipe {
 }
 
 export interface SpecificRecipe {
+  health_category: string;
   _id: string;
   name: string;
   author: string;

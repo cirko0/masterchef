@@ -97,6 +97,7 @@ app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
 
 app.get("/api/v1/recipes/:idx", async (req, res) => {
   const retrivedData = await recipes.get({ idx: req.params.idx });
+  console.log(retrivedData);
   res.statusCode = retrivedData.code;
 
   res.json(retrivedData.data);

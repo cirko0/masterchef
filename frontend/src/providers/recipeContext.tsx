@@ -12,6 +12,7 @@ import {
   GetRecipe,
   SpecificRecipe,
 } from "../interfaces/provider.interfaces";
+import { Recipe } from "../interfaces/recipe_display.interface";
 
 const RecipeContext = React.createContext<RecipeContextType | undefined>(
   undefined
@@ -457,9 +458,9 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
 
   //* Specific
 
-  let setSpecific: React.Dispatch<React.SetStateAction<SpecificRecipe | {}>>;
+  let setSpecific: React.Dispatch<React.SetStateAction<Recipe | {}>>;
 
-  [recipes.specific.state, setSpecific] = useState<SpecificRecipe | {}>({});
+  [recipes.specific.state, setSpecific] = useState<Recipe | {}>({});
 
   const specific = recipes.specific;
 
