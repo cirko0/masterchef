@@ -59,7 +59,7 @@ const RecipeSteps: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
                 </div>
               )}
 
-              <div className="bg-white shadow-master py-5 px-3 rounded-[30px] flex items-center gap-3 border-l border-black grow">
+              <div className="bg-white shadow-master py-5 px-3 rounded-[30px] flex items-center gap-3 border-0 border-l-2 border-solid border-darkorange grow">
                 <div
                   className="bg-white relative t-[50%] font-medium text-2xl shadow-master border-2 border-solid border-darkorange
                                 h-[50px] w-[50px] min-w-[50px] rounded-[50%] flex justify-center items-center"
