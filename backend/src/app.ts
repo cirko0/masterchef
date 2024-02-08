@@ -1,11 +1,11 @@
-import express, { RequestParamHandler } from "express";
+//@ts-nocheck
+import express, { Application, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import db from "./config/db.config";
 import morgan from "morgan";
 import recipes from "./services/recipes";
-import { Response } from "express-serve-static-core";
-import { Clerk } from "@clerk/clerk-sdk-node";
-import multer, { Multer } from "multer";
+import { Clerk, WithAuthProp } from "@clerk/clerk-sdk-node";
+import multer from "multer";
 // @ts-ignore
 import uploadcareStorage from "multer-storage-uploadcare";
 import search from "./services/search";
@@ -14,21 +14,12 @@ import { Image } from "./interfaces/recipes.interface";
 
 dotenv.config();
 
-interface AuthenticatedRequest extends Request {
-  auth?: {
-    sessionId?: string;
-    userId?: string;
-  };
-}
-
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 const host = process.env.HOST || "127.0.0.1";
 
-const app = express();
-const apiKey: string = process.env.CLERK_SECRET_KEY as string;
+const app: Application = express();
 
-//@ts-ignore
-const clerk = new Clerk({ apiKey });
+const clerk = Clerk({ secretKey: process.env.CLERK_SECRET_KEY });
 
 app.use(express.json({ limit: "50mb" }));
 
@@ -36,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(function (req, res, next) {
+app.use(function (req: Request, res: Response, next: NextFunction) {
   res.setHeader(
     "Access-Control-Allow-Headers",
     "accept, authorization, content-type, x-requested-with"
@@ -67,7 +58,7 @@ const unauthenticated = (res: Response) => {
 
 let startTime: Date | null = new Date(Date.now());
 
-app.get("/status", async (req, res) => {
+app.get("/status", async (req: Request, res: Response) => {
   if (startTime) {
     res.json({
       code: 200,
@@ -85,7 +76,7 @@ app.get("/status", async (req, res) => {
   }
 });
 
-app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
+app.get("/api/v1/recipes/:skip/:limit", async (req: Request, res: Response) => {
   const retrivedData = await recipes.get({
     skip: +req.params.skip,
     limit: +req.params.limit,
@@ -95,7 +86,7 @@ app.get("/api/v1/recipes/:skip/:limit", async (req, res) => {
   res.json(retrivedData.data);
 });
 
-app.get("/api/v1/recipes/:idx", async (req, res) => {
+app.get("/api/v1/recipes/:idx", async (req: Request, res: Response) => {
   const retrivedData = await recipes.get({ idx: req.params.idx });
   console.log(retrivedData);
   res.statusCode = retrivedData.code;
@@ -105,12 +96,12 @@ app.get("/api/v1/recipes/:idx", async (req, res) => {
 
 app.get(
   "/api/v1/recipes/user/:skip/:limit",
-  // clerk.expressWithAuth({}),
-  async (req, res) => {
-    // if (!req.auth.sessionId) return unauthenticated(res);
+  clerk.expressWithAuth({}),
+  async (req: Request, res: Response) => {
+    if (!req.auth?.sessionId) return unauthenticated(res);
 
     const retrivedData = await recipes.getByUser({
-      userId: "12351",
+      userId: req.auth.userId,
       skip: +req.params.skip,
       limit: +req.params.limit,
     });
@@ -121,33 +112,49 @@ app.get(
   }
 );
 
-app.post("/api/v1/recipes", async (req, res) => {
-  req.body.author = `Ivan Cirkovic`;
-  req.body.userId = "12351";
+app.post(
+  "/api/v1/recipes",
+  clerk.expressWithAuth({}),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    console.log(req.auth);
+    if (!req.auth?.sessionId) return unauthenticated(res);
 
-  const response = await recipes.add(req.body);
+    const user = await clerk.users.getUser(req.auth.userId as string);
+    req.body.author = `${user.firstName} ${user.lastName}`;
+    req.body.userId = user.id;
 
-  res.statusCode = response.code;
-  res.json(response);
-});
+    const response = await recipes.add(req.body);
 
-app.put("/api/v1/recipes", async (req: any, res: Response) => {
-  req.body.author = `Ivan Cirkovic`;
-  req.body.userId = "12351";
+    res.statusCode = response.code;
+    res.json(response);
+  }
+);
 
-  console.log(req.body);
+app.put(
+  "/api/v1/recipes",
+  clerk.expressWithAuth({}),
+  async (req: Request, res: Response) => {
+    if (!req.auth?.sessionId) return unauthenticated(res);
 
-  const response = await recipes.update(req.body);
+    const user = await clerk.users.getUser(req.auth.userId);
 
-  res.statusCode = response.code;
-  res.json(response);
-});
+    req.body.author = `${user.firstName} ${user.lastName}`;
+    req.body.userId = user.id;
+
+    console.log(req.body);
+
+    const response = await recipes.update(req.body);
+
+    res.statusCode = response.code;
+    res.json(response);
+  }
+);
 
 app.post(
   "/api/v1/recipes/images/upload",
-  // clerk.expressWithAuth({}),
-  async (req, res) => {
-    // if (!req.auth.sessionId) return unauthenticated(res);
+  clerk.expressWithAuth({}),
+  async (req: Request, res: Response) => {
+    if (!req.auth?.sessionId) return unauthenticated(res);
 
     upload(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
@@ -178,10 +185,10 @@ app.post(
 
 app.patch(
   "/api/v1/recipes/images/upload/:idx",
-  // clerk.expressWithAuth({}),
-  async (req, res) => {
-    // if (!req.auth.sessionId) return unauthenticated(res);
-    //fix
+  clerk.expressWithAuth({}),
+  async (req: Request, res: Response) => {
+    if (!req.auth?.sessionId) return unauthenticated(res);
+
     upload(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         res.statusCode = 406;
@@ -203,8 +210,7 @@ app.patch(
       const response = await recipes.updateImage(
         req.file as Image,
         req.params.idx,
-        "12351"
-        // req.auth.userId
+        req.auth?.userId as string
       );
 
       res.statusCode = response.code;
@@ -215,9 +221,9 @@ app.patch(
 
 app.delete(
   "/api/v1/recipes/:idx",
-  // clerk.expressWithAuth({}),
-  async (req, res) => {
-    // if (!req.auth.sessionId) return unauthenticated(res);
+  clerk.expressWithAuth({}),
+  async (req: Request, res: Response) => {
+    if (!req.auth?.sessionId) return unauthenticated(res);
 
     const response = await recipes.delete(req.params.idx);
     res.statusCode = response.code;
@@ -225,7 +231,7 @@ app.delete(
   }
 );
 
-app.get("/api/v1/search/:skip/:limit", async (req, res) => {
+app.get("/api/v1/search/:skip/:limit", async (req: Request, res: Response) => {
   // const filters = req.query.diet ? { diet: req.query.diet } : {};
 
   const retrivedData = await search.query(
@@ -248,8 +254,8 @@ app.get("/api/v1/search/:skip/:limit", async (req, res) => {
   res.json(retrivedData.data);
 });
 
-app.get("/api/v1/submissions/:id", async (req, res) => {
-  //if (!req.auth.sessionId) return unauthenticated(res);
+app.get("/api/v1/submissions/:id", async (req: Request, res: Response) => {
+  // if (!req.auth.sessionId) return unauthenticated(res);
 
   const retrivedData = await submissions.status(req.params.id);
   res.statusCode = retrivedData.code;

@@ -1,9 +1,9 @@
-import { FC } from "react";
+import React from "react";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import { useDialogs } from "../../providers/dialogContext";
 
-const ControlBox: FC = () => {
+const ControlBox: React.FC = () => {
   let dialogs = useDialogs();
 
   const openSignInDialog = () => {
@@ -12,7 +12,7 @@ const ControlBox: FC = () => {
 
   return (
     <div className="bg-gold rounded-[10px] md:h-[275px] md:w-[300px] py-[20px] px-[30px] flex flex-col items-center">
-      <h1 className="text-white font-bold text-2xl md:text-3xl">
+      <h1 className="text-white font-bold text-2xl md:text-3xl md:w-[250px] leading-8">
         Share with AI Assist
       </h1>
       <SignedIn>
@@ -25,7 +25,7 @@ const ControlBox: FC = () => {
           </button>
         </Link>
 
-        <Link to="/account/myrecipes">
+        <Link to="/account/myrecipes" className="no-underline">
           <button
             className="w-[250px] h-[50px] mt-[10px] bg-white 
             rounded-[10px] font-bold text-[17px] text-center 

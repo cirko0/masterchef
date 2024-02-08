@@ -10,7 +10,6 @@ import {
   ProviderProps,
   RecipeContextType,
   GetRecipe,
-  SpecificRecipe,
 } from "../interfaces/provider.interfaces";
 import { Recipe } from "../interfaces/recipe_display.interface";
 
@@ -235,7 +234,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
         });
       },
     },
-    // TODO: Fix interfaces
+
     io: {
       add: async (data) => {
         return new Promise(async (resolve, reject) => {
@@ -244,7 +243,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
               throw new Error("You are not authenticated. Please login!");
 
             const token = await session.getToken();
-
+            console.log(token);
             let res = await fetch(`${BACKEND_URI}/api/v1/recipes`, {
               method: "POST",
               headers: {
