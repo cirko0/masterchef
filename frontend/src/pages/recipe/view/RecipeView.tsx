@@ -8,6 +8,12 @@ import RecipeInsights from "../../../components/recipe_display/RecipeInsights";
 import RecipeIngredients from "../../../components/recipe_display/RecipeIngredients";
 import RecipeSteps from "../../../components/recipe_display/RecipeSteps";
 import { Recipe } from "../../../interfaces/recipe_display.interface";
+import {
+  BiSolidLock,
+  BiSolidPen,
+  BiSolidPencil,
+  BiSolidTrash,
+} from "react-icons/bi";
 
 const RecipeView: React.FC = () => {
   const recipes = useRecipes();
@@ -85,30 +91,31 @@ const RecipeView: React.FC = () => {
     <div className="flex flex-col gap-10">
       <RecipeBanner currentRecipe={currentRecipe} />
 
-      <article className="container mx-auto flex flex-col gap-6 font-poppins">
+      <article className="container mx-auto flex flex-col gap-6">
         {user.id === currentRecipe?.userId && (
           <section
             className="relative flex justify-between items-center bg-green-100 
                 px-3 py-2 md:mt-[-15px] rounded-lg md:w-[49%] flex-col lg:flex-row gap-2"
           >
-            <h2 className="text-green-800 font-bold text-lg font-poppins">
-              <i className="fa-solid fa-lock text-lg mr-1"></i>
+            <h2 className="text-green-800 font-bold text-lg flex items-center justify-center gap-1">
+              <BiSolidLock className="text-lg"></BiSolidLock>
               Ownership Controls
             </h2>
             <div className="flex gap-2">
               <button
-                className="bg-[#0F7556] px-3 py-2 rounded-lg font-poppins font-semibold text-center text-white hover:opacity-90 cursor-pointer"
+                className="bg-[#0F7556] px-3 py-2 rounded-lg font-semibold text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
                 type="button"
                 onClick={editAction}
               >
-                <span className="fa-solid fa-pen-to-square"></span>&nbsp; Edit
+                <BiSolidPencil className="text-lg" />
+                &nbsp; Edit
               </button>
               <button
-                className="bg-[#0F7556] px-3 py-2 rounded-lg font-poppins font-semibold text-center text-white hover:opacity-90 cursor-pointer"
+                className="bg-[#9c1a11] px-3 py-2 rounded-lg font-semibold text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
                 type="button"
                 onClick={deleteAction}
               >
-                <i className="fa-solid fa-trash" />
+                <BiSolidTrash className="text-lg"></BiSolidTrash>
                 &nbsp; Delete
               </button>
             </div>
@@ -129,7 +136,7 @@ const RecipeView: React.FC = () => {
 
         <RecipeInsights currentRecipe={currentRecipe} />
 
-        <section className="italic font-poppins font-medium text-slate-500 text-sm">
+        <section className="italic font-medium text-slate-500 text-sm">
           <p>
             Disclaimer: AI Insights are experimental and may, at times, contain
             inaccurate or controversial information.

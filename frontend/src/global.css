@@ -23,6 +23,11 @@ body {
   box-sizing: border-box;
 }
 
+button {
+  outline: none;
+  border-style: none;
+}
+
 .cl-userButtonPopoverActionButton__manageAccount {
   display: none !important;
 }

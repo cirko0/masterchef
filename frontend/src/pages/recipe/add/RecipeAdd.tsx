@@ -70,7 +70,7 @@ const RecipeAdd: FC = () => {
   return (
     <main ref={container} className="font-poppins min-h-[69vh]">
       <div
-        className="bg-ninja-blue h-24 w-full absolute right-0 z-0"
+        className=" bg-gradient-to-r from-darkorange to-gold h-24 w-full absolute right-0 z-0"
         aria-hidden
       />
 

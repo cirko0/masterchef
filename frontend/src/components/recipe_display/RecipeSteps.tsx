@@ -53,7 +53,7 @@ const RecipeSteps: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
                   <h3 className="text-darkorange">
                     You'll need to get hold of
                   </h3>
-                  <span className="font-medium capitalize">
+                  <span className="font-medium text-sm capitalize">
                     {stepWiseIngredients.current[index]}
                   </span>
                 </div>
