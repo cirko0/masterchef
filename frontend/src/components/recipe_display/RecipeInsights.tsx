@@ -1,8 +1,6 @@
 import React from "react";
 import { RecipeViewProps } from "../../interfaces/recipe_display.interface";
 import {
-  BiAlarm,
-  BiAlarmExclamation,
   BiPlusMedical,
   BiSolidErrorCircle,
   BiSolidMagicWand,
