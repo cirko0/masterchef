@@ -149,7 +149,7 @@ export default function Library() {
             <button
               type="button"
               onClick={loadMoreRecent}
-              className="bg-slate-100 text-black rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+              className="bg-gradient-to-r from-darkorange to-gold text-white rounded-lg text-md font-bold hover:opacity-90 cursor-pointer px-4 py-2"
             >
               Load More
             </button>
@@ -161,7 +161,7 @@ export default function Library() {
             <button
               type="button"
               onClick={loadMoreSearchResults}
-              className="bg-slate-100 text-black rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+              className="bg-gradient-to-r from-darkorange to-gold text-white rounded-lg text-md font-bold hover:opacity-90 cursor-pointer px-4 py-2"
             >
               Load More
             </button>
@@ -170,7 +170,7 @@ export default function Library() {
           <button
             type="button"
             disabled
-            className="animate-bounce bg-slate-100 text-black rounded-xl hover:opacity-90 cursor-pointer px-4 py-2"
+            className="animate-bounce bg-gradient-to-r from-darkorange to-gold text-white rounded-xl text-lg font-bold hover:opacity-90 cursor-pointer px-4 py-2 flex items-center justify-center"
           >
             <BiChevronsDown />
           </button>

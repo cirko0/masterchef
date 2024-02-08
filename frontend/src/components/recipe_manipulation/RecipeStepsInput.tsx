@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useDialogs } from "../../providers/dialogContext";
+import { BiPlus, BiSolidTrash } from "react-icons/bi";
 
 interface Ingredient {
   name: string;
@@ -114,7 +115,7 @@ const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
 
             <div className="flex gap-1 w-full">
               <textarea
-                className="focus:outline-none focus:ring-0 border-0 flex items-center h-24 grow bg-slate-300 text-ninja-blue font-semibold font-poppins rounded-lg py-2 px-3"
+                className="focus:outline-none focus:ring-0 border-0 flex items-center h-24 grow bg-slate-300 text-ninja-blue font-semibold rounded-lg py-2 px-3 text-base"
                 placeholder={placeholder}
                 required
                 {...register(`steps.${index}${identifier}`)}
@@ -124,9 +125,9 @@ const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
                 <button
                   type="button"
                   onClick={() => deleteStep(index)}
-                  className="font-poppins font-semibold bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-3 py-2"
+                  className="font-semibold bg-[#9c1a11] text-white rounded-lg hover:opacity-90 cursor-pointer px-3 py-2"
                 >
-                  <i className="fa-solid fa-trash"></i>
+                  <BiSolidTrash className="text-lg" />
                 </button>
               )}
             </div>
@@ -138,9 +139,9 @@ const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
         <button
           type="button"
           onClick={() => append("")}
-          className="float-right w-36 font-poppins font-semibold bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+          className="float-right w-36 font-semibold bg-slate-300 text-black text-base rounded-lg hover:opacity-90 cursor-pointer px-4 py-2 flex items-center justify-center gap-1"
         >
-          <i className="fa-solid fa-plus"></i> Add Step
+          <BiPlus className="text-xl"></BiPlus> Add Step
         </button>
       </div>
     </>

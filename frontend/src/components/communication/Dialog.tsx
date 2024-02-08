@@ -55,7 +55,7 @@ const Dialog: React.FC<DialogProps> = () => {
             </SignedOut>
 
             <SignedIn>
-              <div className="text-ninja-blue bg-white p-5 rounded md:max-w-[50vw]">
+              <div className="text-black bg-white p-5 rounded md:max-w-[50vw]">
                 <p className="font-semibold">You are already signed in.</p>
                 <p className="mt-1">
                   You may have signed in on another tab/window while this page
@@ -71,7 +71,7 @@ const Dialog: React.FC<DialogProps> = () => {
               onClick={() => {
                 close();
               }}
-              className="font-bold text-[20px] outline-none border-none p-2 flex items-center justify-center cursor-pointer rounded-full"
+              className="font-bold text-xl outline-none border-none p-2 flex items-center justify-center cursor-pointer rounded-full"
             >
               <BiX />
             </button>
@@ -89,14 +89,14 @@ const Dialog: React.FC<DialogProps> = () => {
               <button
                 type="button"
                 onClick={() => close(true)}
-                className="bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-7 py-2"
+                className="bg-slate-300 text-black rounded-lg hover:opacity-90 cursor-pointer px-7 py-2 text-base font-semibold"
               >
                 Yes
               </button>
               <button
                 type="button"
                 onClick={() => close(false)}
-                className="bg-[#0F7556] text-white font-bold rounded-lg hover:opacity-90 cursor-pointer px-7 py-2"
+                className="bg-[#0F7556] text-white font-bold rounded-lg hover:opacity-90 cursor-pointer px-7 py-2 text-base"
               >
                 No
               </button>

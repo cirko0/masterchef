@@ -20,7 +20,7 @@ const RecipeTitleInput: React.FC<RecipeTitleInputProps> = ({
       <input
         type="text"
         className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 grow capitalize
-                bg-slate-300 text-ninja-blue font-semibold font-poppins rounded-lg py-2 px-3"
+                bg-slate-300 text-black font-semibold rounded-lg py-2 px-3 text-base"
         placeholder="Title"
         {...register("name", {
           required: "Please provide a title for the recipe.",

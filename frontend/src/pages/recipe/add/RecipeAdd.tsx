@@ -9,6 +9,7 @@ import RecipeTimeInput from "../../../components/recipe_manipulation/RecipeTimeI
 import RecipeStepsInput from "../../../components/recipe_manipulation/RecipeStepsInput";
 import RecipeImageInput from "../../../components/recipe_manipulation/RecipeImageInput";
 import { useFieldArray, useForm } from "react-hook-form";
+import { BiChevronsRight } from "react-icons/bi";
 
 interface RecipeStep {
   step: string;
@@ -75,7 +76,7 @@ const RecipeAdd: FC = () => {
       />
 
       <section className="flex flex-col justify-center h-24 text-white font-bold text-xl">
-        <h1 className="z-10">Add Recipe</h1>
+        <h1 className="z-10 text-3xl">Add Recipe</h1>
       </section>
 
       <section className="py-5 flex flex-col gap-5">
@@ -85,19 +86,17 @@ const RecipeAdd: FC = () => {
           className="flex flex-col gap-3 md:w-[95%]"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h2 className="font-bold text-xl text-ninja-blue mt-1">
+          <h2 className="font-bold text-2xl text-black mt-1">
             What are we cooking, today?
           </h2>
           <RecipeTitleInput register={register} errors={errors} />
 
-          <h2 className="font-bold text-xl text-ninja-blue mt-1">
+          <h2 className="font-bold text-2xl text-black mt-1">
             How long would this take to cook?
           </h2>
           <RecipeTimeInput register={register} errors={errors} />
 
-          <h2 className="font-bold text-xl text-ninja-blue mt-1">
-            Cooking Steps
-          </h2>
+          <h2 className="font-bold text-2xl text-black mt-1">Cooking Steps</h2>
           <AIAssistBanner />
           <RecipeStepsInput
             register={register}
@@ -108,18 +107,18 @@ const RecipeAdd: FC = () => {
             identifier=".step"
           />
 
-          <h2 className="font-bold text-xl text-ninja-blue">
+          <h2 className="font-bold text-2xl text-ninja-blue">
             Add an image <small className="text-slate-400">(optional)</small>
           </h2>
           <RecipeImageInput register={register} />
 
           <div>
             <button
-              className="float-right w-[250px] h-[50px] mt-[16px] bg-[#0F7556] rounded-[10px] font-poppins font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer"
+              className="float-right w-[250px] h-[50px] mt-[16px] bg-[#0F7556] rounded-[10px] font-poppins font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
               type="submit"
             >
               Send to AI Assist&nbsp;
-              <i className="fa-solid fa-angles-right"></i>
+              <BiChevronsRight className="text-3xl" />
             </button>
           </div>
         </form>
