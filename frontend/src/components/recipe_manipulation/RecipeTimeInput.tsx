@@ -22,6 +22,11 @@ const RecipeTimeInput: FC<RecipeTimeInputProps> = ({ register, errors }) => {
         onWheel={() => false}
         className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 grow bg-slate-300 text-black font-semibold rounded-lg py-2 px-3 text-base"
         placeholder="Cooking time (mins)"
+        onInput={() =>
+          register("cookingTime", {
+            required: "Cooking time is required.",
+          })
+        }
         {...register("cookingTime", {
           required: "Cooking time is required.",
         })}

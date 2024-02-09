@@ -114,7 +114,7 @@ export default function Library() {
                     name={recipe.name}
                     chef={recipe.author}
                     type={recipe.diet}
-                    img={`${recipe.img_url}/ncThumbnail`}
+                    img={`${recipe.img_url}`}
                     obj={recipe}
                   />
                 </div>
@@ -134,7 +134,7 @@ export default function Library() {
                   name={recipe.name}
                   chef={recipe.author}
                   type={recipe.diet}
-                  img={`${recipe.img_url}/ncThumbnail`}
+                  img={`${recipe.img_url}`}
                   obj={recipe}
                 />
               </div>

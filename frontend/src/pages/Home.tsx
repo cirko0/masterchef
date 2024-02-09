@@ -32,7 +32,7 @@ const Home: FunctionComponent = () => {
                   name={recipes.recent.list[0].name}
                   type={recipes.recent.list[0].diet}
                   chef={recipes.recent.list[0].author}
-                  img={`${recipes.recent.list[0].img_url}/ncThumbnail`}
+                  img={`${recipes.recent.list[0].img_url}`}
                   obj={recipes.recent.list[0]}
                 />
               )}

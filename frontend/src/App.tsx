@@ -10,6 +10,8 @@ import RecipeView from "./pages/recipe/view/RecipeView";
 import DefaultSecuredLayout from "./layouts/DefaultSecuredLayout";
 import RecipeAdd from "./pages/recipe/add/RecipeAdd";
 import AccountMyRecipes from "./pages/account/myrecipes/AccountMyRecipes";
+import RecipeEdit from "./pages/recipe/edit/RecipeEdit";
+import RecipeSubmission from "./pages/recipe/submission/RecipeSubmission";
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
@@ -46,6 +48,24 @@ function App() {
                 element={
                   <DefaultSecuredLayout>
                     <RecipeAdd />
+                  </DefaultSecuredLayout>
+                }
+              />
+
+              <Route
+                path="/recipe/edit/:idx"
+                element={
+                  <DefaultSecuredLayout>
+                    <RecipeEdit />
+                  </DefaultSecuredLayout>
+                }
+              />
+
+              <Route
+                path="/recipe/submission/:idx"
+                element={
+                  <DefaultSecuredLayout>
+                    <RecipeSubmission />
                   </DefaultSecuredLayout>
                 }
               />

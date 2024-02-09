@@ -400,7 +400,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
             let res = await fetch(
               `${BACKEND_URI}/api/v1/recipes/images/upload/${idx}`,
               {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },

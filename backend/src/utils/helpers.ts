@@ -53,6 +53,7 @@ const helpers: Helpers = {
 
       for (const schemaItem of schema) {
         console.log(
+          (output as { [key: string]: any })[schemaItem.prop],
           schemaItem.type,
           typeof (output as { [key: string]: any })[schemaItem.prop]
         );

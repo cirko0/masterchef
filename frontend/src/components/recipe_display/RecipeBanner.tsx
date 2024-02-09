@@ -38,7 +38,7 @@ const RecipeBanner: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
             className="bg-whitesmoke w-full h-60 md:h-80 md:w-[50%] bg-cover bg-center rounded-xl 
                     mt-5 shadow-master"
             style={{
-              backgroundImage: `url('${currentRecipe.img_url}/ncHeader')`,
+              backgroundImage: `url('${currentRecipe.img_url}')`,
             }}
           ></section>
         )}

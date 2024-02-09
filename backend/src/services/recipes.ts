@@ -255,7 +255,7 @@ const recipes = {
           !helpers.isRecipeOutputValid(input as RecipeUpdateInput, "userUpdate")
         )
           throw new Error("Validation Failed.");
-
+        console.log(input);
         // update steps, ingredients, name, desc, intro, cooking_time
         const updatedRecipe: Recipe = (await db.Recipe.findOneAndUpdate(
           { _id: input._id },

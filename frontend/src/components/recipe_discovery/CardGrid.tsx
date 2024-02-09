@@ -72,7 +72,7 @@ export default function CardGrid({
                 name={recipe.name}
                 chef={recipe.author}
                 type={recipe.diet}
-                img={`${recipe.img_url}/ncThumbnail`}
+                img={`${recipe.img_url}`}
                 obj={recipe}
               />
             </div>
