@@ -46,6 +46,7 @@ const RecipeAdd: FC = () => {
       dialogs.showLoading("Uploading Image...");
       const imageUpload = await recipes.io.attachImage(data.image[0]);
       recipeObj.submission_id = imageUpload.submission_id;
+      dialogs.close();
     }
 
     recipeObj.name = data.name;

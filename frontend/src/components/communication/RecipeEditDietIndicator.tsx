@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { BiInfoCircle } from "react-icons/bi";
 
 interface Ingredient {
   category: string;
@@ -32,15 +33,15 @@ const RecipeEditDietIndicator: React.FC<RecipeEditDietIndicatorProps> = ({
 
   return (
     <>
-      <p className="text-ninja-blue text-sm font-medium rounded-lg px-3 py-2">
-        <i className="fa-solid fa-circle-info" />
+      <p className="text-black text-sm font-medium rounded-lg px-3 py-2 flex items-center">
+        <BiInfoCircle className="text-xl" />
         &nbsp; This value is automatically computed based on the categorisation
         of the ingredients you've used.
       </p>
       <input
         type="text"
         className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 grow capitalize cursor-not-allowed
-                   bg-slate-300 text-gray-500 italic font-semibold font-poppins rounded-lg py-2 px-3"
+                   bg-slate-300 text-gray-500 italic font-semibold rounded-lg py-2 px-3"
         placeholder="(auto-computed)"
         ref={diet}
         disabled

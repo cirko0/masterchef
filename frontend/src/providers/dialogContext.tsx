@@ -16,23 +16,24 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
   const dialog: Dialog = {
     display: false,
     type: "",
-    message: useRef<string>("Loading..."),
-    title: useRef<string>("MasterChef + AI"),
+    message: "Loading...",
+    title: "MasterChef + AI",
     showAuth: () => {
       setType("auth");
       setDisplay(true);
     },
 
     showMessage: (title: string, message: string) => {
-      dialog.message.current = message;
-      dialog.title.current = title;
+      setMessage(message);
+      setTitle(title);
 
       setType("message");
       setDisplay(true);
     },
 
     showLoading: (message: string) => {
-      dialog.message.current = message;
+      console.log(message);
+      setMessage(message);
 
       setType("loading");
       setDisplay(true);
@@ -42,8 +43,8 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
       return new Promise((resolve) => {
         pendingResolution.current = resolve;
 
-        dialog.message.current = message;
-        dialog.title.current = title;
+        setMessage(message);
+        setTitle(title);
 
         setType("confirm");
         setDisplay(true);
@@ -65,9 +66,13 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
 
   let setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
   let setType: React.Dispatch<React.SetStateAction<string>>;
+  let setMessage: React.Dispatch<React.SetStateAction<string>>;
+  let setTitle: React.Dispatch<React.SetStateAction<string>>;
 
   [dialog.display, setDisplay] = useState<boolean>(false);
   [dialog.type, setType] = useState<string>("");
+  [dialog.message, setMessage] = useState<string>("Loading...");
+  [dialog.title, setTitle] = useState<string>("MasterChef + AI");
 
   const pendingResolution = useRef<Function | undefined>(undefined);
 

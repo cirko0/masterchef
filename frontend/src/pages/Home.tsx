@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import FeaturedBanner from "../components/navigation/FeaturedBanner";
 import ControlBox from "../components/navigation/ControlBox";
 import Library from "../components/recipe_discovery/Library";

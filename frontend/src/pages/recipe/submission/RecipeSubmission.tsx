@@ -3,7 +3,11 @@ import { useRecipes } from "../../../providers/recipeContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { useDialogs } from "../../../providers/dialogContext";
-import { BiCircleQuarter } from "react-icons/bi";
+import {
+  BiAlarmExclamation,
+  BiLoaderAlt,
+  BiSolidErrorCircle,
+} from "react-icons/bi";
 
 interface Status {
   stage: string;
@@ -46,20 +50,20 @@ const RecipeSubmission: React.FC = () => {
   return (
     <main className="font-poppins min-h-[69vh]">
       <div
-        className="bg-ninja-blue h-24 w-full absolute right-0 z-0"
+        className=" bg-gradient-to-r from-darkorange to-gold h-24 w-full absolute right-0 z-0"
         aria-hidden
       />
       <section className="flex flex-col justify-center h-24 text-white font-bold text-xl">
         <h1 className="z-10">Pending Recipe</h1>
       </section>
       <div className="flex flex-col justify-center items-center h-[50vh] gap-10">
-        <div className="bg-white shadow-ninja rounded-xl flex flex-col justify-center items-center gap-3 px-12 py-8 min-h-[125px] min-w-[275px] max-w-[450px]">
+        <div className="bg-white shadow-master rounded-xl flex flex-col justify-center items-center gap-3 px-12 py-8 min-h-[125px] min-w-[275px] max-w-[450px]">
           <div className="flex gap-5 justify-center items-center">
             {state === "error" && (
-              <i className="fa-solid fa-triangle-exclamation text-yellow-500 text-3xl" />
+              <BiSolidErrorCircle className="text-yellow-500 text-3xl" />
             )}
             {state === "loading" && (
-              <BiCircleQuarter className="animate-spin text-[#66bd94] text-3xl" />
+              <BiLoaderAlt className="animate-spin text-[#66bd94] text-3xl" />
             )}
             <p
               className="font-poppins font-semibold text-slate-600"

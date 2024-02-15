@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { useDialogs } from "../../../providers/dialogContext";
 import { useUser } from "@clerk/clerk-react";
-import { DevTool } from "@hookform/devtools";
+// import { DevTool } from "@hookform/devtools";
 import RecipeDescriptionInput from "../../../components/recipe_manipulation/RecipeDescriptionInput";
 import RecipeIngredientsInput from "../../../components/recipe_manipulation/RecipeIngredientsInput";
 import RecipeTitleInput from "../../../components/recipe_manipulation/RecipeTitleInput";
@@ -15,6 +15,7 @@ import RecipeImageInput from "../../../components/recipe_manipulation/RecipeImag
 import RecipeIntroductionInput from "../../../components/recipe_manipulation/RecipeIntroductionInput";
 import ManualModeBanner from "../../../components/communication/ManualModeBanner";
 import RecipeEditDietIndicator from "../../../components/communication/RecipeEditDietIndicator";
+import { BiSolidSave, BiTrash } from "react-icons/bi";
 
 const RecipeEdit: React.FC = () => {
   const dialogs = useDialogs();
@@ -130,10 +131,10 @@ const RecipeEdit: React.FC = () => {
 
   return (
     <main ref={container} className="font-poppins min-h-[69vh]">
-      <DevTool control={control} placement="top-right" />
+      {/* <DevTool control={control} placement="top-right" /> */}
 
       <div
-        className="bg-ninja-blue h-24 w-full absolute right-0 z-0"
+        className=" bg-gradient-to-r from-darkorange to-gold h-24 w-full absolute right-0 z-0"
         aria-hidden
       />
 
@@ -147,29 +148,29 @@ const RecipeEdit: React.FC = () => {
           className="flex flex-col gap-3 md:w-[95%]"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <label className="font-bold text-xl text-ninja-blue mt-1">
+          <label className="font-bold text-xl text-black mt-1">
             Recipe Title
           </label>
           <RecipeTitleInput register={register} errors={errors} />
 
-          <label className="font-bold text-xl text-ninja-blue mt-1">
+          <label className="font-bold text-xl text-black mt-1">
             Estimated Cooking Time
           </label>
           <RecipeTimeInput register={register} errors={errors} />
 
-          <label className="font-bold text-xl text-ninja-blue mt-1">
+          <label className="font-bold text-xl text-black mt-1">
             <small className="fa-solid fa-bolt"></small>&nbsp; Short Description{" "}
             <small className="text-slate-400">(used when featured)</small>
           </label>
           <RecipeDescriptionInput register={register} errors={errors} />
 
-          <label className="font-bold text-xl text-ninja-blue mt-1">
+          <label className="font-bold text-xl text-black mt-1">
             <small className="fa-solid fa-bolt"></small>&nbsp; Introduction
           </label>
           <RecipeIntroductionInput register={register} errors={errors} />
 
           <label
-            className="font-bold text-xl text-ninja-blue mt-1"
+            className="font-bold text-xl text-black mt-1"
             id="ingredientLabel"
           >
             <small className="fa-solid fa-bolt"></small>&nbsp; Ingredients
@@ -183,13 +184,13 @@ const RecipeEdit: React.FC = () => {
             steps={steps}
           />
 
-          <label className="font-bold text-xl text-ninja-blue mt-1">
+          <label className="font-bold text-xl text-black mt-1">
             <small className="fa-solid fa-bolt"></small>&nbsp; Dietary
             Classification
           </label>
           <RecipeEditDietIndicator watch={watch()} />
 
-          <label className="font-bold text-xl text-ninja-blue mt-1">
+          <label className="font-bold text-xl text-black mt-1">
             Cooking Steps
           </label>
           <RecipeStepsInput
@@ -201,24 +202,24 @@ const RecipeEdit: React.FC = () => {
             watch={watch()}
           />
 
-          <label className="font-bold text-xl text-ninja-blue">
-            Replace Image
-          </label>
+          <label className="font-bold text-xl text-black">Replace Image</label>
           <RecipeImageInput register={register} />
 
           <div className="flex flex-col md:flex-row gap-2 justify-end">
             <button
-              className="md:w-[250px] h-[50px] mt-[16px] bg-slate-300 text-ninja-blue rounded-[10px] font-poppins font-bold text-[17px] text-center hover:opacity-90 cursor-pointer"
+              className="md:w-[250px] h-[50px] mt-[16px] bg-slate-300 text-black rounded-[10px] font-poppins font-bold text-[17px] text-center hover:opacity-90 cursor-pointer flex items-center justify-center"
               type="button"
               onClick={cancelEdit}
             >
-              <i className="fa-solid fa-ban"></i>&nbsp; Cancel
+              <BiTrash className="text-xl" />
+              &nbsp; Cancel
             </button>
             <button
-              className="md:w-[250px] h-[50px] md:mt-[16px] bg-[#0F7556] rounded-[10px] font-poppins font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer"
+              className="md:w-[250px] h-[50px] md:mt-[16px] bg-[#0F7556] rounded-[10px] font-poppins font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
               type="submit"
             >
-              <i className="fa-regular fa-floppy-disk"></i>&nbsp; Save Changes
+              <BiSolidSave className="text-xl" />
+              &nbsp; Save Changes
             </button>
           </div>
         </form>

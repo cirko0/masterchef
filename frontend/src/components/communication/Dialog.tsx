@@ -32,9 +32,7 @@ const Dialog: React.FC<DialogProps> = () => {
         {dialogs.type === "loading" && (
           <div className="text-[20px] bg-white shadow-master h-32 min-w-[275px] max-w-[80vw] rounded-xl flex justify-center items-center gap-3 px-6 py-3">
             <BiLoaderAlt className="animate-spin text-[#66bd94]" />
-            <p className="font-semibold text-slate-600">
-              {dialogs.message.current}
-            </p>
+            <p className="font-semibold text-slate-600">{dialogs.message}</p>
           </div>
         )}
 
@@ -81,8 +79,8 @@ const Dialog: React.FC<DialogProps> = () => {
         {dialogs.type === "confirm" && (
           <div className="bg-white min-w-[200px] max-w-[90vw] md:max-w-[50vw] lg:[30vw] rounded-xl flex flex-col justify-center items-center gap-3 px-6 py-3">
             <div className=" font-semibold text-slate-600 flex flex-col gap-1 text-center">
-              <p className="font-bold">{dialogs.title.current}</p>
-              <p className="font-medium">{dialogs.message.current}</p>
+              <p className="font-bold">{dialogs.title}</p>
+              <p className="font-medium">{dialogs.message}</p>
             </div>
 
             <div className="flex gap-1 font-semibold ">
@@ -107,8 +105,8 @@ const Dialog: React.FC<DialogProps> = () => {
         {dialogs.type === "message" && (
           <div className="bg-white min-w-[200px] max-w-[90vw] md:max-w-[50vw] lg:[30vw] rounded-xl flex flex-col justify-center items-center gap-3 px-6 py-3">
             <div className="font-semibold text-slate-600 flex flex-col gap-1 text-center">
-              <p className="font-bold">{dialogs.title.current}</p>
-              <p className="font-medium">{dialogs.message.current}</p>
+              <p className="font-bold">{dialogs.title}</p>
+              <p className="font-medium">{dialogs.message}</p>
             </div>
 
             <div className="flex gap-1 font-semibold ">
