@@ -1,5 +1,5 @@
-import { GPTMetaDataPrompt } from "./ai.interface";
-import { Ingredient } from "./db.interface";
+import { GPTMetaDataPrompt } from "../config/ai.interface";
+import { Ingredient } from "../config/db.interface";
 import { Types } from "mongoose";
 
 export interface ExtendedRecipeFields {

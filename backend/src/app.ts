@@ -1,4 +1,3 @@
-//@ts-nocheck
 import express, { Application, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import db from "./config/db.config";
@@ -10,7 +9,7 @@ import multer from "multer";
 import uploadcareStorage from "multer-storage-uploadcare";
 import search from "./services/search";
 import submissions from "./services/submissions";
-import { Image } from "./interfaces/recipes.interface";
+import { Image } from "./interfaces/services/recipes.interface";
 
 dotenv.config();
 
@@ -27,7 +26,17 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(function (req: Request, res: Response, next: NextFunction) {
+app.use(function (req, res, next) {
+  const allowedOrigins = [
+    "http://localhost:3000",
+    "https://masterchef-ai.netlify.app",
+  ];
+
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin as string)) {
+    res.setHeader("Access-Control-Allow-Origin", origin as string);
+  }
+
   res.setHeader(
     "Access-Control-Allow-Headers",
     "accept, authorization, content-type, x-requested-with"
@@ -36,13 +45,19 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
     "Access-Control-Allow-Methods",
     "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
   );
-  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
 
   next();
 });
 
 // Utilities
+
+interface RequestWithClerkAuth extends Request {
+  auth?: {
+    sessionId: string;
+    userId: string;
+  };
+}
 
 const upload = multer({
   storage: uploadcareStorage({
@@ -97,7 +112,7 @@ app.get("/api/v1/recipes/:idx", async (req: Request, res: Response) => {
 app.get(
   "/api/v1/recipes/user/:skip/:limit",
   clerk.expressWithAuth({}),
-  async (req: Request, res: Response) => {
+  async (req: RequestWithClerkAuth, res: Response) => {
     if (!req.auth?.sessionId) return unauthenticated(res);
 
     const retrivedData = await recipes.getByUser({
@@ -115,7 +130,7 @@ app.get(
 app.post(
   "/api/v1/recipes",
   clerk.expressWithAuth({}),
-  async (req: WithAuthProp<Request>, res: Response) => {
+  async (req: RequestWithClerkAuth, res: Response) => {
     console.log(req.auth);
     if (!req.auth?.sessionId) return unauthenticated(res);
 
@@ -133,7 +148,7 @@ app.post(
 app.put(
   "/api/v1/recipes",
   clerk.expressWithAuth({}),
-  async (req: Request, res: Response) => {
+  async (req: RequestWithClerkAuth, res: Response) => {
     if (!req.auth?.sessionId) return unauthenticated(res);
 
     const user = await clerk.users.getUser(req.auth.userId);
@@ -153,7 +168,7 @@ app.put(
 app.post(
   "/api/v1/recipes/images/upload",
   clerk.expressWithAuth({}),
-  async (req: Request, res: Response) => {
+  async (req: RequestWithClerkAuth, res: Response) => {
     if (!req.auth?.sessionId) return unauthenticated(res);
 
     upload(req, res, async (err) => {
@@ -186,7 +201,7 @@ app.post(
 app.patch(
   "/api/v1/recipes/images/upload/:idx",
   clerk.expressWithAuth({}),
-  async (req: Request, res: Response) => {
+  async (req: RequestWithClerkAuth, res: Response) => {
     if (!req.auth?.sessionId) return unauthenticated(res);
 
     upload(req, res, async (err) => {
@@ -222,7 +237,7 @@ app.patch(
 app.delete(
   "/api/v1/recipes/:idx",
   clerk.expressWithAuth({}),
-  async (req: Request, res: Response) => {
+  async (req: RequestWithClerkAuth, res: Response) => {
     if (!req.auth?.sessionId) return unauthenticated(res);
 
     const response = await recipes.delete(req.params.idx);

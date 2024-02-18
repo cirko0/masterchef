@@ -4,7 +4,7 @@ import {
   Database,
   PendingSubmissionDocument,
   RecipeDocument,
-} from "../interfaces/db.interface";
+} from "../interfaces/config/db.interface";
 
 dotenv.config();
 

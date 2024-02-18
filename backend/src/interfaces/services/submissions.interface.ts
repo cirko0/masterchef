@@ -1,4 +1,4 @@
-import { PendingSubmission } from "./db.interface";
+import { PendingSubmission } from "../config/db.interface";
 
 export interface GetSubmissionStatusResponse {
   code: number;

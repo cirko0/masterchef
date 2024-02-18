@@ -1,6 +1,6 @@
 import db from "../config/db.config";
 import { Document } from "mongoose";
-import { GetSubmissionStatusResponse } from "../interfaces/submissions.interface";
+import { GetSubmissionStatusResponse } from "../interfaces/services/submissions.interface";
 
 const submissions = {
   status: (id: string): Promise<GetSubmissionStatusResponse> => {

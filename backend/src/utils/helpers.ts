@@ -5,10 +5,10 @@
 import {
   GPTInsightsPrompt,
   GPTMetaDataPrompt,
-} from "../interfaces/ai.interface";
-import { RecipeUpdateInput } from "../interfaces/asyncHandler.interface";
-import { Ingredient, Recipe } from "../interfaces/db.interface";
-import { Helpers, SchemaOptions } from "../interfaces/helpers.interface";
+} from "../interfaces/config/ai.interface";
+import { RecipeUpdateInput } from "../interfaces/utils/asyncHandler.interface";
+import { Ingredient, Recipe } from "../interfaces/config/db.interface";
+import { Helpers, SchemaOptions } from "../interfaces/utils/helpers.interface";
 
 const helpers: Helpers = {
   isRecipeOutputValid: (

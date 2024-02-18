@@ -1,6 +1,6 @@
-import { GPTInsightsPrompt, GPTMetaDataPrompt } from "./ai.interface";
+import { GPTInsightsPrompt, GPTMetaDataPrompt } from "../config/ai.interface";
 import { RecipeUpdateInput } from "./asyncHandler.interface";
-import { Ingredient } from "./db.interface";
+import { Ingredient } from "../config/db.interface";
 
 export interface Helpers {
   isRecipeOutputValid: (

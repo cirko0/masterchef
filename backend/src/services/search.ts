@@ -2,7 +2,7 @@ import db from "../config/db.config";
 import {
   RecipeSearch,
   SearchQueryResponse,
-} from "../interfaces/search.interface";
+} from "../interfaces/services/search.interface";
 
 const search = {
   query: async (

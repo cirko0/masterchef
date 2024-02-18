@@ -4,7 +4,7 @@ import {
   ImagesResponseDataInner,
   ChatCompletionRequestMessage,
 } from "openai";
-import { AI, GPTResponse, Prompts } from "../interfaces/ai.interface";
+import { AI, GPTResponse, Prompts } from "../interfaces/config/ai.interface";
 
 // API Config
 

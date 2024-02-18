@@ -3,15 +3,15 @@ import db from "../config/db.config";
 import {
   GPTInsightsPrompt,
   GPTMetaDataPrompt,
-} from "../interfaces/ai.interface";
+} from "../interfaces/config/ai.interface";
 import helpers from "./helpers";
 import { uploadFile } from "@uploadcare/upload-client";
 import {
   RecipeInput,
   RecipeUpdateInput,
-} from "../interfaces/asyncHandler.interface";
-import { Ingredient } from "../interfaces/db.interface";
-import { CombinedRecipeInformation } from "../interfaces/asyncHandler.interface";
+} from "../interfaces/utils/asyncHandler.interface";
+import { Ingredient } from "../interfaces/config/db.interface";
+import { CombinedRecipeInformation } from "../interfaces/utils/asyncHandler.interface";
 
 const asyncHandlers = {
   addRecipe: async (

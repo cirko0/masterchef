@@ -5,8 +5,8 @@ import asyncHandlers from "../utils/asyncHandlers.js";
 import {
   RecipeInput,
   RecipeUpdateInput,
-} from "../interfaces/asyncHandler.interface.js";
-import { Recipe, RecipeDocument } from "../interfaces/db.interface.js";
+} from "../interfaces/utils/asyncHandler.interface.js";
+import { Recipe, RecipeDocument } from "../interfaces/config/db.interface.js";
 import {
   deleteFile,
   UploadcareSimpleAuthSchema,
@@ -18,8 +18,8 @@ import {
   GetRecipesResponse,
   UpdateRecipeResponse,
   DeleteRecipeResponse,
-} from "../interfaces/recipes.interface.js";
-import { GPTSpamAnalysisPrompt } from "../interfaces/ai.interface.js";
+} from "../interfaces/services/recipes.interface.js";
+import { GPTSpamAnalysisPrompt } from "../interfaces/config/ai.interface.js";
 
 const recipes = {
   get: async (
