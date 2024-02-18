@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDialogs } from "../../../providers/dialogContext";
 import { useRecipes } from "../../../providers/recipeContext";
@@ -11,11 +11,7 @@ import RecipeImageInput from "../../../components/recipe_manipulation/RecipeImag
 import { useFieldArray, useForm } from "react-hook-form";
 import { BiChevronsRight } from "react-icons/bi";
 
-interface RecipeStep {
-  step: string;
-}
-
-const RecipeAdd: FC = () => {
+const RecipeAdd: React.FC = () => {
   const dialogs = useDialogs();
   const container = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -51,7 +47,7 @@ const RecipeAdd: FC = () => {
 
     recipeObj.name = data.name;
     recipeObj.cookingTime = data.cookingTime;
-    recipeObj.steps = data.steps.map((step: RecipeStep) => step.step);
+    recipeObj.steps = data.steps.map((step: { step: string }) => step.step);
 
     dialogs.showLoading("Enforcing Spam Policy...");
     const submission = await recipes.io.add(recipeObj);

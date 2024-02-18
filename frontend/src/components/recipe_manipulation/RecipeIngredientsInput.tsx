@@ -1,24 +1,8 @@
 import React from "react";
-import {
-  UseFormRegister,
-  FieldValues,
-  UseFieldArrayReturn,
-} from "react-hook-form";
 import { useDialogs } from "../../providers/dialogContext";
-
-interface Ingredient {
-  name: string;
-  category: string;
-}
-
-interface RecipeIngredientsInputProps {
-  register: UseFormRegister<FieldValues>;
-  errors: any;
-  fields: any;
-  append: any;
-  remove: (index: number) => void;
-  steps: any;
-}
+import { BiErrorCircle, BiPlus, BiTrash } from "react-icons/bi";
+import { RecipeIngredientsInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import { Ingredient } from "../../interfaces/recipe_display.interface";
 
 const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
   register,
@@ -31,7 +15,8 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
   const dialogs = useDialogs();
 
   const deleteIngredient = async (index: number) => {
-    const thisIngredient = fields[index].name || "this ingredient";
+    const thisIngredient: string = fields[index].name || "this ingredient";
+
     let confirmation = await dialogs.awaitConfirmation(
       "Confirmation Required",
       `Are you sure you want to delete ${thisIngredient}?`
@@ -42,9 +27,9 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
   return (
     <div className="flex flex-col gap-5">
       {errors.steps && (
-        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2">
-          <i className="fa-solid fa-circle-exclamation" />
-          &nbsp; {errors.steps?.message}
+        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2 flex items-center">
+          <BiErrorCircle className="text-lg" />
+          &nbsp; {errors.steps?.message as string}
         </p>
       )}
 
@@ -117,7 +102,7 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
                   text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer
                   px-3 py-2 mb-1"
                 >
-                  <i className="fa-solid fa-trash"></i>
+                  <BiTrash />
                 </button>
               )}
             </div>
@@ -131,7 +116,7 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
           onClick={append}
           className="float-right mt-3 font-poppins font-semibold bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
         >
-          <i className="fa-solid fa-plus"></i> Add Ingredient
+          <BiPlus /> Add Ingredient
         </button>
       </div>
     </div>

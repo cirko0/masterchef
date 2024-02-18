@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useRef, useState, FC } from "react";
-import { Dialog, ProviderProps } from "../interfaces/provider.interfaces";
+import { Dialog } from "../interfaces/providers/dialogContext.interface";
+
+export interface ProviderProps {
+  children: React.ReactNode;
+}
 
 const DialogContext = createContext<Dialog | undefined>(undefined);
 
@@ -18,6 +22,7 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
     type: "",
     message: "Loading...",
     title: "MasterChef + AI",
+
     showAuth: () => {
       setType("auth");
       setDisplay(true);
@@ -74,6 +79,7 @@ export const DialogProvider: FC<ProviderProps> = ({ children }) => {
   [dialog.message, setMessage] = useState<string>("Loading...");
   [dialog.title, setTitle] = useState<string>("MasterChef + AI");
 
+  // For confirmation
   const pendingResolution = useRef<Function | undefined>(undefined);
 
   return (

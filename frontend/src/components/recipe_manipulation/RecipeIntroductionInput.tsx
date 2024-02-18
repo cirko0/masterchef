@@ -1,10 +1,6 @@
 import React from "react";
-import { UseFormRegister, FieldValues } from "react-hook-form";
-
-interface RecipeIntroductionInputProps {
-  register: UseFormRegister<FieldValues>;
-  errors: any;
-}
+import { BiErrorCircle } from "react-icons/bi";
+import { RecipeIntroductionInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 
 const RecipeIntroductionInput: React.FC<RecipeIntroductionInputProps> = ({
   register,
@@ -13,9 +9,9 @@ const RecipeIntroductionInput: React.FC<RecipeIntroductionInputProps> = ({
   return (
     <>
       {errors.name && (
-        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2">
-          <i className="fa-solid fa-circle-exclamation" />
-          &nbsp; {errors.name?.message}
+        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2 flex items-center">
+          <BiErrorCircle className="text-lg" />
+          &nbsp; {errors.name?.message as string}
         </p>
       )}
 

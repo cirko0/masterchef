@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import db from "./config/db.config";
 import morgan from "morgan";
 import recipes from "./services/recipes";
-import { Clerk, WithAuthProp } from "@clerk/clerk-sdk-node";
+import { Clerk } from "@clerk/clerk-sdk-node";
 import multer from "multer";
 // @ts-ignore
 import uploadcareStorage from "multer-storage-uploadcare";

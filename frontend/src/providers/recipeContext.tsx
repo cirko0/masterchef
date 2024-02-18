@@ -6,12 +6,14 @@
 import React, { FC, useContext, useRef, useState } from "react";
 import { useSession } from "@clerk/clerk-react";
 import {
-  AddRecipeResponse,
-  ProviderProps,
   RecipeContextType,
-  GetRecipe,
-} from "../interfaces/provider.interfaces";
+  RecipeCard,
+} from "../interfaces/providers/recipeContext.interface";
 import { Recipe } from "../interfaces/recipe_display.interface";
+
+export interface ProviderProps {
+  children: React.ReactNode;
+}
 
 const RecipeContext = React.createContext<RecipeContextType | undefined>(
   undefined
@@ -257,7 +259,7 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
 
             recipes.recent.get();
 
-            resolve(res as unknown as AddRecipeResponse);
+            resolve(res);
           } catch (error) {
             alert(
               "Something went wrong while submitting the recipe, please try again!"
@@ -313,8 +315,6 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
             );
 
             res = await res.json();
-
-            //recipes.recent.get();
 
             resolve(res);
           } catch (error) {
@@ -428,27 +428,27 @@ export const RecipeProvider: FC<ProviderProps> = ({ children }) => {
 
   //* Recent
 
-  let setRecentList: React.Dispatch<React.SetStateAction<GetRecipe[] | []>>,
+  let setRecentList: React.Dispatch<React.SetStateAction<RecipeCard[] | []>>,
     setRecentCount: React.Dispatch<React.SetStateAction<number>>,
-    setRecentUserList: React.Dispatch<React.SetStateAction<GetRecipe[] | []>>,
+    setRecentUserList: React.Dispatch<React.SetStateAction<RecipeCard[] | []>>,
     setRecentUserCount: React.Dispatch<React.SetStateAction<number>>;
 
-  [recipes.recent.list, setRecentList] = useState<GetRecipe[]>([]);
+  [recipes.recent.list, setRecentList] = useState<RecipeCard[]>([]);
   [recipes.recent.count, setRecentCount] = useState<number>(1);
 
-  [recipes.recent.userList, setRecentUserList] = useState<GetRecipe[]>([]);
+  [recipes.recent.userList, setRecentUserList] = useState<RecipeCard[]>([]);
   [recipes.recent.userCount, setRecentUserCount] = useState<number>(0);
 
   const recent = recipes.recent;
 
   //* Search
 
-  let setSearchResults: React.Dispatch<React.SetStateAction<GetRecipe[] | []>>,
+  let setSearchResults: React.Dispatch<React.SetStateAction<RecipeCard[] | []>>,
     setSearchIsActive: React.Dispatch<React.SetStateAction<boolean>>,
     setSearchIsPending: React.Dispatch<React.SetStateAction<boolean>>,
     setSearchCount: React.Dispatch<React.SetStateAction<number>>;
 
-  [recipes.search.results, setSearchResults] = useState<GetRecipe[]>([]);
+  [recipes.search.results, setSearchResults] = useState<RecipeCard[]>([]);
   [recipes.search.isActive, setSearchIsActive] = useState<boolean>(false);
   [recipes.search.isPending, setSearchIsPending] = useState<boolean>(false);
   [recipes.search.count, setSearchCount] = useState<number>(0);

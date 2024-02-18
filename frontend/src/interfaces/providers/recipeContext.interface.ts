@@ -1,48 +1,28 @@
-// Universal
-
-import { Recipe } from "./recipe_display.interface";
-
-export interface ProviderProps {
-  children: React.ReactNode;
-}
-
-// Dialog
-
-export interface Dialog {
-  display: boolean;
-  type: string;
-  message: string;
-  title: string;
-  showAuth: () => void;
-  showMessage: (title: string, message: string) => void;
-  showLoading: (message: string) => void;
-  awaitConfirmation: (title: string, message: string) => Promise<any>;
-  close: (result?: boolean | undefined) => void;
-}
+import { Ingredient, Recipe } from "../recipe_display.interface";
 
 // Recipe
 
 export interface RecipeContextType {
   recent: {
-    list: GetRecipe[];
+    list: RecipeCard[];
     count: number;
-    userList: GetRecipe[];
+    userList: RecipeCard[];
     userCount: number;
     get: (
       skip?: number,
       limit?: number,
       updateState?: boolean
-    ) => Promise<GetRecipe[]>;
+    ) => Promise<RecipeCard[]>;
     loadMore: () => Promise<void>;
     getForUser: (
       skip?: number,
       limit?: number,
       updateState?: boolean
-    ) => Promise<GetRecipe[]>;
+    ) => Promise<RecipeCard[]>;
     loadMoreForUser: () => Promise<void>;
   };
   search: {
-    results: GetRecipe[];
+    results: RecipeCard[];
     isActive: boolean;
     isPending: boolean;
     count: number;
@@ -52,7 +32,7 @@ export interface RecipeContextType {
       skip?: number,
       limit?: number,
       updateState?: boolean
-    ) => Promise<GetRecipe[]>;
+    ) => Promise<RecipeCard[]>;
     loadMore: () => Promise<void>;
   };
   specific: {
@@ -66,16 +46,19 @@ export interface RecipeContextType {
   io: {
     add: (data: AddRecipe) => Promise<AddRecipeResponse>;
     delete: (data: { idx: string }) => Promise<string>;
-    attachImage: (image: File) => Promise<any>;
-    getSubmissionStatus: (idx: string) => Promise<any>;
-    update: (data: UpdateRecipe) => Promise<any>;
-    updateImage: (image: File, idx: string) => Promise<any>;
+    attachImage: (image: File) => Promise<AttachRecipeImageResponse>;
+    getSubmissionStatus: (idx: string) => Promise<PendingSubmission>;
+    update: (data: UpdateRecipe) => Promise<UpdateRecipeResponse>;
+    updateImage: (
+      image: File,
+      idx: string
+    ) => Promise<UpdateRecipeImageResponse>;
   };
 }
 
 // Request Values
 
-export interface GetRecipe {
+export interface RecipeCard {
   _id: string;
   name: string;
   author: string;
@@ -90,12 +73,6 @@ export interface AddRecipe {
   cookingTime: number;
 }
 
-interface Ingredient {
-  name: string;
-  steps: number[];
-  category: string;
-}
-
 export interface UpdateRecipe {
   _id: string;
   name: string;
@@ -106,29 +83,38 @@ export interface UpdateRecipe {
   ingredients: Ingredient[];
 }
 
-export interface SpecificRecipe {
-  health_category: string;
-  _id: string;
-  name: string;
-  author: string;
-  cooking_time: number;
-  diet: string;
-  img_url: string;
-  ingredients: Ingredient[];
-  steps: string[];
-  allergies: string[];
-  intro: string;
-  desc: string;
-  health_score: number;
-  health_reason: string;
-  userId: string;
+export interface PendingSubmission extends Response {
+  recipeId?: string;
+  img_url?: string;
+  is_pending?: boolean;
+  success?: string;
+  stage?: string;
+  log?: string;
 }
 
 // Response
 
-export interface AddRecipeResponse {
-  code: number;
+export interface AddRecipeResponse extends Response {
+  code?: number;
   spam?: boolean;
-  msg: string;
+  msg?: string;
+  submission_id?: string;
+}
+
+export interface AttachRecipeImageResponse extends Response {
+  code?: number;
+  msg?: string;
+  submission_id?: string;
+}
+
+export interface UpdateRecipeResponse extends Response {
+  code?: number;
+  msg?: string;
+  spam?: boolean;
+}
+
+export interface UpdateRecipeImageResponse extends Response {
+  code?: number;
+  msg?: string;
   submission_id?: string;
 }

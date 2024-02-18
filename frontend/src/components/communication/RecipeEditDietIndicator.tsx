@@ -1,10 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { BiInfoCircle } from "react-icons/bi";
 
-interface Ingredient {
-  category: string;
-}
-
 interface RecipeEditDietIndicatorProps {
   watch: any;
 }

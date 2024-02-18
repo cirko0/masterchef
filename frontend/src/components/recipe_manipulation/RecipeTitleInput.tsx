@@ -1,9 +1,6 @@
 import React from "react";
-
-interface RecipeTitleInputProps {
-  register: any;
-  errors: any;
-}
+import { BiSolidErrorCircle } from "react-icons/bi";
+import { RecipeTitleInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 
 const RecipeTitleInput: React.FC<RecipeTitleInputProps> = ({
   register,
@@ -12,9 +9,10 @@ const RecipeTitleInput: React.FC<RecipeTitleInputProps> = ({
   return (
     <>
       {errors.name && (
-        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2">
-          <i className="fa-solid fa-circle-exclamation" />
-          &nbsp; {errors.name?.message}
+        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2 flex items-center">
+          <BiSolidErrorCircle className="text-lg" />
+          &nbsp;
+          {errors.name.message as string}
         </p>
       )}
       <input

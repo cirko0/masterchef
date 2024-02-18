@@ -1,23 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDialogs } from "../../providers/dialogContext";
-import { BiPlus, BiSolidTrash } from "react-icons/bi";
+import { BiPlus, BiSolidErrorCircle, BiSolidTrash } from "react-icons/bi";
+import { RecipeStepsInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 
-interface Ingredient {
-  name: string;
-  steps?: string[];
-}
-
-interface RecipeStepsInputProps {
-  register: any;
-  errors: any;
-  fields: any[];
-  append: (value: any) => void;
-  remove: (index: number) => void;
-  identifier?: string;
-  watch?: { ingredients?: Ingredient[] } | null;
-}
-
-const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
+const RecipeStepsInput: React.FC<RecipeStepsInputProps> = ({
   register,
   errors,
   fields,
@@ -60,7 +46,7 @@ const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
 
       for (let ingredient of ingredients) {
         if (!ingredient.steps) continue;
-        if (ingredient.steps.includes(`${i + 1}`))
+        if (ingredient.steps.includes(i + 1))
           stepIngredientsArr.push(ingredient.name);
       }
 
@@ -82,8 +68,8 @@ const RecipeStepsInput: FC<RecipeStepsInputProps> = ({
   return (
     <>
       {errors.steps && (
-        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2">
-          <i className="fa-solid fa-circle-exclamation" />
+        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2 flex items-center">
+          <BiSolidErrorCircle className="text-lg" />
           &nbsp; At least 3 steps are required for submitting a recipe.
         </p>
       )}

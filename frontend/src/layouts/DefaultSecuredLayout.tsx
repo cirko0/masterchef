@@ -25,7 +25,7 @@ const DefaultSecuredLayout: React.FC<DefaultSecuredLayoutProps> = ({
   }, [isLoaded, isSignedIn, navigate]);
 
   return (
-    <div className="mx-auto container bg-white px-11">
+    <div className="mx-auto container bg-white px-6 md:px-11">
       <Nav />
 
       <SignedIn>{children}</SignedIn>

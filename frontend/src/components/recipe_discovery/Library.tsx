@@ -25,9 +25,17 @@ export default function Library() {
 
   useEffect(() => {
     const loadRecipes = async () => {
-      let cardsPerRow = Math.floor(
-        (container.current?.offsetWidth || 0) / (cardWidth + 24)
-      );
+      let cardsPerRow;
+
+      if (
+        Math.floor((container.current?.offsetWidth || 0) / (cardWidth + 24)) > 0
+      ) {
+        cardsPerRow = Math.floor(
+          (container.current?.offsetWidth || 0) / (cardWidth + 24)
+        );
+      } else {
+        cardsPerRow = 1;
+      }
 
       if (cardsPerRow === 1) cardsPerRow = 4;
 

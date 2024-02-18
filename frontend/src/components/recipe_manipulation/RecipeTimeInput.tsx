@@ -1,17 +1,18 @@
-import { FC } from "react";
+import React from "react";
+import { BiSolidErrorCircle } from "react-icons/bi";
+import { RecipeTimeInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 
-interface RecipeTimeInputProps {
-  register: any;
-  errors: any;
-}
-
-const RecipeTimeInput: FC<RecipeTimeInputProps> = ({ register, errors }) => {
+const RecipeTimeInput: React.FC<RecipeTimeInputProps> = ({
+  register,
+  errors,
+}) => {
   return (
     <>
       {errors.cookingTime && (
-        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2">
-          <i className="fa-solid fa-circle-exclamation" />
-          &nbsp; {errors.cookingTime?.message}
+        <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2 flex items-center">
+          <BiSolidErrorCircle className="text-lg" />
+          &nbsp;
+          {errors.cookingTime.message as string}
         </p>
       )}
 

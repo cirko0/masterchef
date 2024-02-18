@@ -15,7 +15,7 @@ import RecipeImageInput from "../../../components/recipe_manipulation/RecipeImag
 import RecipeIntroductionInput from "../../../components/recipe_manipulation/RecipeIntroductionInput";
 import ManualModeBanner from "../../../components/communication/ManualModeBanner";
 import RecipeEditDietIndicator from "../../../components/communication/RecipeEditDietIndicator";
-import { BiSolidSave, BiTrash } from "react-icons/bi";
+import { BiSolidBolt, BiSolidSave, BiTrash } from "react-icons/bi";
 
 const RecipeEdit: React.FC = () => {
   const dialogs = useDialogs();
@@ -130,7 +130,7 @@ const RecipeEdit: React.FC = () => {
   };
 
   return (
-    <main ref={container} className="font-poppins min-h-[69vh]">
+    <main ref={container} className="min-h-[69vh]">
       {/* <DevTool control={control} placement="top-right" /> */}
 
       <div
@@ -159,13 +159,15 @@ const RecipeEdit: React.FC = () => {
           <RecipeTimeInput register={register} errors={errors} />
 
           <label className="font-bold text-xl text-black mt-1">
-            <small className="fa-solid fa-bolt"></small>&nbsp; Short Description{" "}
+            <BiSolidBolt />
+            &nbsp; Short Description{" "}
             <small className="text-slate-400">(used when featured)</small>
           </label>
           <RecipeDescriptionInput register={register} errors={errors} />
 
           <label className="font-bold text-xl text-black mt-1">
-            <small className="fa-solid fa-bolt"></small>&nbsp; Introduction
+            <BiSolidBolt />
+            &nbsp; Introduction
           </label>
           <RecipeIntroductionInput register={register} errors={errors} />
 
@@ -173,11 +175,13 @@ const RecipeEdit: React.FC = () => {
             className="font-bold text-xl text-black mt-1"
             id="ingredientLabel"
           >
-            <small className="fa-solid fa-bolt"></small>&nbsp; Ingredients
+            <BiSolidBolt />
+            &nbsp; Ingredients
           </label>
           <RecipeIngredientsInput
             register={register}
             errors={errors}
+            //@ts-ignore
             fields={ingredients.fields}
             append={ingredients.append}
             remove={ingredients.remove}
@@ -185,8 +189,8 @@ const RecipeEdit: React.FC = () => {
           />
 
           <label className="font-bold text-xl text-black mt-1">
-            <small className="fa-solid fa-bolt"></small>&nbsp; Dietary
-            Classification
+            <BiSolidBolt />
+            &nbsp; Dietary Classification
           </label>
           <RecipeEditDietIndicator watch={watch()} />
 
@@ -207,7 +211,7 @@ const RecipeEdit: React.FC = () => {
 
           <div className="flex flex-col md:flex-row gap-2 justify-end">
             <button
-              className="md:w-[250px] h-[50px] mt-[16px] bg-slate-300 text-black rounded-[10px] font-poppins font-bold text-[17px] text-center hover:opacity-90 cursor-pointer flex items-center justify-center"
+              className="md:w-[250px] h-[50px] mt-[16px] bg-slate-300 text-black rounded-[10px] font-bold text-[17px] text-center hover:opacity-90 cursor-pointer flex items-center justify-center"
               type="button"
               onClick={cancelEdit}
             >
@@ -215,7 +219,7 @@ const RecipeEdit: React.FC = () => {
               &nbsp; Cancel
             </button>
             <button
-              className="md:w-[250px] h-[50px] md:mt-[16px] bg-[#0F7556] rounded-[10px] font-poppins font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
+              className="md:w-[250px] h-[50px] md:mt-[16px] bg-[#0F7556] rounded-[10px] font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
               type="submit"
             >
               <BiSolidSave className="text-xl" />

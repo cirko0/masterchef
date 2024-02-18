@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Card from "./Card";
 import { useRecipes } from "../../providers/recipeContext";
-import { GetRecipe } from "../../interfaces/provider.interfaces";
+import { RecipeCard } from "../../interfaces/providers/recipeContext.interface";
 
 interface CardGridProps {
-  list: GetRecipe[];
+  list: RecipeCard[];
   total: number;
   initFunction: any;
   loadMoreFunction: any;

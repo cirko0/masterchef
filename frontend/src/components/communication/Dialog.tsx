@@ -2,10 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { SignIn, SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useDialogs } from "../../providers/dialogContext";
 import { BiLoaderAlt, BiX } from "react-icons/bi";
-interface DialogProps {}
 
-// TODO: Fix
-const Dialog: React.FC<DialogProps> = () => {
+const Dialog: React.FC = () => {
   const dialogs = useDialogs();
   const element = useRef<HTMLDialogElement>(null);
 
@@ -16,7 +14,6 @@ const Dialog: React.FC<DialogProps> = () => {
     }
 
     element.current!.open = true;
-    // window.scrollTo(0, 0);
   }, [dialogs, element]);
 
   const close = (result: boolean | undefined = undefined) => {

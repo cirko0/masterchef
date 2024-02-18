@@ -3,7 +3,7 @@ import { useRecipes } from "../../../providers/recipeContext";
 import { useUser } from "@clerk/clerk-react";
 
 import CardGrid from "../../../components/recipe_discovery/CardGrid";
-import { RecipeContextType } from "../../../interfaces/provider.interfaces";
+import { RecipeContextType } from "../../../interfaces/providers/recipeContext.interface";
 
 interface AccountMyRecipesProps {}
 

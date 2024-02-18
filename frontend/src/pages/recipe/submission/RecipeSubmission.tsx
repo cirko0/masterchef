@@ -3,11 +3,8 @@ import { useRecipes } from "../../../providers/recipeContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { useDialogs } from "../../../providers/dialogContext";
-import {
-  BiAlarmExclamation,
-  BiLoaderAlt,
-  BiSolidErrorCircle,
-} from "react-icons/bi";
+import { BiLoaderAlt, BiSolidErrorCircle } from "react-icons/bi";
+import { PendingSubmission } from "../../../interfaces/providers/recipeContext.interface";
 
 interface Status {
   stage: string;
@@ -31,8 +28,12 @@ const RecipeSubmission: React.FC = () => {
   }, [user]);
 
   const getStatus = async () => {
-    const status: Status = await recipes.io.getSubmissionStatus(idx as string);
-    if (statusMessage.current) statusMessage.current.innerText = status.stage;
+    const status: PendingSubmission = await recipes.io.getSubmissionStatus(
+      idx as string
+    );
+
+    if (statusMessage.current)
+      statusMessage.current.innerText = status.stage as string;
 
     if (status.is_pending === true) {
       setTimeout(() => getStatus(), 4500);

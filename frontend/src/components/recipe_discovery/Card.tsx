@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> = (props) => {
           <div className="w-[70%] md:w-full flex flex-col p-3 md:px-4 md:pt-0 md:mt-5 grow">
             <div>
               <span
-                className="h-12 md:h-[54px] w-full
+                className="h-14 md:h-[54px] w-full
                     font-semibold text-lg text-black md:text-xl line-clamp-2 capitalize"
               >
                 {props.name}
@@ -38,7 +38,7 @@ const Card: React.FC<CardProps> = (props) => {
             <div className="grow hidden md:block"></div>
 
             <div className="flex flex-col md:flex-row">
-              <span className="mt-4 md:mt-0 font-normal text-darkorange md:text-base text-sm truncate grow">
+              <span className="mt-2 md:mt-0 font-normal text-darkorange md:text-base text-sm truncate grow">
                 {props.chef}
               </span>
 
