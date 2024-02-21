@@ -5,7 +5,7 @@ import {
   RecipeStepsInputPropsAdd,
   RecipeStepsInputPropsEdit,
 } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
-import { Ingredient } from "../../interfaces/recipe_display.interface";
+import { Ingredient } from "../../interfaces/recipe_display/recipe_display.interface";
 
 const RecipeStepsInput: React.FC<
   RecipeStepsInputPropsAdd | RecipeStepsInputPropsEdit

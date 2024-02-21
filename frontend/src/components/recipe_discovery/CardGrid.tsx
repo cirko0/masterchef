@@ -1,23 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import Card from "./Card";
 import { useRecipes } from "../../providers/recipeContext";
-import { RecipeCard } from "../../interfaces/providers/recipeContext.interface";
+import { CardGridProps } from "../../interfaces/recipe_discovery/recipe_discovery.interface";
 
-interface CardGridProps {
-  list: RecipeCard[];
-  total: number;
-  initFunction: any;
-  loadMoreFunction: any;
-  noResultMessage?: string;
-}
-
-export default function CardGrid({
+const CardGrid: React.FC<CardGridProps> = ({
   list,
   total,
   initFunction,
   loadMoreFunction,
   noResultMessage = "No Results",
-}: CardGridProps): JSX.Element {
+}) => {
   const recipes = useRecipes();
   const container = useRef<HTMLDivElement>(null);
 
@@ -79,9 +71,7 @@ export default function CardGrid({
           ))}
 
         {!loading && list.length === 0 && (
-          <p className="font-medium font-poppins text-ninja-blue">
-            {noResultMessage}
-          </p>
+          <p className="font-medium text-black">{noResultMessage}</p>
         )}
       </div>
 
@@ -90,7 +80,7 @@ export default function CardGrid({
           <button
             type="button"
             onClick={loadMoreRecent}
-            className="bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+            className="bg-slate-300 text-black rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
           >
             Load More
           </button>
@@ -100,7 +90,7 @@ export default function CardGrid({
           <button
             type="button"
             disabled
-            className="animate-bounce bg-slate-300 text-ninja-blue rounded-xl hover:opacity-90 cursor-pointer px-4 py-2"
+            className="animate-bounce bg-slate-300 text-black rounded-xl hover:opacity-90 cursor-pointer px-4 py-2"
           >
             <i className="fa-solid fa-angles-down"></i>
           </button>
@@ -108,4 +98,6 @@ export default function CardGrid({
       </section>
     </div>
   );
-}
+};
+
+export default CardGrid;

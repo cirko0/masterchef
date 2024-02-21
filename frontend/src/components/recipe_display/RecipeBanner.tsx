@@ -1,6 +1,6 @@
 import React from "react";
-import { RecipeViewProps } from "../../interfaces/recipe_display.interface";
-import { BiCodeBlock, BiTime } from "react-icons/bi";
+import { RecipeViewProps } from "../../interfaces/recipe_display/recipe_display.interface";
+import { BiTime } from "react-icons/bi";
 
 const RecipeBanner: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
   return (
@@ -52,7 +52,7 @@ const RecipeBanner: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
       </section>
 
       {currentRecipe.name && (
-        <section className="relative top-[-20px] md:absolute md:top-[27.6rem] flex gap-3 font-poppins z-10 justify-center md:justify-start text-ninja-blue">
+        <section className="relative top-[-20px] md:absolute md:top-[27.6rem] flex gap-3 z-10 justify-center md:justify-start text-black">
           <div className="shadow-master bg-white py-2 px-3 rounded-2xl">
             <p className="font-semibold capitalize flex items-center gap-1">
               <BiTime className="text-lg" />

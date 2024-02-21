@@ -1,4 +1,4 @@
-import { Ingredient, Recipe } from "../recipe_display.interface";
+import { Ingredient, Recipe } from "../recipe_display/recipe_display.interface";
 
 // Recipe
 

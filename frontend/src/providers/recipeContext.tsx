@@ -9,7 +9,7 @@ import {
   RecipeContextType,
   RecipeCard,
 } from "../interfaces/providers/recipeContext.interface";
-import { Recipe } from "../interfaces/recipe_display.interface";
+import { Recipe } from "../interfaces/recipe_display/recipe_display.interface";
 
 export interface ProviderProps {
   children: React.ReactNode;

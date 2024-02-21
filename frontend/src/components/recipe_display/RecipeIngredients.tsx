@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Ingredient,
   RecipeViewProps,
-} from "../../interfaces/recipe_display.interface";
+} from "../../interfaces/recipe_display/recipe_display.interface";
 
 const RecipeIngredients: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
   const [veggies, setVeggies] = useState<Ingredient[]>([]);

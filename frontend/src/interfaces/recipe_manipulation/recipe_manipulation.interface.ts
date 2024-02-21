@@ -7,7 +7,7 @@ import {
   UseFormRegister,
   UseFormReset,
 } from "react-hook-form";
-import { Ingredient } from "../recipe_display.interface";
+import { Ingredient } from "../recipe_display/recipe_display.interface";
 
 // Add & Edit
 

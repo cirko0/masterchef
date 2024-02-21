@@ -7,7 +7,7 @@ import RecipeBanner from "../../../components/recipe_display/RecipeBanner";
 import RecipeInsights from "../../../components/recipe_display/RecipeInsights";
 import RecipeIngredients from "../../../components/recipe_display/RecipeIngredients";
 import RecipeSteps from "../../../components/recipe_display/RecipeSteps";
-import { Recipe } from "../../../interfaces/recipe_display.interface";
+import { Recipe } from "../../../interfaces/recipe_display/recipe_display.interface";
 import { BiSolidLock, BiSolidPencil, BiSolidTrash } from "react-icons/bi";
 
 const RecipeView: React.FC = () => {

@@ -1,18 +1,10 @@
-//@ts-nocheck
 import Card from "./Card";
 import { useRecipes } from "../../providers/recipeContext";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { BiChevronsDown, BiSearch } from "react-icons/bi";
+import { RecipeCard } from "../../interfaces/providers/recipeContext.interface";
 
-interface Recipe {
-  _id: string;
-  name: string;
-  author: string;
-  diet: string;
-  img_url: string;
-}
-
-export default function Library() {
+const Library: React.FC = () => {
   const recipes = useRecipes();
   const searchInput = useRef<HTMLInputElement>(null);
 
@@ -111,7 +103,7 @@ export default function Library() {
       >
         {recipes.search.isActive
           ? recipes.search.results.length > 0
-            ? recipes.search.results.map((recipe: Recipe) => (
+            ? recipes.search.results.map((recipe: RecipeCard) => (
                 <div
                   key={`library-search-card-${recipe._id}`}
                   className="w-full h-32 md:w-[320px] md:h-[275px]"
@@ -131,7 +123,7 @@ export default function Library() {
             ? defaultState
             : "No Results"
           : recipes.recent.list.length > 0
-          ? recipes.recent.list.map((recipe: Recipe) => (
+          ? recipes.recent.list.map((recipe: RecipeCard) => (
               <div
                 key={`library-recent-card-${recipe._id}`}
                 className="w-full h-32 md:w-[320px] md:h-[275px]"
@@ -186,4 +178,6 @@ export default function Library() {
       </section>
     </div>
   );
-}
+};
+
+export default Library;

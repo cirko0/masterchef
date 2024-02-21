@@ -1,5 +1,5 @@
 import React from "react";
-import { RecipeViewProps } from "../../interfaces/recipe_display.interface";
+import { RecipeViewProps } from "../../interfaces/recipe_display/recipe_display.interface";
 import {
   BiPlusMedical,
   BiSolidErrorCircle,

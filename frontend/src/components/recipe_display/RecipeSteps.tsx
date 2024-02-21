@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { RecipeViewProps } from "../../interfaces/recipe_display.interface";
+import { RecipeViewProps } from "../../interfaces/recipe_display/recipe_display.interface";
 
 const RecipeSteps: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
   const stepWiseIngredients = useRef<string[]>([]);
@@ -37,7 +37,7 @@ const RecipeSteps: React.FC<RecipeViewProps> = ({ currentRecipe }) => {
 
   return (
     <>
-      <section className="flex flex-col gap-x-6 gap-y-5 text-master-blue font-poppins">
+      <section className="flex flex-col gap-x-6 gap-y-5 text-black">
         {!isLoaded && (
           <div className="bg-slate-200 animate-pulse h-24 w-full rounded-xl" />
         )}
