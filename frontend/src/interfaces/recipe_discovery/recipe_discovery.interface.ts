@@ -1,4 +1,4 @@
-import { RecipeCard } from "../providers/recipeContext.interface";
+import { RecipeCard } from "../recipe_display/recipe_display.interface";
 
 export interface CardGridProps {
   list: RecipeCard[];

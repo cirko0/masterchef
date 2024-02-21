@@ -1,10 +1,8 @@
 import React from "react";
 import { useDialogs } from "../../providers/dialogContext";
 import { BiPlus, BiSolidErrorCircle, BiTrash } from "react-icons/bi";
-import {
-  IngredientField,
-  RecipeIngredientsInputProps,
-} from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import { RecipeIngredientsInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import { IngredientField } from "../../interfaces/recipe_display/recipe_display.interface";
 
 const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
   register,

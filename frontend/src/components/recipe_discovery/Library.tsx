@@ -2,7 +2,7 @@ import Card from "./Card";
 import { useRecipes } from "../../providers/recipeContext";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { BiChevronsDown, BiSearch } from "react-icons/bi";
-import { RecipeCard } from "../../interfaces/providers/recipeContext.interface";
+import { RecipeCard } from "../../interfaces/recipe_display/recipe_display.interface";
 
 const Library: React.FC = () => {
   const recipes = useRecipes();

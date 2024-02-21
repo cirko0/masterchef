@@ -1,5 +1,5 @@
 import React from "react";
-import { BiSolidUser } from "react-icons/bi";
+import { BiSolidBolt, BiSolidUser } from "react-icons/bi";
 
 const ManualModeBanner: React.FC = () => {
   return (
@@ -11,9 +11,9 @@ const ManualModeBanner: React.FC = () => {
       <p className="text-sm">
         Use this mode to manually edit recipe details, and correct any mistakes
         made by AI Assist. Fields that were originally filled by AI Assist are
-        indicated with the <small className="fa-solid fa-bolt"></small> symbol.
-        Spam Policy is applicable on all edits, and AI Insights may be queued
-        for an update based on the changes you make.
+        indicated with the <BiSolidBolt /> symbol. Spam Policy is applicable on
+        all edits, and AI Insights may be queued for an update based on the
+        changes you make.
       </p>
     </div>
   );

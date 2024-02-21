@@ -5,11 +5,11 @@
 
 import React, { FC, useContext, useRef, useState } from "react";
 import { useSession } from "@clerk/clerk-react";
+import { RecipeContextType } from "../interfaces/providers/recipeContext.interface";
 import {
-  RecipeContextType,
+  Recipe,
   RecipeCard,
-} from "../interfaces/providers/recipeContext.interface";
-import { Recipe } from "../interfaces/recipe_display/recipe_display.interface";
+} from "../interfaces/recipe_display/recipe_display.interface";
 
 export interface ProviderProps {
   children: React.ReactNode;

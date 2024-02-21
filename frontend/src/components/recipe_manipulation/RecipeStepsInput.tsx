@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDialogs } from "../../providers/dialogContext";
 import { BiPlus, BiSolidErrorCircle, BiSolidTrash } from "react-icons/bi";
-import {
-  RecipeStepsInputPropsAdd,
-  RecipeStepsInputPropsEdit,
-} from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import { RecipeStepsInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 import { Ingredient } from "../../interfaces/recipe_display/recipe_display.interface";
 
-const RecipeStepsInput: React.FC<
-  RecipeStepsInputPropsAdd | RecipeStepsInputPropsEdit
-> = ({
+const RecipeStepsInput: React.FC<RecipeStepsInputProps> = ({
   register,
   errors,
   fields,

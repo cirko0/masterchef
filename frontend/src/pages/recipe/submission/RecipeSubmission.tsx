@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { useDialogs } from "../../../providers/dialogContext";
 import { BiLoaderAlt, BiSolidErrorCircle } from "react-icons/bi";
-import { PendingSubmission } from "../../../interfaces/providers/recipeContext.interface";
+import { PendingSubmission } from "../../../interfaces/recipe_display/recipe_display.interface";
 
 interface Status {
   stage: string;

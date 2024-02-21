@@ -5,9 +5,7 @@ import {
   UseFieldArrayRemove,
   UseFieldArrayReturn,
   UseFormRegister,
-  UseFormReset,
 } from "react-hook-form";
-import { Ingredient } from "../recipe_display/recipe_display.interface";
 
 // Add & Edit
 
@@ -21,32 +19,14 @@ export interface RecipeTimeInputProps {
   errors: FieldErrors<FieldValues>;
 }
 
-// TODO: FIX
-export interface RecipeStepsInputPropsAdd {
-  register: UseFormRegister<any>;
-  errors: FieldErrors<FieldValues>;
-  fields: Record<"id", string>[];
-  append: UseFieldArrayAppend<
-    {
-      steps: {
-        step: string;
-      }[];
-    },
-    "steps"
-  >;
-  remove: (index: number) => void;
-  identifier?: string;
-  watch?: { ingredients?: Ingredient[] } | null;
-}
-
-export interface RecipeStepsInputPropsEdit {
-  register: UseFormRegister<any>;
+export interface RecipeStepsInputProps {
+  register: UseFormRegister<FieldValues>;
   errors: FieldErrors<FieldValues>;
   fields: Record<"id", string>[];
   append: UseFieldArrayAppend<FieldValues, "steps">;
   remove: (index: number) => void;
+  watch?: FieldValues;
   identifier?: string;
-  watch?: { ingredients?: Ingredient[] } | null;
 }
 
 // Edit
@@ -63,8 +43,4 @@ export interface RecipeIngredientsInputProps {
   append: UseFieldArrayAppend<FieldValues, "ingredients">;
   remove: UseFieldArrayRemove;
   steps: UseFieldArrayReturn<FieldValues, "steps", "id">;
-}
-
-export interface IngredientField extends Ingredient {
-  id: string;
 }

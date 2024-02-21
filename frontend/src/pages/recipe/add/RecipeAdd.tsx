@@ -8,7 +8,7 @@ import RecipeTitleInput from "../../../components/recipe_manipulation/RecipeTitl
 import RecipeTimeInput from "../../../components/recipe_manipulation/RecipeTimeInput";
 import RecipeStepsInput from "../../../components/recipe_manipulation/RecipeStepsInput";
 import RecipeImageInput from "../../../components/recipe_manipulation/RecipeImageInput";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldValues, useFieldArray, useForm } from "react-hook-form";
 import { BiChevronsRight } from "react-icons/bi";
 
 const RecipeAdd: React.FC = () => {
@@ -21,7 +21,7 @@ const RecipeAdd: React.FC = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<FieldValues>({
     defaultValues: {
       steps: [{ step: "" }],
     },

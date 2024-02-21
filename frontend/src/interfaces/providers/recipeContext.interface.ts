@@ -1,4 +1,9 @@
-import { Ingredient, Recipe } from "../recipe_display/recipe_display.interface";
+import {
+  Ingredient,
+  PendingSubmission,
+  Recipe,
+  RecipeCard,
+} from "../recipe_display/recipe_display.interface";
 
 // Recipe
 
@@ -58,15 +63,6 @@ export interface RecipeContextType {
 
 // Request Values
 
-export interface RecipeCard {
-  _id: string;
-  name: string;
-  author: string;
-  diet: string;
-  img_url: string;
-  desc?: string;
-}
-
 export interface AddRecipe {
   name: string;
   steps: string[];
@@ -81,15 +77,6 @@ export interface UpdateRecipe {
   intro: string;
   desc: string;
   ingredients: Ingredient[];
-}
-
-export interface PendingSubmission extends Response {
-  recipeId?: string;
-  img_url?: string;
-  is_pending?: boolean;
-  success?: string;
-  stage?: string;
-  log?: string;
 }
 
 // Response

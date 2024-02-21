@@ -16,7 +16,7 @@ import RecipeIntroductionInput from "../../../components/recipe_manipulation/Rec
 import ManualModeBanner from "../../../components/communication/ManualModeBanner";
 import RecipeEditDietIndicator from "../../../components/communication/RecipeEditDietIndicator";
 import { BiSolidBolt, BiSolidSave, BiTrash } from "react-icons/bi";
-import { IngredientField } from "../../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import { IngredientField } from "../../../interfaces/recipe_display/recipe_display.interface";
 
 const RecipeEdit: React.FC = () => {
   const dialogs = useDialogs();

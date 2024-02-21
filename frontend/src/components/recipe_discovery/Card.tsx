@@ -1,17 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-interface CardProps {
-  name?: string;
-  obj?: {
-    _id: string;
-  };
-  img?: string;
-  chef?: string;
-  type?: string;
-  width?: string;
-  height?: string;
-}
+import { CardProps } from "../../interfaces/recipe_discovery/recipe_discovery.interface";
 
 const Card: React.FC<CardProps> = (props) => {
   if (props.name) {

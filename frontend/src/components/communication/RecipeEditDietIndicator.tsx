@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { BiInfoCircle } from "react-icons/bi";
-
-interface RecipeEditDietIndicatorProps {
-  watch: any;
-}
+import { RecipeEditDietIndicatorProps } from "../../interfaces/communication/communication.interface";
 
 const RecipeEditDietIndicator: React.FC<RecipeEditDietIndicatorProps> = ({
   watch,
