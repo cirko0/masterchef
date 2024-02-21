@@ -5,6 +5,7 @@ import {
   UseFieldArrayRemove,
   UseFieldArrayReturn,
   UseFormRegister,
+  UseFormReset,
 } from "react-hook-form";
 import { Ingredient } from "../recipe_display.interface";
 
@@ -21,11 +22,28 @@ export interface RecipeTimeInputProps {
 }
 
 // TODO: FIX
-export interface RecipeStepsInputProps {
+export interface RecipeStepsInputPropsAdd {
   register: UseFormRegister<any>;
   errors: FieldErrors<FieldValues>;
   fields: Record<"id", string>[];
-  append: (value: any) => void;
+  append: UseFieldArrayAppend<
+    {
+      steps: {
+        step: string;
+      }[];
+    },
+    "steps"
+  >;
+  remove: (index: number) => void;
+  identifier?: string;
+  watch?: { ingredients?: Ingredient[] } | null;
+}
+
+export interface RecipeStepsInputPropsEdit {
+  register: UseFormRegister<any>;
+  errors: FieldErrors<FieldValues>;
+  fields: Record<"id", string>[];
+  append: UseFieldArrayAppend<FieldValues, "steps">;
   remove: (index: number) => void;
   identifier?: string;
   watch?: { ingredients?: Ingredient[] } | null;
@@ -41,8 +59,12 @@ export interface RecipeIntroductionInputProps {
 export interface RecipeIngredientsInputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors<FieldValues>;
-  fields: Ingredient[];
+  fields: { id: string; name: string; category: string; steps: number[] }[];
   append: UseFieldArrayAppend<FieldValues, "ingredients">;
   remove: UseFieldArrayRemove;
   steps: UseFieldArrayReturn<FieldValues, "steps", "id">;
+}
+
+export interface IngredientField extends Ingredient {
+  id: string;
 }

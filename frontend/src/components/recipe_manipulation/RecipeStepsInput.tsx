@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDialogs } from "../../providers/dialogContext";
 import { BiPlus, BiSolidErrorCircle, BiSolidTrash } from "react-icons/bi";
-import { RecipeStepsInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import {
+  RecipeStepsInputPropsAdd,
+  RecipeStepsInputPropsEdit,
+} from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
+import { Ingredient } from "../../interfaces/recipe_display.interface";
 
-const RecipeStepsInput: React.FC<RecipeStepsInputProps> = ({
+const RecipeStepsInput: React.FC<
+  RecipeStepsInputPropsAdd | RecipeStepsInputPropsEdit
+> = ({
   register,
   errors,
   fields,
@@ -43,6 +49,10 @@ const RecipeStepsInput: React.FC<RecipeStepsInputProps> = ({
 
     for (let i = 0; i < fields.length; i++) {
       let stepIngredientsArr: string[] = [];
+
+      ingredients.forEach((ingredient: Ingredient) => {
+        ingredient.steps = ingredient.steps.map(Number);
+      });
 
       for (let ingredient of ingredients) {
         if (!ingredient.steps) continue;
@@ -122,9 +132,10 @@ const RecipeStepsInput: React.FC<RecipeStepsInputProps> = ({
       })}
 
       <div>
+        {/* TODO: FIX THIS */}
         <button
           type="button"
-          onClick={() => append("")}
+          onClick={() => append("" as any)}
           className="float-right w-36 font-semibold bg-slate-300 text-black text-base rounded-lg hover:opacity-90 cursor-pointer px-4 py-2 flex items-center justify-center gap-1"
         >
           <BiPlus className="text-xl"></BiPlus> Add Step

@@ -27,7 +27,7 @@ const RecipeAdd: React.FC = () => {
     },
   });
 
-  const { fields, append, remove } = useFieldArray<any>({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "steps",
     rules: { minLength: 3 },
@@ -66,7 +66,7 @@ const RecipeAdd: React.FC = () => {
   };
 
   return (
-    <main ref={container} className="font-poppins min-h-[69vh]">
+    <main ref={container} className="min-h-[69vh]">
       <div
         className=" bg-gradient-to-r from-darkorange to-gold h-24 w-full absolute right-0 z-0"
         aria-hidden
@@ -111,7 +111,7 @@ const RecipeAdd: React.FC = () => {
 
           <div>
             <button
-              className="float-right w-[250px] h-[50px] mt-[16px] bg-[#0F7556] rounded-[10px] font-poppins font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
+              className="float-right w-[250px] h-[50px] mt-[16px] bg-[#0F7556] rounded-[10px] font-bold text-[17px] text-center text-white hover:opacity-90 cursor-pointer flex items-center justify-center"
               type="submit"
             >
               Send to AI Assist&nbsp;

@@ -1,8 +1,10 @@
 import React from "react";
 import { useDialogs } from "../../providers/dialogContext";
-import { BiErrorCircle, BiPlus, BiTrash } from "react-icons/bi";
-import { RecipeIngredientsInputProps } from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
-import { Ingredient } from "../../interfaces/recipe_display.interface";
+import { BiPlus, BiSolidErrorCircle, BiTrash } from "react-icons/bi";
+import {
+  IngredientField,
+  RecipeIngredientsInputProps,
+} from "../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 
 const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
   register,
@@ -21,28 +23,30 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
       "Confirmation Required",
       `Are you sure you want to delete ${thisIngredient}?`
     );
-    if (confirmation) remove(index);
+    if (confirmation) {
+      remove(index);
+    }
   };
 
   return (
     <div className="flex flex-col gap-5">
-      {errors.steps && (
+      {errors.ingredients && (
         <p className="bg-red-100 text-red-900 text-sm font-medium rounded-lg px-3 py-2 flex items-center">
-          <BiErrorCircle className="text-lg" />
-          &nbsp; {errors.steps?.message as string}
+          <BiSolidErrorCircle className="text-lg" />
+          &nbsp; Each ingredient must be in at least one step.
         </p>
       )}
 
-      {fields.map((field: any, index: number) => (
+      {fields.map((field: IngredientField, index: number) => (
         <div
-          className="flex flex-col gap-2 bg-white p-3 shadow-ninja rounded-xl border-2 border-slate-300 border-dashed"
+          className="flex flex-col gap-2 bg-white p-3 shadow-master rounded-xl border-2 border-slate-300 border-dashed"
           key={field.id}
         >
           <div className="flex flex-col md:flex-row gap-2">
-            <div className="grow font-poppins font-semibold flex flex-col gap-1">
+            <div className="grow font-semibold flex flex-col gap-1">
               <label>Name</label>
               <input
-                className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 w-full capitalize bg-slate-300 text-ninja-blue font-semibold font-poppins rounded-lg py-2 px-3"
+                className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 w-full capitalize bg-slate-300 text-ninja-blue font-semibold rounded-lg py-2 px-3"
                 type="text"
                 placeholder="Name"
                 required
@@ -50,10 +54,10 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
               />
             </div>
 
-            <div className="md:min-w-[350px] font-poppins font-semibold flex flex-col gap-1">
+            <div className="md:min-w-[350px] font-semibold flex flex-col gap-1">
               <label>Category</label>
               <select
-                className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 capitalize bg-slate-300 text-ninja-blue font-semibold font-poppins rounded-lg py-2 px-3"
+                className="focus:outline-none focus:ring-0 border-0 flex items-center h-10 capitalize bg-slate-300 text-ninja-blue font-semibold rounded-lg py-2 px-3"
                 defaultValue={field.category}
                 {...register(`ingredients.${index}.category`)}
               >
@@ -74,10 +78,10 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
           </div>
 
           <div className="flex flex-row justify-between">
-            <div className="flex flex-col font-poppins gap-1">
+            <div className="flex flex-col gap-1">
               <label className="font-semibold">Stepwise Usage</label>
               <div className="flex gap-2 font-medium">
-                {steps.fields.map((step: any, i: number) => (
+                {steps.fields.map((_step, i: number) => (
                   <label key={i} htmlFor={`ingredients.${index}.steps`}>
                     <input
                       type="checkbox"
@@ -98,7 +102,7 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
                 <button
                   type="button"
                   onClick={() => deleteIngredient(index)}
-                  className="font-poppins font-semibold bg-slate-300
+                  className="font-semibold bg-slate-300
                   text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer
                   px-3 py-2 mb-1"
                 >
@@ -113,8 +117,8 @@ const RecipeIngredientsInput: React.FC<RecipeIngredientsInputProps> = ({
       <div>
         <button
           type="button"
-          onClick={append}
-          className="float-right mt-3 font-poppins font-semibold bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
+          onClick={() => append({ name: "", category: "", steps: [] })}
+          className="float-right mt-3 font-semibold bg-slate-300 text-ninja-blue rounded-lg hover:opacity-90 cursor-pointer px-4 py-2"
         >
           <BiPlus /> Add Ingredient
         </button>

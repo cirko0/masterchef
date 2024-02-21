@@ -16,6 +16,7 @@ import RecipeIntroductionInput from "../../../components/recipe_manipulation/Rec
 import ManualModeBanner from "../../../components/communication/ManualModeBanner";
 import RecipeEditDietIndicator from "../../../components/communication/RecipeEditDietIndicator";
 import { BiSolidBolt, BiSolidSave, BiTrash } from "react-icons/bi";
+import { IngredientField } from "../../../interfaces/recipe_manipulation/recipe_manipulation.interface";
 
 const RecipeEdit: React.FC = () => {
   const dialogs = useDialogs();
@@ -35,8 +36,9 @@ const RecipeEdit: React.FC = () => {
       dialogs.showLoading("Unlocking Recipe...");
       const recipe = await recipes.specific.get(idx as string);
 
+      /* TODO: FIX THIS */
       for (let ingredient of recipe.ingredients) {
-        ingredient.steps = ingredient.steps.toString().split(",") as any;
+        ingredient.steps = ingredient.steps.toString().split(",") as any[];
       }
 
       if (userData.user?.id !== recipe.userId) {
@@ -158,21 +160,21 @@ const RecipeEdit: React.FC = () => {
           </label>
           <RecipeTimeInput register={register} errors={errors} />
 
-          <label className="font-bold text-xl text-black mt-1">
+          <label className="font-bold text-xl text-black mt-1 flex items-center">
             <BiSolidBolt />
-            &nbsp; Short Description{" "}
+            &nbsp; Short Description &nbsp;
             <small className="text-slate-400">(used when featured)</small>
           </label>
           <RecipeDescriptionInput register={register} errors={errors} />
 
-          <label className="font-bold text-xl text-black mt-1">
+          <label className="font-bold text-xl text-black mt-1 flex items-center">
             <BiSolidBolt />
             &nbsp; Introduction
           </label>
           <RecipeIntroductionInput register={register} errors={errors} />
 
           <label
-            className="font-bold text-xl text-black mt-1"
+            className="font-bold text-xl text-black mt-1 flex items-center"
             id="ingredientLabel"
           >
             <BiSolidBolt />
@@ -181,14 +183,13 @@ const RecipeEdit: React.FC = () => {
           <RecipeIngredientsInput
             register={register}
             errors={errors}
-            //@ts-ignore
-            fields={ingredients.fields}
+            fields={ingredients.fields as IngredientField[]}
             append={ingredients.append}
             remove={ingredients.remove}
             steps={steps}
           />
 
-          <label className="font-bold text-xl text-black mt-1">
+          <label className="font-bold text-xl text-black mt-1 flex items-center">
             <BiSolidBolt />
             &nbsp; Dietary Classification
           </label>
