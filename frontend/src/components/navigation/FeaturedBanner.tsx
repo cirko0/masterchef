@@ -1,13 +1,9 @@
 import React from "react";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { FeaturedBannerProps } from "../../interfaces/navigation/navigation.interface";
 
-interface FeaturedBannerProps {
-  id: string;
-  name?: string;
-  author?: string;
-  text?: string;
-}
+
 
 const FeaturedBanner: React.FC<FeaturedBannerProps> = (props) => {
   return (
