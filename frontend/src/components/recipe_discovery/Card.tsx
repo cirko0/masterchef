@@ -63,12 +63,12 @@ const Card: React.FC<CardProps> = (props) => {
         <div className="bg-whitesmoke animate-pulse bg-cover h-full w-[150px] md:w-[90%] relative left-0 md:left-[5%] md:top-[5%] rounded-[5px] md:h-[150px]"></div>
 
         <div>
-          <div className="h-[60px] w-[90%] ml-[5%] mt-[15px] md:mt-[20px]">
-            <div className="mt-1 h-6 md:h-7 w-52 rounded-lg bg-whitesmoke animate-pulse"></div>
+          <div className="h-[60px] w-[90%] px-2 md:px-0 md:ml-[5%] mt-[15px] md:mt-[20px]">
+            <div className="mt-1 w-[175px] h-7 md:w-52 rounded-lg bg-whitesmoke animate-pulse"></div>
           </div>
 
-          <div className="bg-whitesmoke animate-pulse float-top md:float-left relative top-2 left-[5%] h-5 w-28 rounded-md"></div>
-          <div className="bg-whitesmoke animate-pulse float-bottom left-[5%] md:left-auto top-4 md:float-right relative right-[5%] md:top-2 h-5 w-20 rounded-md"></div>
+          <div className="bg-whitesmoke animate-pulse top-5 float-top md:float-left relative md:top-2 left-[5%] h-5 w-28 rounded-md"></div>
+          <div className="bg-whitesmoke animate-pulse top-7 float-bottom left-[5%] md:left-auto md:float-right relative right-[5%] md:top-2 h-5 w-20 rounded-md"></div>
         </div>
       </div>
     </Link>
