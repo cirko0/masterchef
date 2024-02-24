@@ -9,7 +9,7 @@ const AuthSignUp: React.FC = () => {
         aria-hidden
       />
 
-      <section className="flex justify-center items-center min-h-[651px] h-[85vh] text-md text-base">
+      <section className="flex justify-center items-center min-h-[801px] h-[60vh] text-md text-base">
         <SignUp
           appearance={{
             layout: {
