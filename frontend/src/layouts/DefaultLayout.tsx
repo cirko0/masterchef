@@ -1,6 +1,7 @@
 import React from "react";
 import Dialog from "../components/communication/Dialog";
 import Nav from "../components/navigation/Nav";
+import Footer from "../components/navigation/Footer";
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
@@ -14,6 +15,8 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       {children}
 
       <Dialog />
+
+      <Footer />
     </div>
   );
 };

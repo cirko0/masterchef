@@ -3,6 +3,7 @@ import { useUser, SignedIn } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import Dialog from "../components/communication/Dialog";
 import Nav from "../components/navigation/Nav";
+import Footer from "../components/navigation/Footer";
 
 interface DefaultSecuredLayoutProps {
   children: React.ReactNode;
@@ -28,9 +29,12 @@ const DefaultSecuredLayout: React.FC<DefaultSecuredLayoutProps> = ({
     <div className="mx-auto container bg-white px-6 md:px-11">
       <Nav />
 
-      <SignedIn>{children}</SignedIn>
+      <SignedIn>
+        {children}
+        <Dialog />
+      </SignedIn>
 
-      <Dialog />
+      <Footer />
     </div>
   );
 };
