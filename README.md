@@ -4,7 +4,7 @@ _Veb aplikacija koja koristi veštačku inteligenciju kako bi pojednostavila del
 
 ## Isprobajte
 
-🌐 Pogledajte **demo** [ovde](https://masterchef-ai.netlify.app/).
+🌐 Pogledajte **aplikaciju** [ovde](https://masterchef-ai.netlify.app/).
 
 <img src="https://i.imgur.com/np62iDE.png" alt="screenshot of masterchef homepage" height="375">
 
