@@ -1,65 +1,67 @@
-# MasterChef + AI
+# NinjaChefs + AI
 
-_Veb aplikacija koja koristi veštačku inteligenciju kako bi pojednostavila deljenje recepata na mreži._
+*Web application that leverages generative AI to simplify online recipe sharing.*
 
-## Isprobajte
+## Try it out
 
-🌐 Pogledajte **aplikaciju** [ovde](https://masterchef-ai.netlify.app/).
+🌐 See a **live demo** [here](https://masterchef-ai.netlify.app).
 
-<img src="https://i.imgur.com/np62iDE.png" alt="screenshot of masterchef homepage" height="375">
+🍽️ **Sample recipes** for testing the demo can be found [here](https://github.com/cirko0/masterchef/wiki).
 
-## Uvod
+<img src="https://i.imgur.com/np62iDE.png" alt="screenshot of ninjachefs homepage" height="375">
 
-Deljenje recepata na mreži je zamorno, često zahteva mnogo više od samog pisanja recepta - poput pripreme detaljne liste sastojaka, pisanja uvoda, fotografisanja primamljive slike i još mnogo toga.
+## Introduction
 
-MasterChef + AI želi da eliminiše ovu 'prepreku' pri deljenju recepata na mreži i učini je pristupačnom pomažući korisniku da se fokusira samo na recept.
+Sharing recipes online is tedious, and often involves a lot more than just writing the recipe - such as preparing a detailed ingredient list, writing an introduction, taking an appetising picture and a lot more.
 
-Bez obzira da li ste iskusni kuvar ili početnik, MasterChef + AI vam pruža prostor za izražavanje vaše kreativnosti i inspiraciju za nove kulinarske avanture.
+NinjaChefs + AI, attempts to eliminate this 'barrier to entry' from online recipe sharing and make it accessible by helping the user focus on just the recipe.
 
-## Tehnologije
+## Tech Stack
 
-- React (kao frontend framework)
-- Tailwind (za stilizovanje frontend-a)
-- Node.js sa Express-om (za izgradnju backend API-ja)
-- MongoDB (kao skladiste podataka)
-- Uploadcare (kao CDN za serviranje slika)
-- Clerk (za autentifikaciju)
-- OpenAI Platform SDK (za izgradnju AI funkcija)
+* React with Typescript (as the frontend framework)
+* Tailwind (for styling the frontend)
+* Node.js with Typescript and Express (for building the backend API)
+* MongoDB (as the datastore)
+* Uploadcare (as the CDN for serving images)
+* Clerk (for Authentication)
+* OpenAI Platform SDK (for building Generative AI features)
 
-## Kompatibilnost
+## Compatibility
 
-Veb aplikacija je kompatibilna sa najnovijim verzijama:
+The web application is compatible with the latest versions of:
 
-- Desktop/Mobilnih pretraživača baziranih na Chromium-u (verzija 114+) (Testirano na Microsoft Edge-u i Google Chrome-u)
-- Desktop/Mobilnih pretraživača Mozilla Firefox (verzija 115+)
+* Chromium-based browsers Desktop/Mobile (ver. 114+) (Tested on Microsoft Edge & Google Chrome)
+* Mozilla Firefox Desktop/Mobile (ver. 115+)
 
-## Funkcije
+## List of Features
 
-### Pronalaženje recepata
+### Find recipes
 
-- Javno pregledavanje deljenih recepata.
-- Pretraživanje recepata po nazivu, autoru ili vrsti ishrane.
-- Paginacija gde god je prikazana lista/grid recepata.
+* Publicly view shared recipes.
+* Search recipes by name, author or diet.
+* Pagination wherever a list/grid of recipes is displayed.
 
-### Deljenje recepata
+### Share recipes
 
-- Dodajte recepte uz pomoć AI
-  - AI će uraditi sledeće:
-    - Napisati uvod i opis recepta (GPT 3.5)
-    - Identifikovati i sortirati korišćene sastojke u receptu kako bi izgradili kategorizovanu listu sastojaka i povezali sastojke sa koracima u kojima se koriste (GPT 3.5)
-    - Identifikovati da li je recept ne vegetarijanski, vegetarijanski ili veganski.
-    - Vizualizovati i generisati sliku za recept ako nije postavljena (GPT 3.5 & DALL-E 2)
-- Asinhrona obrada podnetih recepata, uz stalna ažuriranja statusa (polling-based)
+* Add recipes with AI Assistance
+  * AI will do the following:
+    * Write the introduction and description of the recipe (GPT 3.5)
+    * Identify and sort ingredients used in the recipe to build a categorised ingredient list, and associate ingredents with steps in which they are used. (GPT 3.5)
+    * Identify whether the recipe is non-vegetarian, vegetarian or vegan.
+    * Visualise and generate a cover image for the recipe if none is uploaded (GPT 3.5 & DALL-E 2)
+      
+ * Asynchronous processing of recipe submissions with polling-based status updates.
 
-### Uredjivanje recepata
+### Manage your recipes
 
-- Autentifikujte se sa OAuth provajderima.
-- Pregledajte recepte koje ste podelili.
-- Obrišite svoje recepte.
-- Ručno uredite svoje recepte da biste ispravili štamparske greške ili greške u elementima koje je generisao AI.
+* Authenticate with 3rd party OAuth providers or a local username and password.
+* View recipes shared by you. 
+* Delete your recipes.
+* Manually edit your recipes to correct typos or mistakes in AI generated elements.
 
-### Bezbednost
+### Community Safety
 
-- Spam filteri koji koriste AI tehnologiju.
-- Detaljne informacije o uobičajenim alergenima u hrani, koje su analizirane uz pomoć AI tehnologije.
-- Procena zdravstvenih implikacija recepata uz pomoć AI tehnologije.
+* AI-powered spam filteration.
+* AI-powered insights on common food allergens in recipes.
+* AI-powered insights on the health implications of recipes.
+  
