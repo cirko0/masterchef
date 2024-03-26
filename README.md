@@ -1,4 +1,4 @@
-# NinjaChefs + AI
+# Masterchef + AI
 
 *Web application that leverages generative AI to simplify online recipe sharing.*
 
@@ -8,13 +8,13 @@
 
 🍽️ **Sample recipes** for testing the demo can be found [here](https://github.com/cirko0/masterchef/wiki).
 
-<img src="https://i.imgur.com/np62iDE.png" alt="screenshot of ninjachefs homepage" height="375">
+<img src="https://i.imgur.com/np62iDE.png" alt="screenshot of masterchefs homepage" height="375">
 
 ## Introduction
 
 Sharing recipes online is tedious, and often involves a lot more than just writing the recipe - such as preparing a detailed ingredient list, writing an introduction, taking an appetising picture and a lot more.
 
-NinjaChefs + AI, attempts to eliminate this 'barrier to entry' from online recipe sharing and make it accessible by helping the user focus on just the recipe.
+MasterChefs + AI, attempts to eliminate this 'barrier to entry' from online recipe sharing and make it accessible by helping the user focus on just the recipe.
 
 ## Tech Stack
 
