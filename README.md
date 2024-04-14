@@ -8,7 +8,7 @@
 
 🍽️ **Sample recipes** for testing the demo can be found [here](https://github.com/cirko0/masterchef/wiki).
 
-<img src="https://i.imgur.com/np62iDE.png" alt="screenshot of masterchefs homepage" height="375">
+<img src="https://i.imgur.com/np62iDE.png" alt="screenshot of masterchefs homepage" >
 
 ## Introduction
 
